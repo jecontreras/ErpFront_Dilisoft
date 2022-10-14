@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-articulo',
@@ -30,9 +31,15 @@ export class ArticuloComponent implements OnInit {
       keys: ["codigo", "imagen", "titulo", "cantidad","categoria","creado","actualizado"]
     }
   };
-  constructor() { }
+  constructor(
+    private _router: Router,
+  ) { }
 
   ngOnInit(): void {
+  }
+
+  CrearArticulo(){
+    this._router.navigate(['/formarticulo']);
   }
 
 }

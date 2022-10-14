@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormArticuloComponent } from './form-articulo/form-articulo.component';
 import { RouterModule } from '@angular/router';
 import { FormRoutes } from './admin-layout.routing';
-
+import { NgxCurrencyModule } from "ngx-currency";
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -15,6 +16,8 @@ import { FormRoutes } from './admin-layout.routing';
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    NgxCurrencyModule,
     RouterModule.forChild(FormRoutes),
   ]
 })

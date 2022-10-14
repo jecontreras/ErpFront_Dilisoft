@@ -1,1 +1,157 @@
-<p>form-articulo works!</p>
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+        <div class="header-body">
+
+            <div class="row card-header border-0">
+                <div class="col-10">
+                    <div class="">
+                        <h3 class="mb-0">Crar articulo</h3>
+                    </div>
+                </div>
+                <div class="col-2 text-end">
+                    <div class="">
+                        <a class="dropdown-item" href="javascript:void(0)" routerLink="articulo">Volver</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 order-xl-1">
+        <div class="card bg-secondary shadow">
+            <div class="card-header bg-white border-0">
+                <div class="row align-items-center">
+                    <div class="col-8">
+                        <h3 class="mb-0">Crar Articulo</h3>
+                    </div>
+                    <div class="col-4 text-right">
+                        <a href="#!" class="btn btn-sm btn-primary">Configuración</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <form>
+                    <h6 class="heading-small text-muted mb-4">Información Inicial</h6>
+                    <div class="pl-lg-4">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-username">Codigo</label>
+                                    <input type="text" id="input-username" class="form-control form-control-alternative"
+                                        placeholder="codigo del producto">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-email">titulo</label>
+                                    <input type="text" id="input-email" class="form-control form-control-alternative"
+                                        placeholder="Titulo">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-email">Categoria</label>
+                                    <select class="form-control" *ngFor="let row of listCategoria">
+                                        <option [value]="item.id">{{ item.titulo }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-email">Subcategoria</label>
+                                    <select class="form-control" *ngFor="let row of listSubCategoria">
+                                        <option [value]="item.id">{{ item.titulo }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-email">Precio Compra</label>
+                                    <input currencyMask [(ngModel)]="data.precioCompra"
+                                        class="form-control form-control-sm" [options]="opcionCurrencys" />
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-email">Precio Dropshipping</label>
+                                    <input currencyMask [(ngModel)]="data.precioDropshipping"
+                                        class="form-control form-control-sm" [options]="opcionCurrencys" />
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-email">Precio otras</label>
+                                    <input currencyMask [(ngModel)]="data.precioOtras"
+                                        class="form-control form-control-sm" [options]="opcionCurrencys" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div>
+                    <h6 class="heading-small text-muted mb-4">Información Cantidad Colores</h6>
+                    <div class="pl-lg-4">
+                        <div class="row">
+                            <div class="col-12">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                      <th scope="col">#</th>
+                                      <th scope="col">Color</th>
+                                      <th> <button type="button" class="btn btn-primary" (click)="newColor()"><i class="ni ni-fat-add"></i></button> </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr *ngFor="let item of listcolor; index as i">
+                                      <th scope="row">{{ i + 1 }}</th>
+                                      <td>
+                                        <input type="text" [(ngModel)]="item.color" class="form-control form-control-alternative">
+                                    </td>
+                                    </tr>
+                                    </tbody>
+                                  </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h6 class="heading-small text-muted mb-4">Información Cantidad Tallas</h6>
+                    <div class="pl-lg-4">
+                        <div class="row">
+                            <div class="col-12">
+                                <ul class="list-group">
+                                    <li class="list-group-item" *ngFor="let item of listcolor; index as i">
+                                        {{ item.color }}
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                    <tr>
+                                                      <th scope="col">#</th>
+                                                      <th scope="col">Tallas</th>
+                                                      <th> <button type="button" class="btn btn-primary" (click)="newTalla(item)"><i class="ni ni-fat-add"></i></button> </th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr *ngFor="let item of item.listTalla; index as i">
+                                                      <th scope="row">{{ i + 1 }}</th>
+                                                      <td>
+                                                        <input type="text" [(ngModel)]="item.talla" class="form-control form-control-alternative">
+                                                      </td>
+                                                    </tr>
+                                                    </tbody>
+                                                  </table>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

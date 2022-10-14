@@ -1,4 +1,5 @@
 import { Component, OnInit,Input } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tabla',
@@ -20,7 +21,9 @@ export class TablaComponent implements OnInit {
       row:[]
     }
   };
-  constructor() { }
+  constructor(
+    private _router: Router,
+  ) { }
 
   ngOnInit(): void {
     console.log("***", this._dataConfig )
