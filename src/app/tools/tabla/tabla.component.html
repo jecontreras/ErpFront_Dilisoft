@@ -1,0 +1,43 @@
+<!-- Page content -->
+<div class="container-fluid mt--7">
+    <!-- Table -->
+    <div class="row">
+      <div class="col">
+        <div class="card shadow">
+          <div class="card-header border-0">
+            <h3 class="mb-0">{{ _dataConfig.titulo }} </h3>
+            <div class="row">
+                <div class="col text-end">
+                    <div ngbDropdown placement="top-end" class="d-inline-block">
+                        <a class="dropdown-item" href="javascript:void(0)" (click)="_dataConfig.btn.btnCrear.click">{{ _dataConfig.btn.btnCrear.titulo }}</a>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table align-items-center table-flush">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">Acciónes</th>
+                  <th scope="col" *ngFor="let item of _dataConfig.tablet.headers">{{ item }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of _dataConfig.tablet.row">
+                  <th>
+                    <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
+                        <a class="dropdown-item" href="javascript:void(0)">Ver</a>
+                        <a class="dropdown-item" href="javascript:void(0)">Eliminar</a>
+                      </div>
+                  </th>
+                  <th scope="row" *ngFor="let keys of _dataConfig.tablet.keys">
+                    {{ item[keys] }}
+                  </th>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
