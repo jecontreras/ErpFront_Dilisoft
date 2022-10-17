@@ -55,10 +55,14 @@ export class FormArticuloComponent implements OnInit {
     else this.crearFun();
   }
   updateFun(){
-
+    this._articulo.update( this.data ).subscribe(( res:any )=>{
+      this._tools.basic("Actualizado exitoso")
+    });
   }
   crearFun(){
-
+    this._articulo.create( this.data ).subscribe(( res:any )=>{
+      this._tools.basic("Creado exitoso")
+    });
   }
 
 }

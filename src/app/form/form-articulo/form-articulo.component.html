@@ -10,6 +10,7 @@
                 </div>
                 <div class="col-2 text-end">
                     <div class="">
+                        <button type="button" class="btn btn-success" (click)="submit()">Guardar</button>
                         <a class="dropdown-item" href="javascript:void(0)" routerLink="articulo">Volver</a>
                     </div>
                 </div>
@@ -39,21 +40,21 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-username">Codigo</label>
-                                    <input type="text" id="input-username" class="form-control form-control-alternative"
+                                    <input type="text" [(ngModel)]="data.codigo"  id="input-username" class="form-control form-control-alternative"
                                         placeholder="codigo del producto">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-email">titulo</label>
-                                    <input type="text" id="input-email" class="form-control form-control-alternative"
+                                    <input type="text" [(ngModel)]="data.titulo" id="input-email" class="form-control form-control-alternative"
                                         placeholder="Titulo">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-email">Categoria</label>
-                                    <select class="form-control" *ngFor="let row of listCategoria">
+                                    <select class="form-control" *ngFor="let row of listCategoria" [(ngModel)]="data.categoria">
                                         <option [value]="item.id">{{ item.titulo }}</option>
                                     </select>
                                 </div>
@@ -61,7 +62,7 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-email">Subcategoria</label>
-                                    <select class="form-control" *ngFor="let row of listSubCategoria">
+                                    <select class="form-control" *ngFor="let row of listSubCategoria" [(ngModel)]="data.subcategoria">
                                         <option [value]="item.id">{{ item.titulo }}</option>
                                     </select>
                                 </div>

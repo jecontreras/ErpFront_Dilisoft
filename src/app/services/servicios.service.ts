@@ -13,7 +13,6 @@ const headers = new HttpHeaders({
 });
 
 const URL = environment.url;
-const URL2 = environment.urlEnvios;
 
 @Injectable({
   providedIn: 'root'
@@ -98,13 +97,6 @@ export class ServiciosService {
     data.skip = datas.page ? datas.page : 0;
     data.limit = datas.limit ? datas.limit : 10;
     query = URL+`/${query}`;
-    return this.ejecutarQuery(query, data, METODO);
-  }
-
-  querysFlete( query:string, datas:any, METODO:string ){
-    let data = datas;
-    if( !datas.where ) datas.where = {};
-    query = URL2+`/${query}`;
     return this.ejecutarQuery(query, data, METODO);
   }
 
