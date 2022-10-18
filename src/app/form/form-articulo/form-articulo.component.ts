@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ToolsService } from 'src/app/services/tools.service';
 import { ArticuloService } from 'src/app/servicesComponent/articulo.service';
 
@@ -15,10 +16,10 @@ export class FormArticuloComponent implements OnInit {
   data:any = {};
   listcolor:any = [
     {
-      color: "Negro",
+      color: "",
       listTalla:[
         {
-          talla: 37
+          talla: Number()
         }
       ]
     }
@@ -26,13 +27,24 @@ export class FormArticuloComponent implements OnInit {
   id:any;
   constructor(
     private _tools: ToolsService,
-    private _articulo: ArticuloService
+    private _articulo: ArticuloService,
+    private activate: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
     //this.opcionCurrencys = this._tools.currency;
     this.getCategoria();
     this.getSubcategoria();
+    this.id = ( this.activate.snapshot.paramMap.get('id'));
+    if( this.id ) this.getData();
+  }
+
+  getData(){
+    this._articulo.get( { where: { id: this.id } } ).subscribe(( res:any )=>{
+      res = res.data[0];
+      this.data = res || {};
+      this.listcolor = this.data.listColor;
+    });
   }
 
   getCategoria(){
@@ -60,7 +72,11 @@ export class FormArticuloComponent implements OnInit {
     });
   }
   crearFun(){
-    this._articulo.create( this.data ).subscribe(( res:any )=>{
+    let data = {
+      articulo: this.data,
+      listDetalle: this.listcolor
+    };
+    this._articulo.create( data ).subscribe(( res:any )=>{
       this._tools.basic("Creado exitoso")
     });
   }
