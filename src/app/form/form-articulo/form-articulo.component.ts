@@ -25,6 +25,7 @@ export class FormArticuloComponent implements OnInit {
     }
   ];
   id:any;
+  titleBTN:string = "Guardar";
   constructor(
     private _tools: ToolsService,
     private _articulo: ArticuloService,
@@ -32,7 +33,7 @@ export class FormArticuloComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    //this.opcionCurrencys = this._tools.currency;
+    this.opcionCurrencys = this._tools.currency;
     this.getCategoria();
     this.getSubcategoria();
     this.id = ( this.activate.snapshot.paramMap.get('id'));
@@ -40,9 +41,11 @@ export class FormArticuloComponent implements OnInit {
   }
 
   getData(){
+    this.titleBTN = "Actualizar";
     this._articulo.get( { where: { id: this.id } } ).subscribe(( res:any )=>{
       res = res.data[0];
       this.data = res || {};
+      console.log( this.data )
       this.listcolor = this.data.listColor;
     });
   }
@@ -67,8 +70,14 @@ export class FormArticuloComponent implements OnInit {
     else this.crearFun();
   }
   updateFun(){
-    this._articulo.update( this.data ).subscribe(( res:any )=>{
-      this._tools.basic("Actualizado exitoso")
+    let data:any = {
+      id: this.data.id,
+      articulo: this.data,
+      listDetalle: this.listcolor
+    };
+    this._articulo.update( data ).subscribe(( res:any )=>{
+      this._tools.basic("Actualizado exitoso");
+      try { this.listcolor = res.data.listDetalle; } catch (error) {}
     });
   }
   crearFun(){

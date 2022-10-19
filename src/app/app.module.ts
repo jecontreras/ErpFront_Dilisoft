@@ -36,7 +36,7 @@ import { environment } from 'src/environments/environment';
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    AuthLayoutComponent,
+    AuthLayoutComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

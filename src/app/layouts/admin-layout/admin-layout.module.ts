@@ -15,6 +15,13 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ArticuloComponent } from 'src/app/pages/articulo/articulo.component';
 import { ToolsModule } from 'src/app/tools/tools.module';
 import { FormModule } from 'src/app/form/form.module';
+import { CategoriaComponent } from 'src/app/pages/categoria/categoria.component';
+import { InventarioComponent } from 'src/app/pages/inventario/inventario.component';
+import { EmpresaComponent } from 'src/app/pages/empresa/empresa.component';
+import { FacturaComponent } from 'src/app/pages/factura/factura.component';
+import { LogsComponent } from 'src/app/pages/logs/logs.component';
+import { PerfilComponent } from 'src/app/pages/perfil/perfil.component';
+import { ProvedorComponent } from 'src/app/pages/provedor/provedor.component';
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -34,7 +41,14 @@ import { FormModule } from 'src/app/form/form.module';
     TablesComponent,
     IconsComponent,
     MapsComponent,
-    ArticuloComponent
+    ArticuloComponent,
+    CategoriaComponent,
+    InventarioComponent,
+    EmpresaComponent,
+    FacturaComponent,
+    LogsComponent,
+    PerfilComponent,
+    ProvedorComponent,
   ]
 })
 

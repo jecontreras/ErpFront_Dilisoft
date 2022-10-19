@@ -21,7 +21,7 @@ export class ArticuloComponent implements OnInit {
     tablet:{
       headers:["Codigo","Imagen","Titulo","Cantidad","categoria","Creado","Actualizado"],
       row:[],
-      keys: ["codigo", "imagen", "titulo", "cantidad","categoria","creado","actualizado"]
+      keys: ["codigo", "imagen", "titulo", "cantidad","categoria","createdAt","updatedAt"]
     }
   };
   constructor(
