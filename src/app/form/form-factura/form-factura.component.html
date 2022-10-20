@@ -39,30 +39,54 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label class="form-control-label" for="input-username">Titulo</label>
-                                    <input type="text" [(ngModel)]="data.titulo" class="form-control form-control-alternative"
-                                        placeholder="">
+                                    <label class="form-control-label" for="input-username">Codigo</label>
+                                    <input type="text" [(ngModel)]="data.titulo"
+                                        class="form-control form-control-alternative" placeholder="">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label class="form-control-label" for="input-username">Nit</label>
-                                    <input type="text" [(ngModel)]="data.nit" class="form-control form-control-alternative"
-                                        placeholder="">
+                                    <label class="form-control-label" for="input-username">Fecha</label>
+                                    <input type="text" [(ngModel)]="data.nit"
+                                        class="form-control form-control-alternative" placeholder="">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label class="form-control-label" for="input-username">Persona acargo</label>
-                                    <input type="text" [(ngModel)]="data.nombreAcargo" class="form-control form-control-alternative"
-                                        placeholder="">
+                                    <label class="form-control-label" for="input-username">Descripcion</label>
+                                    <textarea rows="4" class="form-control form-control-alternative"
+                                        [(ngModel)]="data.descripcion"></textarea>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label class="form-control-label" for="input-username">Telefono</label>
-                                    <input type="text" [(ngModel)]="data.telefono" class="form-control form-control-alternative"
-                                        placeholder="Telefono">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card shadow">
+                                <div class="card-header border-0">
+                                    <h3 class="mb-0">Información Factura</h3>
+                                </div>
+                                <div class="table-responsive">
+                                    <input type="text" [(ngModel)]="datoBusqueda"
+                                        class="form-control form-control-alternative" placeholder="Buscar Productos" (change)="filtroGet()">
+                                    <table class="table align-items-center table-flush">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col">Acciónes</th>
+                                                <th scope="col" *ngFor="let item of tablet.headers">{{ item }}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of tablet.row">
+                                                <th scope="row" *ngFor="let keys of tablet.keys">
+                                                    <img [src]="item[keys]" *ngIf="keys == 'foto'">
+                                                    <span>{{ item[keys] }}</span>
+                                                </th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -70,5 +94,3 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
