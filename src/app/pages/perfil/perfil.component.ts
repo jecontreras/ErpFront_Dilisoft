@@ -10,7 +10,7 @@ import { PerfilService } from 'src/app/servicesComponent/perfil.service';
 export class PerfilComponent implements OnInit {
   _dataConfig:any = {
     titulo: "Lista de Perfil",
-    returnHTML: "perfil/",
+    returnHTML: "formperfil/",
     model: "",
     btn:{
       btnCrear: {

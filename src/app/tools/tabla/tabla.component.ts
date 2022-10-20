@@ -45,7 +45,7 @@ export class TablaComponent implements OnInit {
   }
 
   openVer( item ){
-    this._router.navigate(['/formarticulo', item.id]);
+    this._router.navigate([ this._dataConfig.returnHTML, item.id]);
   }
 
 }

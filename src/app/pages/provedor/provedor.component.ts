@@ -11,7 +11,7 @@ export class ProvedorComponent implements OnInit {
 
   _dataConfig:any = {
     titulo: "Lista de Provedores",
-    returnHTML: "provedor/",
+    returnHTML: "formprovedor/",
     model: "",
     btn:{
       btnCrear: {
