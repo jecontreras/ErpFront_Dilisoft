@@ -13,6 +13,11 @@ export class InventarioComponent implements OnInit {
     titulo: "Lista de Articulos",
     returnHTML: "formarticulo/",
     model: "",
+    querys:{
+      where:{
+        estado: 0
+      }
+    },
     btn:{
       btnCrear: {
         titulo: "Crear Articulo",

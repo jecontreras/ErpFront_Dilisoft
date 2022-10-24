@@ -12,7 +12,7 @@ import { FormInventarioComponent } from './form-inventario/form-inventario.compo
 import { FormLogsComponent } from './form-logs/form-logs.component';
 import { FormPerfilComponent } from './form-perfil/form-perfil.component';
 import { FormProvedorComponent } from './form-provedor/form-provedor.component';
-
+import { QRCodeModule } from 'angularx-qrcode';
 
 @NgModule({
   declarations: [
@@ -39,6 +39,7 @@ import { FormProvedorComponent } from './form-provedor/form-provedor.component';
     CommonModule,
     FormsModule,
     NgxCurrencyModule,
+    QRCodeModule,
     RouterModule.forChild(FormRoutes),
   ]
 })

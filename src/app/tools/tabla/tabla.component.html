@@ -20,7 +20,7 @@
                   <th>
                     <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
                         <a class="dropdown-item" (click)="openVer( item )" href="javascript:void(0)">Ver</a>
-                        <a class="dropdown-item" href="javascript:void(0)">Eliminar</a>
+                        <a class="dropdown-item" href="javascript:void(0)" (click)="deleteItem( item )">Eliminar</a>
                       </div>
                   </th>
                   <th scope="row" *ngFor="let keys of _dataConfig.tablet.keys">

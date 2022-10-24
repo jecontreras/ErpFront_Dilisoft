@@ -13,6 +13,11 @@ export class ProvedorComponent implements OnInit {
     titulo: "Lista de Provedores",
     returnHTML: "formprovedor/",
     model: "",
+    querys:{
+      where:{
+        estado: 0
+      }
+    },
     btn:{
       btnCrear: {
         titulo: "Crear Provedor",

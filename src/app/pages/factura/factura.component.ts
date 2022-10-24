@@ -13,6 +13,11 @@ export class FacturaComponent implements OnInit {
     titulo: "Lista de Factura",
     returnHTML: "formarticulo/",
     model: "",
+    querys:{
+      where:{
+        estado: 0
+      }
+    },
     btn:{
       btnCrear: {
         titulo: "Crear Factura",
