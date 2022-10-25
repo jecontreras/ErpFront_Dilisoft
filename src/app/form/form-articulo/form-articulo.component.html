@@ -37,6 +37,11 @@
                     <h6 class="heading-small text-muted mb-4">Información Inicial</h6>
                     <div class="pl-lg-4">
                         <div class="row">
+                            <div class="col-lg-6" *ngIf="data.codigo">
+                                <div class="form-group">
+                                    <qrcode [qrdata]="data.codigo" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+                                </div>
+                            </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-username">Codigo</label>
@@ -54,7 +59,7 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-email">Categoria</label>
-                                    <select class="form-control" *ngFor="let row of listCategoria" [(ngModel)]="data.categoria">
+                                    <select class="form-control" *ngFor="let item of listCategoria" [(ngModel)]="data.categoria">
                                         <option [value]="item.id">{{ item.titulo }}</option>
                                     </select>
                                 </div>
@@ -62,7 +67,7 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-email">Subcategoria</label>
-                                    <select class="form-control" *ngFor="let row of listSubCategoria" [(ngModel)]="data.subcategoria">
+                                    <select class="form-control" *ngFor="let item of listSubCategoria" [(ngModel)]="data.subcategoria">
                                         <option [value]="item.id">{{ item.titulo }}</option>
                                     </select>
                                 </div>
@@ -108,7 +113,10 @@
                                     <tr *ngFor="let item of listcolor; index as i">
                                       <th scope="row">{{ i + 1 }}</th>
                                       <td>
-                                        <input type="text" [(ngModel)]="item.color" class="form-control form-control-alternative">
+                                        <input type="text" [(ngModel)]="item.color" class="form-control form-control-alternative" (blur)="newColor( item, i )">
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger" (click)="dropColor(item)"><i class="ni ni-fat-remove"></i></button>
                                     </td>
                                     </tr>
                                     </tbody>
@@ -132,14 +140,21 @@
                                                     <tr>
                                                       <th scope="col">#</th>
                                                       <th scope="col">Tallas</th>
+                                                      <th scope="col">Cantidad</th>
                                                       <th> <button type="button" class="btn btn-primary" (click)="newTalla(item)"><i class="ni ni-fat-add"></i></button> </th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    <tr *ngFor="let item of item.listTalla; index as i">
+                                                    <tr *ngFor="let item of item.listTalla; index as im">
                                                       <th scope="row">{{ i + 1 }}</th>
                                                       <td>
-                                                        <input type="text" [(ngModel)]="item.talla" class="form-control form-control-alternative">
+                                                        <input type="number" [(ngModel)]="item.talla" class="form-control form-control-alternative" (blur)="newTalla(item, im)">
+                                                      </td>
+                                                      <td>
+                                                        <input type="number" [(ngModel)]="item.cantidad" class="form-control form-control-alternative">
+                                                      </td>
+                                                      <td>
+                                                        <button type="button" class="btn btn-danger" (click)="dropTalla(item)"><i class="ni ni-fat-remove"></i></button>
                                                       </td>
                                                     </tr>
                                                     </tbody>

@@ -46,6 +46,14 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
+                                    <label class="form-control-label" for="input-email">Categoria Padre</label>
+                                    <select class="form-control" *ngFor="let item of listCategoria" [(ngModel)]="data.categoriaPadre">
+                                        <option [value]="item.id">{{ item.titulo }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
                                     <label class="form-control-label" for="input-email">Descripcion</label>
                                     <textarea rows="4" class="form-control form-control-alternative" [(ngModel)]="data.descripcion"></textarea>
                                 </div>

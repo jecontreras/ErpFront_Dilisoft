@@ -13,6 +13,11 @@ export class EmpresaComponent implements OnInit {
     titulo: "Lista de Empresa",
     returnHTML: "formempresa/",
     model: "",
+    querys:{
+      where:{
+        estado: 0
+      }
+    },
     btn:{
       btnCrear: {
         titulo: "Crear Empresa",

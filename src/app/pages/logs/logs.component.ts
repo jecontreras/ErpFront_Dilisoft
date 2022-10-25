@@ -13,6 +13,11 @@ export class LogsComponent implements OnInit {
     titulo: "Lista de Logs",
     returnHTML: "formarticulo/",
     model: "",
+    querys:{
+      where:{
+        estado: 0
+      }
+    },
     btn:{
       btnCrear: {
         titulo: "Crear Logs",

@@ -12,6 +12,11 @@ export class PerfilComponent implements OnInit {
     titulo: "Lista de Perfil",
     returnHTML: "formperfil/",
     model: "",
+    querys:{
+      where:{
+        estado: 0
+      }
+    },
     btn:{
       btnCrear: {
         titulo: "Crear Perfil",

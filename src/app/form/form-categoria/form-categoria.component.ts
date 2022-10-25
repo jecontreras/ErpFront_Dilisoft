@@ -13,6 +13,7 @@ export class FormCategoriaComponent implements OnInit {
   data:any = {};
   id:any;
   titleBTN:string = "Guardar";
+  listCategoria:any = [];
 
   constructor(
     private activate: ActivatedRoute,
@@ -23,6 +24,17 @@ export class FormCategoriaComponent implements OnInit {
   ngOnInit(): void {
     this.id = ( this.activate.snapshot.paramMap.get('id'));
     if( this.id ) this.getData();
+    this.getCategoria();
+  }
+
+  getCategoria(){
+    this._categoria.get( { where: {
+      categoriaPadre:null,
+      estado: 0
+     }, limit: 1000 } ).subscribe(( res:any )=>{
+      this.listCategoria = res.data;
+      console.log(this.listCategoria)
+    });
   }
 
   getData(){

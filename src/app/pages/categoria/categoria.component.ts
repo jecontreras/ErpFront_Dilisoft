@@ -12,6 +12,11 @@ export class CategoriaComponent implements OnInit {
     titulo: "Lista de Categoria",
     returnHTML: "formcategoria/",
     model: "",
+    querys:{
+      where:{
+        estado: 0
+      }
+    },
     btn:{
       btnCrear: {
         titulo: "Crear Categoria",
