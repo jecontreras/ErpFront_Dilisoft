@@ -83,6 +83,11 @@
                                                 <th scope="row" *ngFor="let keys of tablet.keys">
                                                     <img [src]="item[keys]" *ngIf="keys == 'foto'">
                                                     <span>{{ item[keys] }}</span>
+                                                    <select class="form-control" 
+                                                        *ngIf="item[keys] == ''"
+                                                        *ngFor="let row of item[keys].listColor" [(ngModel)]="data.subcategoria">
+                                                        <option [value]="row.id">{{ row.color }}</option>
+                                                    </select>
                                                 </th>
                                             </tr>
                                         </tbody>
