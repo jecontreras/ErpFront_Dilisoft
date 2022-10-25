@@ -82,12 +82,17 @@
                                             <tr *ngFor="let item of tablet.row">
                                                 <th scope="row" *ngFor="let keys of tablet.keys">
                                                     <img [src]="item[keys]" *ngIf="keys == 'foto'">
-                                                    <span>{{ item[keys] }}</span>
-                                                    <select class="form-control" 
-                                                        *ngIf="item[keys] == ''"
-                                                        *ngFor="let row of item[keys].listColor" [(ngModel)]="data.subcategoria">
-                                                        <option [value]="row.id">{{ row.color }}</option>
-                                                    </select>
+                                                    <span *ngIf="keys != 'color' && keys != 'talla'">{{ item[keys] }} </span>
+                                                    <div *ngIf="keys == 'color'">
+                                                        <select class="form-control"  [(ngModel)]="item.selectColor">
+                                                            <option *ngFor="let row of item.listColor" [value]="row.id">{{ row.color }}</option>
+                                                        </select>
+                                                    </div>
+                                                    <div *ngIf="keys == 'talla' && item.selectColor">
+                                                        <select class="form-control"  [(ngModel)]="item.selectTalla">
+                                                            <option [value]="row.id" *ngFor="let row of item.selectColor.listTalla">{{ row.talla }}</option>
+                                                        </select>
+                                                    </div>
                                                 </th>
                                             </tr>
                                         </tbody>
