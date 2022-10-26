@@ -39,7 +39,7 @@
                         <div class="row">
                             <div class="col-lg-6" *ngIf="data.codigo">
                                 <div class="form-group">
-                                    <qrcode [qrdata]="data.codigo" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+                                    <ngx-barcode [bc-value]="data.codigo" [bc-display-value]="true"></ngx-barcode>
                                 </div>
                             </div>
                             <div class="col-lg-6">
@@ -59,16 +59,16 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-email">Categoria</label>
-                                    <select class="form-control" *ngFor="let item of listCategoria" [(ngModel)]="data.categoria">
-                                        <option [value]="item.id">{{ item.titulo }}</option>
+                                    <select class="form-control" [(ngModel)]="data.categoria">
+                                        <option [value]="item.id" *ngFor="let item of listCategoria">{{ item.titulo }}</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-email">Subcategoria</label>
-                                    <select class="form-control" *ngFor="let item of listSubCategoria" [(ngModel)]="data.subcategoria">
-                                        <option [value]="item.id">{{ item.titulo }}</option>
+                                    <select class="form-control" [(ngModel)]="data.subcategoria">
+                                        <option [value]="item.id" *ngFor="let item of listSubCategoria">{{ item.titulo }}</option>
                                     </select>
                                 </div>
                             </div>
@@ -105,6 +105,7 @@
                                     <thead>
                                     <tr>
                                       <th scope="col">#</th>
+                                      <th scope="col">Codigo</th>
                                       <th scope="col">Color</th>
                                       <th> <button type="button" class="btn btn-primary" (click)="newColor()"><i class="ni ni-fat-add"></i></button> </th>
                                     </tr>
@@ -113,8 +114,12 @@
                                     <tr *ngFor="let item of listcolor; index as i">
                                       <th scope="row">{{ i + 1 }}</th>
                                       <td>
+                                        <ngx-barcode [bc-value]="item.codigo" [bc-display-value]="true"></ngx-barcode>
+                                        <input type="text" [(ngModel)]="item.codigo" class="form-control form-control-alternative">
+                                      </td>
+                                      <td>
                                         <input type="text" [(ngModel)]="item.color" class="form-control form-control-alternative" (blur)="newColor( item, i )">
-                                    </td>
+                                      </td>
                                     <td>
                                         <button type="button" class="btn btn-danger" (click)="dropColor(item)"><i class="ni ni-fat-remove"></i></button>
                                     </td>
@@ -139,6 +144,7 @@
                                                     <thead>
                                                     <tr>
                                                       <th scope="col">#</th>
+                                                      <th scope="col">Codigo</th>
                                                       <th scope="col">Tallas</th>
                                                       <th scope="col">Cantidad</th>
                                                       <th> <button type="button" class="btn btn-primary" (click)="newTalla(item)"><i class="ni ni-fat-add"></i></button> </th>
@@ -147,6 +153,10 @@
                                                     <tbody>
                                                     <tr *ngFor="let item of item.listTalla; index as im">
                                                       <th scope="row">{{ i + 1 }}</th>
+                                                      <td>
+                                                        <ngx-barcode [bc-value]="item.codigo" [bc-display-value]="true"></ngx-barcode>
+                                                        <input type="text" [(ngModel)]="item.codigo" class="form-control form-control-alternative">
+                                                      </td>
                                                       <td>
                                                         <input type="number" [(ngModel)]="item.talla" class="form-control form-control-alternative" (blur)="newTalla(item, im)">
                                                       </td>

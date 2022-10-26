@@ -13,6 +13,9 @@ import { FormLogsComponent } from './form-logs/form-logs.component';
 import { FormPerfilComponent } from './form-perfil/form-perfil.component';
 import { FormProvedorComponent } from './form-provedor/form-provedor.component';
 import { QRCodeModule } from 'angularx-qrcode';
+import { NgxBarcodeModule } from 'ngx-barcode';
+import { DialogModule } from '../dialog/dialog.module';
+import { MyOwnCustomMaterialModule } from '../app.material.module';
 
 @NgModule({
   declarations: [
@@ -40,6 +43,9 @@ import { QRCodeModule } from 'angularx-qrcode';
     FormsModule,
     NgxCurrencyModule,
     QRCodeModule,
+    NgxBarcodeModule,
+    DialogModule,
+    MyOwnCustomMaterialModule,
     RouterModule.forChild(FormRoutes),
   ]
 })

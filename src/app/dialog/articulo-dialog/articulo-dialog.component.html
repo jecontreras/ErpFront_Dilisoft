@@ -1,0 +1,45 @@
+<h2 mat-dialog-title>
+    Lista de Articulos
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button class="btn btn-danger me-md-2" type="button" mat-dialog-close>Cerrar</button>
+    </div>
+</h2>
+<div class="row">
+    <div class="col">
+        <div class="card shadow">
+            <div class="card-header border-0">
+                <h3 class="mb-0">Información Factura</h3>
+            </div>
+            <div class="table-responsive">
+                <input type="text" [(ngModel)]="datoBusqueda"
+                    class="form-control form-control-alternative" autofocus="autofocus" placeholder="Buscar Productos" id="codigo" (change)="filtroGet()" autocomplete="off" >
+                <table class="table align-items-center table-flush">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Acciónes</th>
+                            <th scope="col" *ngFor="let item of tablet.headers">{{ item }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of tablet.row">
+                            <th scope="row" *ngFor="let keys of tablet.keys">
+                                <img [src]="item[keys]" *ngIf="keys == 'foto'">
+                                <span *ngIf="keys != 'color' && keys != 'talla'">{{ item[keys] }} </span>
+                                <div *ngIf="keys == 'color'">
+                                    <select class="form-control"  [(ngModel)]="item.selectColor" (change)="selectColor( item )">
+                                        <option *ngFor="let row of item.listColor" [value]="row.id">{{ row.color }}</option>
+                                    </select>
+                                </div>
+                                <div *ngIf="keys == 'talla' && item.selectColor">
+                                    <select class="form-control"  [(ngModel)]="item.selectTalla">
+                                        <option [value]="row.id" *ngFor="let row of item.listTalla">{{ row.talla }}</option>
+                                    </select>
+                                </div>
+                            </th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

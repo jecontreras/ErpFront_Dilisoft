@@ -16,6 +16,7 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { appReducer } from './redux/app';
 import { environment } from 'src/environments/environment';
+import { MyOwnCustomMaterialModule } from './app.material.module';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { environment } from 'src/environments/environment';
     NgbModule,
     RouterModule,
     AppRoutingModule,
+    MyOwnCustomMaterialModule,
     StoreModule.forRoot({ name: appReducer }),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states

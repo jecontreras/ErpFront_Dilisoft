@@ -33,7 +33,8 @@ export class FormArticuloComponent implements OnInit {
     private _articulo: ArticuloService,
     private activate: ActivatedRoute,
     private _categoria: CategoriaService
-  ) { }
+  ) { 
+  }
 
   ngOnInit(): void {
     this.opcionCurrencys = this._tools.currency;
