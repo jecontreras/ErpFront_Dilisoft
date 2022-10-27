@@ -6,6 +6,7 @@ import { FacturaService } from 'src/app/servicesComponent/factura.service';
 import * as moment from 'moment';
 import { MatDialog } from '@angular/material/dialog';
 import { ArticuloDialogComponent } from 'src/app/dialog/articulo-dialog/articulo-dialog.component';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-form-factura',
@@ -74,6 +75,24 @@ export class FormFacturaComponent implements OnInit {
       res = res.data[0];
       this.data = res || {};
       console.log( this.data )
+      this.tablet.row = _.map( this.data.listFacturaArticulo, ( row )=>{
+        let data:any = {
+          id: row.id,
+          articulo: row.articulo.id,
+          selectTalla: row.articuloTalla.id,
+          selectColor: row.articuloColor.id,
+          codigo: row.articulo.codigo,
+          titulo: row.articulo.titulo,
+          cantidad: row.cantidad,
+          cantidadSelect: row.cantidad,
+          listColor: row.articulo.listColor,
+          ...row
+        };
+        let filtro = data.listColor.find( ( keys:any ) => keys.id == row.articuloColor.id );
+        console.log( filtro, data )
+        this.selectColor( data );
+        return data;
+      } );
     });
   }
   filtroGet(){
@@ -125,7 +144,18 @@ export class FormFacturaComponent implements OnInit {
     });
   }
   crearFun(){
-    let data = this.data
+    let data:any = {
+      factura: this.data,
+      listArticulo: _.map(this.tablet.row, ( item:any )=>{
+        return {
+          articulo: item.id,
+          articuloTalla: item.selectTalla,
+          articuloColor: item.selectColor,
+          cantidad: item.cantidadSelect,
+          ...item
+        }
+      }),
+    }
     this._factura.create( data ).subscribe(( res:any )=>{
       this._tools.basic("Creado exitoso")
     });
@@ -137,8 +167,16 @@ export class FormFacturaComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe( async ( result ) => {
-      console.log(`Dialog result: ${result}`);
+      console.log(`Dialog result:`, result);
+      this.tablet.row = result;
     });
   }
+
+  checkseleccionado( item ){
+    console.log( item );
+    item.check = !item.check;
+    this.tablet.row = _.find( this.tablet.row, ( key:any ) => key.id == item.id );
+    this._tools.basic("Borrado exitoso")
+ }
 
 }

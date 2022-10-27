@@ -1,14 +1,19 @@
 <h2 mat-dialog-title>
     Lista de Articulos
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button class="btn btn-danger me-md-2" type="button" mat-dialog-close>Cerrar</button>
+        <button class="btn btn-danger me-md-2" type="button" (click)="close()">
+            <i class="ni ni-fat-remove"></i>
+        </button>
+        <button class="btn btn-success me-md-2" type="button" (click)="seleccionado()">
+            Seleccionado
+        </button>
     </div>
 </h2>
 <div class="row">
     <div class="col">
         <div class="card shadow">
             <div class="card-header border-0">
-                <h3 class="mb-0">Información Factura</h3>
+                <h3 class="mb-0">Lista de Articulos</h3>
             </div>
             <div class="table-responsive">
                 <input type="text" [(ngModel)]="datoBusqueda"
@@ -16,8 +21,8 @@
                 <table class="table align-items-center table-flush">
                     <thead class="thead-light">
                         <tr>
-                            <th scope="col">Acciónes</th>
                             <th scope="col" *ngFor="let item of tablet.headers">{{ item }}</th>
+                            <th scope="col">Acciónes</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -35,6 +40,15 @@
                                         <option [value]="row.id" *ngFor="let row of item.listTalla">{{ row.talla }}</option>
                                     </select>
                                 </div>
+                                <div *ngIf="keys == 'cantidad' && item.selectTalla">
+                                    <input type="number" [(ngModel)]="item.cantidadSelect"
+                                            class="form-control form-control-alternative" autofocus="autofocus" autocomplete="off" >
+                                </div>
+                            </th>
+                            <th>
+                                <button class="btn btn-success me-md-2" type="button" (click)="checkseleccionado( item )">
+                                    <i class="ni ni-fat-add"></i>
+                                </button>
                             </th>
                         </tr>
                     </tbody>

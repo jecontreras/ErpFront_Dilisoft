@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToolsService } from 'src/app/services/tools.service';
 import { ArticuloService } from 'src/app/servicesComponent/articulo.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-articulo-dialog',
@@ -22,14 +24,19 @@ export class ArticuloDialogComponent implements OnInit {
     limit: 10000
   };
   datoBusqueda:string;
+  listSelecciono:any = [];
 
   constructor(
     private _tools: ToolsService,
     private _articulos: ArticuloService,
+    public dialog: MatDialog,
+    public dialogRef: MatDialogRef<ArticuloDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public datas: any,
   ) { }
 
   ngOnInit(): void {
     this.filtroGet();
+    console.log( this.datas.datos )
   }
 
   filtroGet(){
@@ -58,6 +65,7 @@ export class ArticuloDialogComponent implements OnInit {
       res = res.data;
       this.tablet.row = res;
       this.datoBusqueda = "";
+      for( let row of this.tablet.row ) row.cantidadSelect = 1;
     });
   }
 
@@ -67,6 +75,20 @@ export class ArticuloDialogComponent implements OnInit {
     try {
       item.listTalla = item.listTalla.listTalla;
     } catch (error) { item.listTalla = []; }
+  }
+  checkseleccionado( item ){
+     console.log( item );
+     item.check = !item.check;
+     this.listSelecciono.push( item );
+     this.listSelecciono = _.unionBy(this.listSelecciono || [], this.listSelecciono, 'id');
+  }
+
+  seleccionado(){
+    this.close();
+  }
+
+  close(){
+    this.dialogRef.close(this.listSelecciono);
   }
 
 }

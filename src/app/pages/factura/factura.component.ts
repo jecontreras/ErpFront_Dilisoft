@@ -11,7 +11,7 @@ export class FacturaComponent implements OnInit {
 
   _dataConfig:any = {
     titulo: "Lista de Factura",
-    returnHTML: "formarticulo/",
+    returnHTML: "formfactura/",
     model: "",
     querys:{
       where:{

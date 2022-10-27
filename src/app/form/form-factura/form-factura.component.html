@@ -80,8 +80,8 @@
                                     <button type="button" class="btn btn-primary" (click)="openArticulo({})">Abrir articulos</button>
                                 </div>
                                 <div class="table-responsive">
-                                    <input type="text" [(ngModel)]="datoBusqueda"
-                                        class="form-control form-control-alternative" autofocus="autofocus" placeholder="Buscar Productos" id="codigo" (change)="filtroGet()" autocomplete="off" >
+                                    <!--<input type="text" [(ngModel)]="datoBusqueda"
+                                        class="form-control form-control-alternative" autofocus="autofocus" placeholder="Buscar Productos" id="codigo" (change)="filtroGet()" autocomplete="off" >-->
                                     <table class="table align-items-center table-flush">
                                         <thead class="thead-light">
                                             <tr>
@@ -93,7 +93,7 @@
                                             <tr *ngFor="let item of tablet.row">
                                                 <th scope="row" *ngFor="let keys of tablet.keys">
                                                     <img [src]="item[keys]" *ngIf="keys == 'foto'">
-                                                    <span *ngIf="keys != 'color' && keys != 'talla'">{{ item[keys] }} </span>
+                                                    <span *ngIf="keys != 'color' && keys != 'talla' && keys != 'cantidad'">{{ item[keys] }} </span>
                                                     <div *ngIf="keys == 'color'">
                                                         <select class="form-control"  [(ngModel)]="item.selectColor" (change)="selectColor( item )">
                                                             <option *ngFor="let row of item.listColor" [value]="row.id">{{ row.color }}</option>
@@ -104,6 +104,15 @@
                                                             <option [value]="row.id" *ngFor="let row of item.listTalla">{{ row.talla }}</option>
                                                         </select>
                                                     </div>
+                                                    <div *ngIf="keys == 'cantidad' && item.selectTalla">
+                                                        <input type="number" [(ngModel)]="item.cantidadSelect"
+                                                                class="form-control form-control-alternative" autofocus="autofocus" autocomplete="off" >
+                                                    </div>
+                                                </th>
+                                                <th>
+                                                    <button class="btn btn-success me-md-2" type="button" (click)="checkseleccionado( item )">
+                                                        <i class="ni ni-fat-remove"></i>
+                                                    </button>
                                                 </th>
                                             </tr>
                                         </tbody>
