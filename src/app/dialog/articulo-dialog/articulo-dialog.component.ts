@@ -35,37 +35,39 @@ export class ArticuloDialogComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.filtroGet();
     console.log( this.datas.datos )
   }
 
   filtroGet(){
     this.querys.where.or = [
       {
-        slug: {
-          contains: this.datoBusqueda|| ''
-        }
-      },
-      {
         codigo: {
-          contains: this.datoBusqueda|| ''
-        }
-      },
-      {
-        titulo: {
           contains: this.datoBusqueda|| ''
         }
       }
     ];
-    this.getArticulos();
+    this.getArticulosTalla();
   }
-  getArticulos(){
+  getArticulosTalla(){
+    this._articulos.getTalla( this.querys ).subscribe(( res:any )=>{
+      res = res.data[0];
+      if( !res ) { this.datoBusqueda = ""; return this._tools.basic("No se encontro producto!!!") }
+      this.getArticulos( res );
+    });
+  }
+  getArticulos( ids:any ){
     this.tablet.row = [];
-    this._articulos.get( this.querys ).subscribe( ( res:any )=>{
+    this._articulos.get( { where: { id: ids.articulo } } ).subscribe( ( res:any )=>{
       res = res.data;
       this.tablet.row = res;
       this.datoBusqueda = "";
-      for( let row of this.tablet.row ) row.cantidadSelect = 1;
+      for( let row of this.tablet.row ) {
+        row.selectColor = ids.listColor;
+        row.selectTalla = ids.id;
+        row.cantidadSelect = 1;
+        this.selectColor( row );
+        this.checkseleccionado( row );
+      }
     });
   }
 
@@ -80,7 +82,7 @@ export class ArticuloDialogComponent implements OnInit {
      console.log( item );
      item.check = !item.check;
      this.listSelecciono.push( item );
-     this.listSelecciono = _.unionBy(this.listSelecciono || [], this.listSelecciono, 'id');
+     //this.listSelecciono = _.unionBy(this.listSelecciono || [], this.listSelecciono, 'id');
   }
 
   seleccionado(){

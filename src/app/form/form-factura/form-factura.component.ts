@@ -95,34 +95,6 @@ export class FormFacturaComponent implements OnInit {
       } );
     });
   }
-  filtroGet(){
-    this.querys.where.or = [
-      {
-        slug: {
-          contains: this.datoBusqueda|| ''
-        }
-      },
-      {
-        codigo: {
-          contains: this.datoBusqueda|| ''
-        }
-      },
-      {
-        titulo: {
-          contains: this.datoBusqueda|| ''
-        }
-      }
-    ];
-    this.getArticulos();
-  }
-  getArticulos(){
-    this.tablet.row = [];
-    this._articulos.get( this.querys ).subscribe( ( res:any )=>{
-      res = res.data;
-      this.tablet.row = res;
-      this.datoBusqueda = "";
-    });
-  }
 
   selectColor( item ){
     console.log("****", item )
@@ -173,9 +145,9 @@ export class FormFacturaComponent implements OnInit {
   }
 
   checkseleccionado( item ){
-    console.log( item );
     item.check = !item.check;
-    this.tablet.row = _.find( this.tablet.row, ( key:any ) => key.id == item.id );
+    this.tablet.row = _.find( this.tablet.row, ( key:any ) => key.selectTalla == item.selectTalla );
+    console.log( item, this.tablet.row );
     this._tools.basic("Borrado exitoso")
  }
 

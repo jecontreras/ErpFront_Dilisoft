@@ -17,7 +17,7 @@
             </div>
             <div class="table-responsive">
                 <input type="text" [(ngModel)]="datoBusqueda"
-                    class="form-control form-control-alternative" autofocus="autofocus" placeholder="Buscar Productos" id="codigo" (change)="filtroGet()" autocomplete="off" >
+                    class="form-control form-control-alternative" autofocus placeholder="Buscar Productos" id="codigo" (change)="filtroGet()" autocomplete="off" >
                 <table class="table align-items-center table-flush">
                     <thead class="thead-light">
                         <tr>
@@ -42,7 +42,7 @@
                                 </div>
                                 <div *ngIf="keys == 'cantidad' && item.selectTalla">
                                     <input type="number" [(ngModel)]="item.cantidadSelect"
-                                            class="form-control form-control-alternative" autofocus="autofocus" autocomplete="off" >
+                                            class="form-control form-control-alternative" autocomplete="off" >
                                 </div>
                             </th>
                             <th>

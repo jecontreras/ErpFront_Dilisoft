@@ -42,20 +42,20 @@
                                     <label class="form-control-label" for="input-username">Codigo</label>
                                     <ngx-barcode [bc-value]="data.codigo" [bc-display-value]="true"></ngx-barcode>
                                     <input type="text" [(ngModel)]="data.codigo"
-                                        class="form-control form-control-alternative" placeholder="">
+                                        class="form-control form-control-alternative" placeholder="" [disabled]="data.id">
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-username">Fecha</label>
                                     <input type="datetime" [(ngModel)]="data.fecha"
-                                        class="form-control form-control-alternative" placeholder="">
+                                        class="form-control form-control-alternative" placeholder="" [disabled]="data.id">
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-username">Tipo de Entrada</label>
-                                    <select class="form-control" [(ngModel)]="data.entrada">
+                                    <select class="form-control" [(ngModel)]="data.entrada" [disabled]="data.id">
                                         <option value="0">Entrada</option>
                                         <option value="1">Salida</option>
                                     </select>
@@ -64,7 +64,7 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-username">Descripcion</label>
-                                    <textarea rows="4" class="form-control form-control-alternative"
+                                    <textarea rows="4" class="form-control form-control-alternative" [disabled]="data.id"
                                         [(ngModel)]="data.descripcion"></textarea>
                                 </div>
                             </div>
@@ -77,7 +77,7 @@
                             <div class="card shadow">
                                 <div class="card-header border-0">
                                     <h3 class="mb-0">Información Factura</h3>
-                                    <button type="button" class="btn btn-primary" (click)="openArticulo({})">Abrir articulos</button>
+                                    <button type="button" class="btn btn-primary" (click)="openArticulo({})" *ngIf="!data.id">Abrir articulos</button>
                                 </div>
                                 <div class="table-responsive">
                                     <!--<input type="text" [(ngModel)]="datoBusqueda"
@@ -95,22 +95,22 @@
                                                     <img [src]="item[keys]" *ngIf="keys == 'foto'">
                                                     <span *ngIf="keys != 'color' && keys != 'talla' && keys != 'cantidad'">{{ item[keys] }} </span>
                                                     <div *ngIf="keys == 'color'">
-                                                        <select class="form-control"  [(ngModel)]="item.selectColor" (change)="selectColor( item )">
+                                                        <select class="form-control"  [(ngModel)]="item.selectColor" (change)="selectColor( item )" [disabled]="data.id">
                                                             <option *ngFor="let row of item.listColor" [value]="row.id">{{ row.color }}</option>
                                                         </select>
                                                     </div>
                                                     <div *ngIf="keys == 'talla' && item.selectColor">
-                                                        <select class="form-control"  [(ngModel)]="item.selectTalla">
+                                                        <select class="form-control"  [(ngModel)]="item.selectTalla" [disabled]="data.id">
                                                             <option [value]="row.id" *ngFor="let row of item.listTalla">{{ row.talla }}</option>
                                                         </select>
                                                     </div>
                                                     <div *ngIf="keys == 'cantidad' && item.selectTalla">
                                                         <input type="number" [(ngModel)]="item.cantidadSelect"
-                                                                class="form-control form-control-alternative" autofocus="autofocus" autocomplete="off" >
+                                                                class="form-control form-control-alternative" autofocus="autofocus" autocomplete="off" [disabled]="data.id">
                                                     </div>
                                                 </th>
                                                 <th>
-                                                    <button class="btn btn-success me-md-2" type="button" (click)="checkseleccionado( item )">
+                                                    <button class="btn btn-success me-md-2" type="button" (click)="checkseleccionado( item )" [disabled]="data.id">
                                                         <i class="ni ni-fat-remove"></i>
                                                     </button>
                                                 </th>
