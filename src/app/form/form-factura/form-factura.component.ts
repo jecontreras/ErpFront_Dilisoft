@@ -116,6 +116,7 @@ export class FormFacturaComponent implements OnInit {
     });
   }
   crearFun(){
+    this.data.user = "635c2fdab0f6ff3068000fef";
     let data:any = {
       factura: this.data,
       listArticulo: _.map(this.tablet.row, ( item:any )=>{
