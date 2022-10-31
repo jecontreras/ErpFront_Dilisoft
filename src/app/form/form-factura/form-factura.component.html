@@ -76,8 +76,19 @@
                         <div class="col">
                             <div class="card shadow">
                                 <div class="card-header border-0">
-                                    <h3 class="mb-0">Información Factura</h3>
-                                    <button type="button" class="btn btn-primary" (click)="openArticulo({})" *ngIf="!data.id">Abrir articulos</button>
+                                    <div class="row align-items-center">
+                                        <div class="col-8">
+                                            <h3 class="mb-0">Información Factura</h3>
+                                        </div>
+                                        <div>
+                                            <label class="form-control-label" for="input-username">Precio Total</label>
+                                            <input currencyMask [(ngModel)]="data.monto"
+                                                class="form-control form-control-sm" [options]="opcionCurrencys" />
+                                        </div>
+                                        <div class="col-4 text-right">
+                                            <button type="button" class="btn btn-primary" (click)="openArticulo({})" *ngIf="!data.id">Abrir articulos</button>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="table-responsive">
                                     <!--<input type="text" [(ngModel)]="datoBusqueda"

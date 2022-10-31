@@ -19,9 +19,9 @@ export class FormFacturaComponent implements OnInit {
   id:any;
   titleBTN:string = "Guardar";
   tablet:any = {
-    headers:["Codigo", "Titulo", "Color", "Talla", "Cantidad"],
+    headers:["Codigo", "Titulo", "Color", "Talla", "Cantidad", "Precio Unitario", "Precio Total"],
     row:[],
-    keys:["codigo", "titulo","color","talla","cantidad"]
+    keys:["codigo", "titulo","color","talla","cantidad", "precioClienteDrop", "precioTotal"]
   };
   querys:any = {
     where:{
@@ -31,6 +31,7 @@ export class FormFacturaComponent implements OnInit {
     limit: 10000
   };
   datoBusqueda:string;
+  opcionCurrencys:any;
 
   constructor(
     private activate: ActivatedRoute,
@@ -57,6 +58,7 @@ export class FormFacturaComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.opcionCurrencys = this._tools.currency;
     this.id = ( this.activate.snapshot.paramMap.get('id'));
     if( this.id ) this.getData();
     else {
@@ -150,6 +152,15 @@ export class FormFacturaComponent implements OnInit {
     this.tablet.row = _.find( this.tablet.row, ( key:any ) => key.selectTalla == item.selectTalla );
     console.log( item, this.tablet.row );
     this._tools.basic("Borrado exitoso")
+ }
+
+ suma(){
+  this.data.monto = 0;
+  for( let row of this.tablet.row ){
+    if( !row.precioTotal ) row.precioTotal = 0;
+    row.precioTotal+= row.precioClienteDrop * ( row.cantidadSelect || 0 ) ;
+    this.data.monto= row.precioTotal;
+  }
  }
 
 }
