@@ -11,7 +11,7 @@
                 <div class="col-2 text-end">
                     <div class="">
                         <button type="button" class="btn btn-success" (click)="submit()">{{ titleBTN }} </button>
-                        <a class="dropdown-item" href="javascript:void(0)" routerLink="articulo">Volver</a>
+                        <a class="dropdown-item" href="javascript:void(0)" routerLink="../factura">Volver</a>
                     </div>
                 </div>
             </div>
@@ -61,6 +61,14 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-lg-4" *ngIf="data.entrada == 0">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-username">Provedores</label>
+                                    <select class="form-control" [(ngModel)]="data.provedor" [disabled]="data.id">
+                                        <option [value]="row.id" *ngFor="let row of listProvedor">{{ row.titulo}} </option>
+                                    </select>
+                                </div>
+                            </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-username">Descripcion</label>
@@ -102,6 +110,11 @@
                                         </thead>
                                         <tbody>
                                             <tr *ngFor="let item of tablet.row">
+                                                <th>
+                                                    <button class="btn btn-danger me-md-2" type="button" (click)="checkseleccionado( item )" [disabled]="data.id">
+                                                        <i class="ni ni-fat-remove"></i>
+                                                    </button>
+                                                </th>
                                                 <th scope="row" *ngFor="let keys of tablet.keys">
                                                     <img [src]="item[keys]" *ngIf="keys == 'foto'">
                                                     <span *ngIf="keys != 'color' && keys != 'talla' && keys != 'cantidad'">{{ item[keys] }} </span>
@@ -117,13 +130,8 @@
                                                     </div>
                                                     <div *ngIf="keys == 'cantidad' && item.selectTalla">
                                                         <input type="number" [(ngModel)]="item.cantidadSelect"
-                                                                class="form-control form-control-alternative" autofocus="autofocus" autocomplete="off" [disabled]="data.id">
+                                                                class="form-control form-control-alternative" autofocus="autofocus" autocomplete="off" [disabled]="data.id" (change)="suma()">
                                                     </div>
-                                                </th>
-                                                <th>
-                                                    <button class="btn btn-success me-md-2" type="button" (click)="checkseleccionado( item )" [disabled]="data.id">
-                                                        <i class="ni ni-fat-remove"></i>
-                                                    </button>
                                                 </th>
                                             </tr>
                                         </tbody>

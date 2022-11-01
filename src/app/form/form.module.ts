@@ -16,6 +16,7 @@ import { QRCodeModule } from 'angularx-qrcode';
 import { NgxBarcodeModule } from 'ngx-barcode';
 import { DialogModule } from '../dialog/dialog.module';
 import { MyOwnCustomMaterialModule } from '../app.material.module';
+import { ToolsModule } from '../tools/tools.module';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { MyOwnCustomMaterialModule } from '../app.material.module';
     QRCodeModule,
     NgxBarcodeModule,
     DialogModule,
+    ToolsModule,
     MyOwnCustomMaterialModule,
     RouterModule.forChild(FormRoutes),
   ]

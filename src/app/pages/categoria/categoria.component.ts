@@ -11,6 +11,7 @@ export class CategoriaComponent implements OnInit {
   _dataConfig:any = {
     titulo: "Lista de Categoria",
     returnHTML: "formcategoria/",
+    dsAccion: true,
     model: "",
     querys:{
       where:{

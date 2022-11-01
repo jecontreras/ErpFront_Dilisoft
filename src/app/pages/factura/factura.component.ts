@@ -12,6 +12,7 @@ export class FacturaComponent implements OnInit {
   _dataConfig:any = {
     titulo: "Lista de Factura",
     returnHTML: "formfactura/",
+    dsAccion: true,
     model: "",
     querys:{
       where:{
@@ -27,7 +28,7 @@ export class FacturaComponent implements OnInit {
     tablet:{
       headers:["Codigo","Fecha","Monto","Entrada","Provedor","Creado","Actualizado"],
       row:[],
-      keys: ["codigo", "imagen", "monto", "entrada","provedor","creado","actualizado"]
+      keys: ["codigo", "imagen", "monto", "entrada","provedor","createdAt","updatedAt"]
     }
   };
   constructor(

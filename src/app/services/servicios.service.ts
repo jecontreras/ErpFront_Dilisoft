@@ -45,7 +45,7 @@ export class ServiciosService {
     //this.conectionSocket();
     //this.createsocket("emitir", {mensaje:"inicial"}); 
     if( !this.activador ) this.privateDataUser();
-    this.getConfig();
+    //this.getConfig();
   }
   getConfig(){
     this.querys('admin/querys',{
@@ -63,6 +63,7 @@ export class ServiciosService {
       store = store.name;
       if(!store) return false;
       this.dataUser = store.user || {};
+      this.dataUser.id = "635c2fdab0f6ff3068000fef";
     });
     if(Object.keys(this.dataUser).length >0 ){
       this.querys('tblusuario/querys',{

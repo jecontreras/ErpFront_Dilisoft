@@ -96,87 +96,145 @@
                         </div>
                     </div>
                 </div>
-                <div>
-                    <h6 class="heading-small text-muted mb-4">Información Cantidad Colores</h6>
-                    <div class="pl-lg-4">
-                        <div class="row">
-                            <div class="col-12">
-                                <table class="table table-striped">
-                                    <thead>
-                                    <tr>
-                                      <th scope="col">#</th>
-                                      <th scope="col">Codigo</th>
-                                      <th scope="col">Color</th>
-                                      <th> <button type="button" class="btn btn-primary" (click)="newColor()"><i class="ni ni-fat-add"></i></button> </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr *ngFor="let item of listcolor; index as i">
-                                      <th scope="row">{{ i + 1 }}</th>
-                                      <td>
-                                        <ngx-barcode [bc-value]="item.codigo" [bc-display-value]="true"></ngx-barcode>
-                                        <input type="text" [(ngModel)]="item.codigo" class="form-control form-control-alternative">
-                                      </td>
-                                      <td>
-                                        <input type="text" [(ngModel)]="item.color" class="form-control form-control-alternative" (blur)="newColor( item, i )">
-                                      </td>
-                                    <td>
-                                        <button type="button" class="btn btn-danger" (click)="dropColor(item)"><i class="ni ni-fat-remove"></i></button>
-                                    </td>
-                                    </tr>
-                                    </tbody>
-                                  </table>
+                <mat-tab-group mat-align-tabs="center">
+                    <mat-tab label="Informacion detallado">
+                        <div>
+                            <h6 class="heading-small text-muted mb-4">Información Cantidad Colores</h6>
+                            <div class="pl-lg-4">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <table class="table table-striped">
+                                            <thead>
+                                            <tr>
+                                              <th scope="col">#</th>
+                                              <th scope="col">Codigo</th>
+                                              <th scope="col">Color</th>
+                                              <th> <button type="button" class="btn btn-primary" (click)="newColor()"><i class="ni ni-fat-add"></i></button> </th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr *ngFor="let item of listcolor; index as i">
+                                              <th scope="row">{{ i + 1 }}</th>
+                                              <td>
+                                                <ngx-barcode [bc-value]="item.codigo" [bc-display-value]="true"></ngx-barcode>
+                                                <input type="text" [(ngModel)]="item.codigo" class="form-control form-control-alternative">
+                                              </td>
+                                              <td>
+                                                <input type="text" [(ngModel)]="item.color" class="form-control form-control-alternative" (blur)="newColor( item, i )">
+                                              </td>
+                                            <td>
+                                                <button type="button" class="btn btn-danger" (click)="dropColor(item)"><i class="ni ni-fat-remove"></i></button>
+                                            </td>
+                                            </tr>
+                                            </tbody>
+                                          </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div>
-                    <h6 class="heading-small text-muted mb-4">Información Cantidad Tallas</h6>
-                    <div class="pl-lg-4">
-                        <div class="row">
-                            <div class="col-12">
+                        <div>
+                            <h6 class="heading-small text-muted mb-4">Información Cantidad Tallas</h6>
+                            <div class="pl-lg-4">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <ul class="list-group">
+                                            <li class="list-group-item" *ngFor="let item of listcolor; index as i">
+                                                {{ item.color }}
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <table class="table table-striped">
+                                                            <thead>
+                                                            <tr>
+                                                              <th scope="col">#</th>
+                                                              <th scope="col">Codigo</th>
+                                                              <th scope="col">Tallas</th>
+                                                              <th scope="col">Cantidad</th>
+                                                              <th> <button type="button" class="btn btn-primary" (click)="newTalla(item)"><i class="ni ni-fat-add"></i></button> </th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <tr *ngFor="let item of item.listTalla; index as im">
+                                                              <th scope="row">{{ i + 1 }}</th>
+                                                              <td>
+                                                                <ngx-barcode [bc-value]="item.codigo" [bc-display-value]="true"></ngx-barcode>
+                                                                <input type="text" [(ngModel)]="item.codigo" class="form-control form-control-alternative">
+                                                              </td>
+                                                              <td>
+                                                                <input type="number" [(ngModel)]="item.talla" class="form-control form-control-alternative" (blur)="newTalla(item, im)">
+                                                              </td>
+                                                              <td>
+                                                                <input type="number" [(ngModel)]="item.cantidad" class="form-control form-control-alternative">
+                                                              </td>
+                                                              <td>
+                                                                <button type="button" class="btn btn-danger" (click)="dropTalla(item)"><i class="ni ni-fat-remove"></i></button>
+                                                              </td>
+                                                            </tr>
+                                                            </tbody>
+                                                          </table>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Movimiento Entrada">
+                        <ul class="list-group">
+                            <li class="list-group-item" *ngFor="let row of listcolor">
+                                <h4>{{ row.color }} </h4>
                                 <ul class="list-group">
-                                    <li class="list-group-item" *ngFor="let item of listcolor; index as i">
-                                        {{ item.color }}
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <table class="table table-striped">
-                                                    <thead>
-                                                    <tr>
-                                                      <th scope="col">#</th>
-                                                      <th scope="col">Codigo</th>
-                                                      <th scope="col">Tallas</th>
-                                                      <th scope="col">Cantidad</th>
-                                                      <th> <button type="button" class="btn btn-primary" (click)="newTalla(item)"><i class="ni ni-fat-add"></i></button> </th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <tr *ngFor="let item of item.listTalla; index as im">
-                                                      <th scope="row">{{ i + 1 }}</th>
-                                                      <td>
-                                                        <ngx-barcode [bc-value]="item.codigo" [bc-display-value]="true"></ngx-barcode>
-                                                        <input type="text" [(ngModel)]="item.codigo" class="form-control form-control-alternative">
-                                                      </td>
-                                                      <td>
-                                                        <input type="number" [(ngModel)]="item.talla" class="form-control form-control-alternative" (blur)="newTalla(item, im)">
-                                                      </td>
-                                                      <td>
-                                                        <input type="number" [(ngModel)]="item.cantidad" class="form-control form-control-alternative">
-                                                      </td>
-                                                      <td>
-                                                        <button type="button" class="btn btn-danger" (click)="dropTalla(item)"><i class="ni ni-fat-remove"></i></button>
-                                                      </td>
-                                                    </tr>
-                                                    </tbody>
-                                                  </table>
-                                            </div>
-                                        </div>
+                                    <li class="list-group-item" *ngFor="let item of row.listTalla">
+                                        <h4>{{ item.talla }} </h4>
+                                        <table class="table align-items-center table-flush">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col" *ngFor="let items of tablet.headers">{{ items }}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of item.listLogEntrada">
+                                                <th scope="row" *ngFor="let keys of tablet.keys">
+                                                    <span *ngIf="keys !='createdAt'">{{ item[keys] }} </span>
+                                                    <span *ngIf="keys =='createdAt'"> {{ item[keys] | date:'medium'}} </span>
+                                                </th>
+                                            </tr>
+                                        </tbody>
+                                        </table>
                                     </li>
                                 </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                            </li>
+                        </ul>
+                    </mat-tab>
+                    <mat-tab label="Movimiento de salida">
+                        <ul class="list-group">
+                            <li class="list-group-item" *ngFor="let row of listcolor">
+                                <h4>{{ row.color }} </h4>
+                                <ul class="list-group">
+                                    <li class="list-group-item" *ngFor="let item of row.listTalla">
+                                        <h4>{{ item.talla }} </h4>
+                                        <table class="table align-items-center table-flush">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col" *ngFor="let items of tablet.headers">{{ items }}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of item.listLogSalida">
+                                                <th scope="row" *ngFor="let keys of tablet.keys">
+                                                    <span *ngIf="keys !='createdAt'">{{ item[keys] }} </span>
+                                                    <span *ngIf="keys =='createdAt'"> {{ item[keys] | date:'medium'}} </span>
+                                                </th>
+                                            </tr>
+                                        </tbody>
+                                        </table>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </mat-tab>
+                  </mat-tab-group>
             </div>
         </div>
     </div>

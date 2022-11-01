@@ -12,6 +12,7 @@ export class EmpresaComponent implements OnInit {
   _dataConfig:any = {
     titulo: "Lista de Empresa",
     returnHTML: "formempresa/",
+    dsAccion: true,
     model: "",
     querys:{
       where:{

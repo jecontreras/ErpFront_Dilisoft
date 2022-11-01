@@ -2,15 +2,18 @@
 import { NgModule } from '@angular/core';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatTabsModule} from '@angular/material/tabs';
 
 @NgModule({
   imports: [
     DragDropModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTabsModule
   ],
   exports: [
     DragDropModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTabsModule
   ],
 })
 export class MyOwnCustomMaterialModule { }

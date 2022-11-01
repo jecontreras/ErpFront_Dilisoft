@@ -12,6 +12,7 @@ export class ArticuloComponent implements OnInit {
     titulo: "Lista de Articulos",
     returnHTML: "formarticulo/",
     model: "",
+    dsAccion: true,
     querys:{
       where:{
         estado: 0

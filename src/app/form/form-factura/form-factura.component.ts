@@ -7,6 +7,9 @@ import * as moment from 'moment';
 import { MatDialog } from '@angular/material/dialog';
 import { ArticuloDialogComponent } from 'src/app/dialog/articulo-dialog/articulo-dialog.component';
 import * as _ from 'lodash';
+import { ProvedorService } from 'src/app/servicesComponent/provedor.service';
+import { USER } from 'src/app/interfaces/sotarage';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-form-factura',
@@ -32,6 +35,8 @@ export class FormFacturaComponent implements OnInit {
   };
   datoBusqueda:string;
   opcionCurrencys:any;
+  listProvedor:any = [];
+  dataUser:any = [];
 
   constructor(
     private activate: ActivatedRoute,
@@ -39,7 +44,16 @@ export class FormFacturaComponent implements OnInit {
     private _factura: FacturaService,
     private _articulos: ArticuloService,
     public dialog: MatDialog,
+    private _provedor: ProvedorService,
+    private _store: Store<USER>,
   ) { 
+
+    this._store.subscribe((store: any) => {
+      store = store.name;
+      if(!store) return false;
+      this.dataUser = store.user || {};
+    });
+
     document.addEventListener("DOMContentLoaded", () => {
       
       const $codigo:any = document.querySelector("#codigo");
@@ -69,6 +83,7 @@ export class FormFacturaComponent implements OnInit {
       };
     }
     console.log(this.data)
+    this.getProvedor();
   }
 
   getData(){
@@ -98,6 +113,12 @@ export class FormFacturaComponent implements OnInit {
     });
   }
 
+  getProvedor(){
+    this._provedor.get( { where: { estado: 0 } } ).subscribe(( res:any )=>{
+      this.listProvedor = res.data;
+    });
+  }
+
   selectColor( item ){
     console.log("****", item )
     item.listTalla = item.listColor.find( ( row:any )=> row.id == item.selectColor );
@@ -118,7 +139,7 @@ export class FormFacturaComponent implements OnInit {
     });
   }
   crearFun(){
-    this.data.user = "635c2fdab0f6ff3068000fef";
+    this.data.user = this.dataUser.id;
     let data:any = {
       factura: this.data,
       listArticulo: _.map(this.tablet.row, ( item:any )=>{
@@ -144,6 +165,7 @@ export class FormFacturaComponent implements OnInit {
     dialogRef.afterClosed().subscribe( async ( result ) => {
       console.log(`Dialog result:`, result);
       this.tablet.row = result;
+      this.suma();
     });
   }
 
@@ -152,14 +174,16 @@ export class FormFacturaComponent implements OnInit {
     this.tablet.row = _.find( this.tablet.row, ( key:any ) => key.selectTalla == item.selectTalla );
     console.log( item, this.tablet.row );
     this._tools.basic("Borrado exitoso")
+    this.suma();
  }
 
  suma(){
   this.data.monto = 0;
   for( let row of this.tablet.row ){
     if( !row.precioTotal ) row.precioTotal = 0;
-    row.precioTotal+= row.precioClienteDrop * ( row.cantidadSelect || 0 ) ;
-    this.data.monto= row.precioTotal;
+    //console.log( row );
+    row.precioTotal= row.precioClienteDrop * ( row.cantidadSelect || 0 ) ;
+    this.data.monto+= row.precioTotal;
   }
  }
 

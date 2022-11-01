@@ -4,6 +4,7 @@ import { ToolsService } from 'src/app/services/tools.service';
 import { ArticuloService } from 'src/app/servicesComponent/articulo.service';
 import { CategoriaService } from 'src/app/servicesComponent/categoria.service';
 import * as _ from 'lodash';
+import { ArticuloLogService } from 'src/app/servicesComponent/articulo-log.service';
 
 @Component({
   selector: 'app-form-articulo',
@@ -28,11 +29,18 @@ export class FormArticuloComponent implements OnInit {
   ];
   id:any;
   titleBTN:string = "Guardar";
+  list:any = [];
+  tablet:any = {
+    headers:["Cantidad anterior","Cantidad","Cantidad Total","Monimiento"],
+    row:[],
+    keys: ["valorAnterior","valor","valorTotal","createdAt"]
+  }
   constructor(
     private _tools: ToolsService,
     private _articulo: ArticuloService,
     private activate: ActivatedRoute,
-    private _categoria: CategoriaService
+    private _categoria: CategoriaService,
+    private _articuloLog: ArticuloLogService
   ) { 
   }
 
@@ -46,11 +54,26 @@ export class FormArticuloComponent implements OnInit {
 
   getData(){
     this.titleBTN = "Actualizar";
-    this._articulo.get( { where: { id: this.id } } ).subscribe(( res:any )=>{
+    this._articulo.get( { where: { id: this.id } } ).subscribe( async ( res:any )=>{
       res = res.data[0];
       this.data = res || {};
       console.log( this.data )
       this.listcolor = this.data.listColor;
+      for( let row of this.listcolor){
+        for( let item of row.listTalla ){
+          item.listLogEntrada = await this.getLogs( item.id, 0 );
+          item.listLogSalida = await this.getLogs( item.id, 1 );
+        }
+      }
+      console.log( this.listcolor)
+    });
+  }
+
+  async getLogs( ids:any, tipo:any ){
+    return new Promise( resolve =>{
+      this._articuloLog.get( { where: { articuloTalla: ids, estado: 0, tipoEntrada: tipo }, limit: 100000 } ).subscribe(( res:any )=>{
+        resolve( res.data );
+      });
     });
   }
 

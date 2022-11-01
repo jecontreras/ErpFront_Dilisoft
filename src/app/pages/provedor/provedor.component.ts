@@ -12,6 +12,7 @@ export class ProvedorComponent implements OnInit {
   _dataConfig:any = {
     titulo: "Lista de Provedores",
     returnHTML: "formprovedor/",
+    dsAccion: true,
     model: "",
     querys:{
       where:{
@@ -27,7 +28,7 @@ export class ProvedorComponent implements OnInit {
     tablet:{
       headers:["Titulo","Celular","Creado","Actualizado"],
       row:[],
-      keys: ["titulo", "celular", "creado","actualizado"]
+      keys: ["titulo", "celular","createdAt","updatedAt"]
     }
   };
   constructor(

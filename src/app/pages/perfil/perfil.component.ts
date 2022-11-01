@@ -11,6 +11,7 @@ export class PerfilComponent implements OnInit {
   _dataConfig:any = {
     titulo: "Lista de Perfil",
     returnHTML: "formperfil/",
+    dsAccion: true,
     model: "",
     querys:{
       where:{
@@ -26,7 +27,7 @@ export class PerfilComponent implements OnInit {
     tablet:{
       headers:["Perfil","Creado","Actualizado"],
       row:[],
-      keys: ["prf_descripcion","creado","actualizado"]
+      keys: ["prf_descripcion","createdAt","updatedAt"]
     }
   };
   constructor(

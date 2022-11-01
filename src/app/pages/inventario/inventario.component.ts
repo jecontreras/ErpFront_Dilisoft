@@ -12,6 +12,7 @@ export class InventarioComponent implements OnInit {
   _dataConfig:any = {
     titulo: "Lista de Articulos",
     returnHTML: "formarticulo/",
+    dsAccion: true,
     model: "",
     querys:{
       where:{
@@ -27,7 +28,7 @@ export class InventarioComponent implements OnInit {
     tablet:{
       headers:["Titulo","Fecha","Fecha de empalme","Descripcion","Creado","Actualizado"],
       row:[],
-      keys: ["titulo", "fecha", "fechaEmpalme", "descripcion","creado","actualizado"]
+      keys: ["titulo", "fecha", "fechaEmpalme", "descripcion","createdAt","updatedAt"]
     }
   };
   constructor(
