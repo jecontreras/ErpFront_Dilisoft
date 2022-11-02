@@ -15,17 +15,29 @@
                   <th scope="col" *ngFor="let item of _dataConfig.tablet.headers">{{ item }}</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody 
+              infiniteScroll [infiniteScrollDistance]="50"
+              [infiniteScrollThrottle]="60" (scrolled)="onScroll()"
+              >
                 <tr *ngFor="let item of _dataConfig.tablet.row">
                   <th *ngIf="_dataConfig.dsAccion">
                     <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
-                        <a class="dropdown-item" (click)="openVer( item )" href="javascript:void(0)">Ver</a>
-                        <a class="dropdown-item" href="javascript:void(0)" (click)="deleteItem( item )">Eliminar</a>
+
+                      <button type="button" class="btn btn-primary" (click)="openVer( item )">
+                        <i class="ni ni-check-bold"></i>  
+                      </button>
+                      <button type="button" class="btn btn-danger" (click)="deleteItem( item )">
+                        <i class="ni ni-fat-remove"></i>
+                      </button>
+
                       </div>
                   </th>
                   <th scope="row" *ngFor="let keys of _dataConfig.tablet.keys">
                     <img [src]="item[keys]" *ngIf="keys == 'foto'">
-                    <span *ngIf="( keys !='createdAt' ) && ( keys !='updatedAt' )">{{ item[keys] }}</span>
+                    <span *ngIf="( keys !='createdAt' ) && ( keys !='updatedAt' ) && ( keys !='categoria' ) && ( keys !='subcategoria' )">{{ item[keys] }}</span>
+
+                    <span *ngIf="( keys =='categoria' ) || ( keys =='subcategoria' )">{{ item[keys].titulo }}</span>
+
                     <span *ngIf="( keys =='createdAt' ) || ( keys =='updatedAt' )"> {{ item[keys] | date:'medium'}} </span>
                     <span *ngIf="keys =='entrada'">{{ item[keys] == 0 ?"Entrada":"Salida" }}</span>
                   </th>

@@ -29,7 +29,7 @@
                         <tr *ngFor="let item of tablet.row">
                             <th scope="row" *ngFor="let keys of tablet.keys">
                                 <img [src]="item[keys]" *ngIf="keys == 'foto'">
-                                <span *ngIf="keys != 'color' && keys != 'talla'">{{ item[keys] }} </span>
+                                <span *ngIf="( keys != 'color' ) && ( keys != 'talla' ) && ( keys != 'cantidad' )">{{ item[keys] }} </span>
                                 <div *ngIf="keys == 'color'">
                                     <select class="form-control"  [(ngModel)]="item.selectColor" (change)="selectColor( item )">
                                         <option *ngFor="let row of item.listColor" [value]="row.id">{{ row.color }}</option>

@@ -169,9 +169,10 @@ export class FormFacturaComponent implements OnInit {
     });
   }
 
-  checkseleccionado( item ){
+  checkseleccionado( item:any, idx:any ){
     item.check = !item.check;
-    this.tablet.row = _.find( this.tablet.row, ( key:any ) => key.selectTalla == item.selectTalla );
+    //this.tablet.row = _.filter( this.tablet.row, ( key:any ) => key.selectTalla == item.selectTalla );
+    this.tablet.row.split( idx, 1 );
     console.log( item, this.tablet.row );
     this._tools.basic("Borrado exitoso")
     this.suma();
@@ -182,7 +183,8 @@ export class FormFacturaComponent implements OnInit {
   for( let row of this.tablet.row ){
     if( !row.precioTotal ) row.precioTotal = 0;
     //console.log( row );
-    row.precioTotal= row.precioClienteDrop * ( row.cantidadSelect || 0 ) ;
+    if( this.data.entrada == 1 ) row.precioTotal= row.precioClienteDrop * ( row.cantidadSelect || 0 ) ;
+    if( this.data.entrada == 0 ) row.precioTotal= row.precioCompra * ( row.cantidadSelect || 0 ) ;
     this.data.monto+= row.precioTotal;
   }
  }

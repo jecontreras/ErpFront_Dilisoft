@@ -59,6 +59,8 @@ export class FormArticuloComponent implements OnInit {
       this.data = res || {};
       console.log( this.data )
       this.listcolor = this.data.listColor;
+      if( this.data.categoria ) this.data.categoria = this.data.categoria.id;
+      if( this.data.subcategoria) this.data.subcategoria = this.data.subcategoria.id;
       for( let row of this.listcolor){
         for( let item of row.listTalla ){
           item.listLogEntrada = await this.getLogs( item.id, 0 );

@@ -26,6 +26,9 @@ export class TablaComponent implements OnInit {
   };
   querys:any = {};
   _model:any;
+  notscrolly: boolean = true;
+  notEmptyPost: boolean = true;
+
   constructor(
     private _router: Router,
     private _tools: ToolsService
@@ -35,14 +38,24 @@ export class TablaComponent implements OnInit {
     console.log("***", this._dataConfig )
     this.querys = this._dataConfig.querys || {};
     this._model = this._dataConfig.model;
+    this.querys.page = 0;
     this.getList();
   }
 
+  onScroll() {
+    if (this.notscrolly && this.notEmptyPost) {
+      this.notscrolly = false;
+      this.querys.page++;
+      this.getList();
+    }
+  }
+
   getList(){
+    console.log("**", this.querys)
     this._model.get( this.querys ).subscribe( ( res:any  )=>{
       this._dataConfig.tablet.row.push(... res.data);
-      console.log("****", this._dataConfig.tablet.row)
       this._dataConfig.tablet.row =_.unionBy(this._dataConfig.tablet.row || [], res.data, 'id');
+      console.log("****", this._dataConfig.tablet.row)
     });
   }
 

@@ -17,7 +17,8 @@ export class FacturaComponent implements OnInit {
     querys:{
       where:{
         estado: 0
-      }
+      },
+      limit: 10
     },
     btn:{
       btnCrear: {
