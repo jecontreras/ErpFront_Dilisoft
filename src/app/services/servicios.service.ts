@@ -66,7 +66,7 @@ export class ServiciosService {
       this.dataUser.id = "635c2fdab0f6ff3068000fef";
     });
     if(Object.keys(this.dataUser).length >0 ){
-      this.querys('tblusuario/querys',{
+      this.querys('user/querys',{
         where:{
            id: this.dataUser.id
           //id: 1016

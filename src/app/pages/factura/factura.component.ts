@@ -29,7 +29,7 @@ export class FacturaComponent implements OnInit {
     tablet:{
       headers:["Codigo","Fecha","Monto","Entrada","Provedor","Creado","Actualizado"],
       row:[],
-      keys: ["codigo", "imagen", "monto", "entrada","provedor","createdAt","updatedAt"]
+      keys: ["codigo", "fecha", "monto", "entrada","provedor","createdAt","updatedAt"]
     }
   };
   constructor(

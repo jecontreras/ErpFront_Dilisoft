@@ -18,7 +18,9 @@ import { Store } from '@ngrx/store';
 })
 export class FormFacturaComponent implements OnInit {
 
-  data:any = {};
+  data:any = {
+    tipoFactura: 1
+  };
   id:any;
   titleBTN:string = "Guardar";
   tablet:any = {
@@ -36,7 +38,7 @@ export class FormFacturaComponent implements OnInit {
   datoBusqueda:string;
   opcionCurrencys:any;
   listProvedor:any = [];
-  dataUser:any = [];
+  dataUser:any = {};
 
   constructor(
     private activate: ActivatedRoute,
@@ -153,7 +155,12 @@ export class FormFacturaComponent implements OnInit {
       }),
     }
     this._factura.create( data ).subscribe(( res:any )=>{
-      this._tools.basic("Creado exitoso")
+      //console.log("*****", res)
+      res = res.data[0] || {};
+      this.id = res.id;
+      this.data.id = this.id;
+      this._tools.basic("Creado exitoso");
+      this.titleBTN= "Actualizar";
     });
   }
 
@@ -172,8 +179,8 @@ export class FormFacturaComponent implements OnInit {
   checkseleccionado( item:any, idx:any ){
     item.check = !item.check;
     //this.tablet.row = _.filter( this.tablet.row, ( key:any ) => key.selectTalla == item.selectTalla );
+    console.log( item, this.tablet.row, idx );
     this.tablet.row.split( idx, 1 );
-    console.log( item, this.tablet.row );
     this._tools.basic("Borrado exitoso")
     this.suma();
  }
@@ -183,8 +190,9 @@ export class FormFacturaComponent implements OnInit {
   for( let row of this.tablet.row ){
     if( !row.precioTotal ) row.precioTotal = 0;
     //console.log( row );
-    if( this.data.entrada == 1 ) row.precioTotal= row.precioClienteDrop * ( row.cantidadSelect || 0 ) ;
+    if( this.data.entrada == 1 && this.data.tipoFactura == 1) row.precioTotal= row.precioClienteDrop * ( row.cantidadSelect || 0 ) ;
     if( this.data.entrada == 0 ) row.precioTotal= row.precioCompra * ( row.cantidadSelect || 0 ) ;
+    if( this.data.entrada == 1 && this.data.tipoFactura == 0) row.precioTotal= row.precioOtras * ( row.cantidadSelect || 0 ) ;
     this.data.monto+= row.precioTotal;
   }
  }

@@ -49,6 +49,9 @@ export class FormEmpresaComponent implements OnInit {
     let data = this.data
     this._empresa.create( data ).subscribe(( res:any )=>{
       this._tools.basic("Creado exitoso")
+      this.id = res.id;
+      this.data.id = this.id;
+      this.titleBTN= "Actualizar";
     });
   }
 

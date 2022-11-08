@@ -5,6 +5,8 @@ import { ArticuloService } from 'src/app/servicesComponent/articulo.service';
 import { CategoriaService } from 'src/app/servicesComponent/categoria.service';
 import * as _ from 'lodash';
 import { ArticuloLogService } from 'src/app/servicesComponent/articulo-log.service';
+import { USER } from 'src/app/interfaces/sotarage';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-form-articulo',
@@ -35,16 +37,24 @@ export class FormArticuloComponent implements OnInit {
     row:[],
     keys: ["valorAnterior","valor","valorTotal","createdAt"]
   }
+  dataUser:any = {};
   constructor(
     private _tools: ToolsService,
     private _articulo: ArticuloService,
     private activate: ActivatedRoute,
     private _categoria: CategoriaService,
-    private _articuloLog: ArticuloLogService
+    private _articuloLog: ArticuloLogService,
+    private _store: Store<USER>,
   ) { 
+    this._store.subscribe((store: any) => {
+      store = store.name;
+      if(!store) return false;
+      this.dataUser = store.user || {};
+    });
   }
 
   ngOnInit(): void {
+    this.listcolor[0].codigo = this._tools.codigo();
     this.opcionCurrencys = this._tools.currency;
     this.getCategoria();
     this.getSubcategoria();
@@ -96,10 +106,13 @@ export class FormArticuloComponent implements OnInit {
       this.listSubCategoria = res.data;
     });
   }
-  newColor(){
-    this.listcolor.push({
-      listTalla:[{}]
+  newColor( obj, i ){
+    obj.check = !obj.check;
+    if( obj.check == true ) this.listcolor.push({
+      listTalla:[{}],
+      codigo: this._tools.codigo()
     });
+    
   }
   async dropColor( item:any ){
     item.estado = 1;
@@ -116,6 +129,7 @@ export class FormArticuloComponent implements OnInit {
     item.listTalla =  _.filter( item.listTalla, ( row:any ) => row.talla != item.talla );
   } 
   submit(){
+    this.data.user = this.dataUser.id;
     if( this.id ) this.updateFun();
     else this.crearFun();
   }
@@ -139,6 +153,9 @@ export class FormArticuloComponent implements OnInit {
       listDetalle: this.listcolor
     };
     this._articulo.create( data ).subscribe(( res:any )=>{
+      this.id = res.id;
+      this.data.id = this.id;
+      this.titleBTN= "Actualizar";
       this._tools.basic("Creado exitoso")
     });
   }
