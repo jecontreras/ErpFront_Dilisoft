@@ -54,10 +54,19 @@
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
+                                    <label class="form-control-label" for="input-username">Nombre del cliente</label>
+                                    <input type="text" [(ngModel)]="data.nombreCliente"
+                                        class="form-control form-control-alternative" placeholder="" [disabled]="data.id">
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
                                     <label class="form-control-label" for="input-username">Tipo de Entrada</label>
                                     <select class="form-control" [(ngModel)]="data.entrada" [disabled]="data.id">
                                         <option value="0">Entrada</option>
                                         <option value="1">Salida</option>
+                                        <option value="2">Devolucion</option>
+                                        <option value="3">Cambio</option>
                                     </select>
                                 </div>
                             </div>

@@ -33,9 +33,9 @@ export class FormArticuloComponent implements OnInit {
   titleBTN:string = "Guardar";
   list:any = [];
   tablet:any = {
-    headers:["Cantidad anterior","Cantidad","Cantidad Total","Monimiento"],
+    headers:["Movimiento","Cantidad anterior","Cantidad","Cantidad Total","Fecha MV","Descipcion"],
     row:[],
-    keys: ["valorAnterior","valor","valorTotal","createdAt"]
+    keys: ["tipoEntrada","valorAnterior","valor","valorTotal","createdAt", "descripcion"]
   }
   dataUser:any = {};
   constructor(
@@ -74,7 +74,7 @@ export class FormArticuloComponent implements OnInit {
       for( let row of this.listcolor){
         for( let item of row.listTalla ){
           item.listLogEntrada = await this.getLogs( item.id, 0 );
-          item.listLogSalida = await this.getLogs( item.id, 1 );
+          //item.listLogSalida = await this.getLogs( item.id, 1 );
         }
       }
       console.log( this.listcolor)
@@ -83,7 +83,7 @@ export class FormArticuloComponent implements OnInit {
 
   async getLogs( ids:any, tipo:any ){
     return new Promise( resolve =>{
-      this._articuloLog.get( { where: { articuloTalla: ids, estado: 0, tipoEntrada: tipo }, limit: 100000 } ).subscribe(( res:any )=>{
+      this._articuloLog.get( { where: { articuloTalla: ids, estado: 0 }, limit: 1000000 } ).subscribe(( res:any )=>{
         resolve( res.data );
       });
     });
@@ -118,7 +118,7 @@ export class FormArticuloComponent implements OnInit {
     item.estado = 1;
     if( item.id ) await this.updateFun();
     this.listcolor =  _.filter( this.listcolor, ( row:any ) => row.color != item.color );
-    //this.listcolor.split( idx, 1);
+    //this.listcolor.splice( idx, 1);
   }
   newTalla( item:any ){
     item.listTalla.push({});

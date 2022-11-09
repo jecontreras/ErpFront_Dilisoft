@@ -81,7 +81,7 @@ export class FormFacturaComponent implements OnInit {
       this.data = {
         codigo: this._tools.codigo(),
         fecha: moment().format("DD/MM/YYYY"),
-        entrada: 0
+        entrada: 1
       };
     }
     console.log(this.data)
@@ -93,7 +93,7 @@ export class FormFacturaComponent implements OnInit {
     this._factura.get( { where: { id: this.id } } ).subscribe(( res:any )=>{
       res = res.data[0];
       this.data = res || {};
-      console.log( this.data )
+      //console.log( this.data )
       this.tablet.row = _.map( this.data.listFacturaArticulo, ( row )=>{
         let data:any = {
           id: row.id,
@@ -105,6 +105,7 @@ export class FormFacturaComponent implements OnInit {
           cantidad: row.cantidad,
           cantidadSelect: row.cantidad,
           listColor: row.articulo.listColor,
+          precioCompra: row.precio,
           ...row
         };
         let filtro = data.listColor.find( ( keys:any ) => keys.id == row.articuloColor.id );
@@ -112,6 +113,7 @@ export class FormFacturaComponent implements OnInit {
         this.selectColor( data );
         return data;
       } );
+      this.suma();
     });
   }
 
@@ -122,7 +124,7 @@ export class FormFacturaComponent implements OnInit {
   }
 
   selectColor( item ){
-    console.log("****", item )
+    //console.log("****", item )
     item.listTalla = item.listColor.find( ( row:any )=> row.id == item.selectColor );
     try {
       item.listTalla = item.listTalla.listTalla;
@@ -145,13 +147,17 @@ export class FormFacturaComponent implements OnInit {
     let data:any = {
       factura: this.data,
       listArticulo: _.map(this.tablet.row, ( item:any )=>{
-        return {
+        let data:any = {
           articulo: item.id,
           articuloTalla: item.selectTalla,
           articuloColor: item.selectColor,
           cantidad: item.cantidadSelect,
           ...item
-        }
+        };
+        if( this.data.entrada == 1 && this.data.tipoFactura == 1) data.precio = item.precioClienteDrop;
+        if( this.data.entrada == 1 && this.data.tipoFactura == 0) data.precio = item.precioOtras;
+        if( this.data.entrada == 0 ) data.precio = item.precioCompra;
+        return data
       }),
     }
     this._factura.create( data ).subscribe(( res:any )=>{
@@ -180,7 +186,7 @@ export class FormFacturaComponent implements OnInit {
     item.check = !item.check;
     //this.tablet.row = _.filter( this.tablet.row, ( key:any ) => key.selectTalla == item.selectTalla );
     console.log( item, this.tablet.row, idx );
-    this.tablet.row.split( idx, 1 );
+    this.tablet.row.splice( idx, 1 );
     this._tools.basic("Borrado exitoso")
     this.suma();
  }
@@ -189,11 +195,12 @@ export class FormFacturaComponent implements OnInit {
   this.data.monto = 0;
   for( let row of this.tablet.row ){
     if( !row.precioTotal ) row.precioTotal = 0;
-    //console.log( row );
+    console.log( row, this.data );
     if( this.data.entrada == 1 && this.data.tipoFactura == 1) row.precioTotal= row.precioClienteDrop * ( row.cantidadSelect || 0 ) ;
-    if( this.data.entrada == 0 ) row.precioTotal= row.precioCompra * ( row.cantidadSelect || 0 ) ;
     if( this.data.entrada == 1 && this.data.tipoFactura == 0) row.precioTotal= row.precioOtras * ( row.cantidadSelect || 0 ) ;
-    this.data.monto+= row.precioTotal;
+    if( this.data.entrada == 0 ) row.precioTotal= row.precioCompra * ( row.cantidadSelect || 0 ) ;
+
+    if( ( this.data.entrada != 2 ) || ( this.data.entrada != 3 ) ) this.data.monto+= row.precioTotal;
   }
  }
 
