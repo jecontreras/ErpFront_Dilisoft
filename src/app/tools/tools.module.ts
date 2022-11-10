@@ -3,17 +3,22 @@ import { CommonModule } from '@angular/common';
 import { TablaComponent } from './tabla/tabla.component';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { InfiniteScrollModule } from "ngx-infinite-scroll";
+import { ArchivosComponent } from './archivos/archivos.component';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 @NgModule({
   declarations: [
-    TablaComponent
+    TablaComponent,
+    ArchivosComponent
   ],
   exports:[
-    TablaComponent
+    TablaComponent,
+    ArchivosComponent
   ],
   imports: [
     CommonModule,
     InfiniteScrollModule,
+    NgxDropzoneModule,
     NgxSpinnerModule
   ]
 })

@@ -37,6 +37,9 @@
                     <h6 class="heading-small text-muted mb-4">Información Inicial</h6>
                     <div class="pl-lg-4">
                         <div class="row">
+                            <div class="col-lg-12">
+                                <app-archivos></app-archivos>
+                            </div>
                             <div class="col-lg-6" *ngIf="data.codigo">
                                 <div class="form-group">
                                     <ngx-barcode [bc-value]="data.codigo" [bc-display-value]="true"></ngx-barcode>
@@ -186,7 +189,7 @@
                                 <h4>{{ row.color }} </h4>
                                 <ul class="list-group">
                                     <li class="list-group-item" *ngFor="let item of row.listTalla">
-                                        <h4>{{ item.talla }} </h4>
+                                        <h4>Talla: {{ item.talla }} </h4>
                                         <table class="table align-items-center table-flush">
                                         <thead class="thead-light">
                                             <tr>
@@ -198,10 +201,8 @@
                                                 <th scope="row" *ngFor="let keys of tablet.keys">
                                                     <span *ngIf="( keys !='createdAt' ) && (keys !='tipoEntrada') ">{{ item[keys] }} </span>
                                                     <span *ngIf="keys =='tipoEntrada'">
-                                                        <p *ngIf="item[keys] == 0">Entrada</p>
-                                                        <p *ngIf="item[keys] == 1">Salida</p>
-                                                        <p *ngIf="item[keys] == 2">Devolucion</p>
-                                                        <p *ngIf="item[keys] == 3">Cambio</p>
+                                                        <p *ngIf="item[keys] == 0" class="btnEntrada">Entrada</p>
+                                                        <p *ngIf="item[keys] == 1" class="btnSalida">Salida</p>
                                                         
                                                     </span>
                                                     <span *ngIf="keys =='createdAt'"> {{ item[keys] | date:'medium'}} </span>
@@ -213,7 +214,7 @@
                                 </ul>
                             </li>
                         </ul>
-                    </mat-tab>
+                    </mat-tab> 
                     <!--<mat-tab label="Movimiento de salida">
                         <ul class="list-group">
                             <li class="list-group-item" *ngFor="let row of listcolor">
