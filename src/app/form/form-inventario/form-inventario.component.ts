@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import * as moment from 'moment';
 import { ToolsService } from 'src/app/services/tools.service';
 import { InventarioService } from 'src/app/servicesComponent/inventario.service';
 
@@ -13,6 +14,40 @@ export class FormInventarioComponent implements OnInit {
   data:any = {};
   id:any;
   titleBTN:string = "Guardar";
+  listInventario:any = [
+    {
+      codigo: "ACE123",
+      titulo: "Holis",
+      createdAt: moment().format("DD-MM-YYYY"),
+      color:[
+        {
+          color: "verde",
+          listArticulo:[
+            {
+              talla: 35,
+              cantidad: 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      codigo: "ACE147",
+      titulo: "MEN",
+      createdAt: moment().format("DD-MM-YYYY"),
+      color:[
+        {
+          color: "verde",
+          listArticulo:[
+            {
+              talla: 35,
+              cantidad: 5
+            }
+          ]
+        }
+      ]
+    }
+  ];
 
   constructor(
     private activate: ActivatedRoute,

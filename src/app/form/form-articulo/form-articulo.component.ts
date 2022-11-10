@@ -38,6 +38,8 @@ export class FormArticuloComponent implements OnInit {
     keys: ["tipoEntrada","valorAnterior","valor","valorTotal","createdAt", "descripcion"]
   }
   dataUser:any = {};
+  _dataConfig:any = {};
+  
   constructor(
     private _tools: ToolsService,
     private _articulo: ArticuloService,

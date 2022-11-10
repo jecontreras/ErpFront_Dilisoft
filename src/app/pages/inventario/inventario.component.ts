@@ -41,7 +41,7 @@ export class InventarioComponent implements OnInit {
   }
 
   Crearinventario(){
-    this._router.navigate(['/formInventario']);
+    this._router.navigate(['/forminventario']);
   }
 
 }
