@@ -14,42 +14,7 @@ export class FormInventarioComponent implements OnInit {
   data:any = {};
   id:any;
   titleBTN:string = "Guardar";
-  listInventario:any = [
-    {
-      codigo: "ACE123",
-      titulo: "Holis",
-      createdAt: moment().format("DD-MM-YYYY"),
-      color:[
-        {
-          color: "verde",
-          listArticulo:[
-            {
-              codigo: "ACE123",
-              talla: 35,
-              cantidad: 5
-            }
-          ]
-        }
-      ]
-    },
-    {
-      codigo: "ACE147",
-      titulo: "MEN",
-      createdAt: moment().format("DD-MM-YYYY"),
-      color:[
-        {
-          color: "verde",
-          listArticulo:[
-            {
-              codigo: "ACE147",
-              talla: 35,
-              cantidad: 5
-            }
-          ]
-        }
-      ]
-    }
-  ];
+  listInventario:any = [];
 
   constructor(
     private activate: ActivatedRoute,
@@ -66,7 +31,7 @@ export class FormInventarioComponent implements OnInit {
   getDetalle(){
     this._inventario.detalle({ }).subscribe( ( res:any )=>{
       console.log("***,", res)
-      //this.listInventario = res;
+      this.listInventario = res.listArticulo || [];
     });
   }
 
@@ -98,6 +63,9 @@ export class FormInventarioComponent implements OnInit {
       this.data.id = this.id;
       this.titleBTN= "Actualizar";
     });
+  }
+  print(){
+
   }
 
 }

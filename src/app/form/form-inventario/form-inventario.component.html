@@ -28,7 +28,7 @@
                         <h3 class="mb-0">{{ titleBTN }} Inventario</h3>
                     </div>
                     <div class="col-4 text-right">
-                        <a href="#!" class="btn btn-sm btn-primary">Configuración</a>
+                        <a href="#!" class="btn btn-sm btn-primary" (click)="print()">Imprimir</a>
                     </div>
                 </div>
             </div>
@@ -61,9 +61,15 @@
                             <ul class="list-group col-12">
                                 <li class="list-group-item" *ngFor="let item of listInventario; index as im">
                                     <div class="row">
-                                        <div class="col-lg-4">
+                                        <div class="col-lg-2">
                                             <div class="form-group">
                                                 <input type="text" [(ngModel)]="item.codigo"
+                                                    class="form-control form-control-alternative">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <div class="form-group">
+                                                <input type="number" [(ngModel)]="item.cantidad"
                                                     class="form-control form-control-alternative">
                                             </div>
                                         </div>
@@ -82,7 +88,7 @@
                                     </div>
                                     <div class="row">
                                         <ul class="list-group col-12">
-                                            <li class="list-group-item" *ngFor="let key of item.color; index as i">
+                                            <li class="list-group-item" *ngFor="let key of item.listColor; index as i">
                                                 <div class="row">
                                                     <div class="col-lg-6">
                                                         <span>{{ i + 1 }} </span>
@@ -103,7 +109,7 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <tr *ngFor="let ml of key.listArticulo; index as l">
+                                                                <tr *ngFor="let ml of key.listTalla; index as l">
                                                                     <th scope="row">{{ l + 1 }}</th>
                                                                     <td> 
                                                                         <ngx-barcode [bc-height]="20" [bc-width]="1" [bc-value]="ml.codigo" [bc-display-value]="true"></ngx-barcode>
