@@ -24,6 +24,7 @@ export class FormInventarioComponent implements OnInit {
           color: "verde",
           listArticulo:[
             {
+              codigo: "ACE123",
               talla: 35,
               cantidad: 5
             }
@@ -40,6 +41,7 @@ export class FormInventarioComponent implements OnInit {
           color: "verde",
           listArticulo:[
             {
+              codigo: "ACE147",
               talla: 35,
               cantidad: 5
             }
@@ -56,8 +58,16 @@ export class FormInventarioComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getDetalle();
     this.id = ( this.activate.snapshot.paramMap.get('id'));
     if( this.id ) this.getData();
+  }
+
+  getDetalle(){
+    this._inventario.detalle({ }).subscribe( ( res:any )=>{
+      console.log("***,", res)
+      //this.listInventario = res;
+    });
   }
 
   getData(){

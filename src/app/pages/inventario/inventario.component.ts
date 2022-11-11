@@ -11,7 +11,7 @@ export class InventarioComponent implements OnInit {
 
   _dataConfig:any = {
     titulo: "Lista de Articulos",
-    returnHTML: "formarticulo/",
+    returnHTML: "forminventario/",
     dsAccion: true,
     model: "",
     querys:{

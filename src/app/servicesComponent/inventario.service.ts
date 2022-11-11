@@ -22,4 +22,7 @@ export class InventarioService {
   delete(query:any){
     return this._model.querys('inventario/'+query.id, query, 'delete');
   }
+  detalle(query:any){
+    return this._model.querys('inventario/detalle',query, 'post');
+  }
 }

@@ -97,6 +97,7 @@
                                                             <thead>
                                                                 <tr>
                                                                     <th scope="col">#</th>
+                                                                    <th>Codigo</th>
                                                                     <th scope="col">Talla</th>
                                                                     <th scope="col">Cantidad</th>
                                                                 </tr>
@@ -104,6 +105,9 @@
                                                             <tbody>
                                                                 <tr *ngFor="let ml of key.listArticulo; index as l">
                                                                     <th scope="row">{{ l + 1 }}</th>
+                                                                    <td> 
+                                                                        <ngx-barcode [bc-height]="20" [bc-width]="1" [bc-value]="ml.codigo" [bc-display-value]="true"></ngx-barcode>
+                                                                    </td>
                                                                     <td>
                                                                         {{ ml.talla }}
                                                                     </td>
