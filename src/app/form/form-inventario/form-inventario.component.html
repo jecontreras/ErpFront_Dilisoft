@@ -19,7 +19,7 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row" id="contenido" #contenido>
     <div class="col-12 order-xl-1">
         <div class="card bg-secondary shadow">
             <div class="card-header bg-white border-0">
@@ -28,7 +28,7 @@
                         <h3 class="mb-0">{{ titleBTN }} Inventario</h3>
                     </div>
                     <div class="col-4 text-right">
-                        <a href="#!" class="btn btn-sm btn-primary" (click)="print()">Imprimir</a>
+                        <button type="button" class="btn btn-success" (click)="print()">Imprimir </button>
                     </div>
                 </div>
             </div>

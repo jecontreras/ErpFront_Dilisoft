@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import html2canvas from "html2canvas";
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 import { ToolsService } from 'src/app/services/tools.service';
@@ -15,6 +16,11 @@ export class FormInventarioComponent implements OnInit {
   id:any;
   titleBTN:string = "Guardar";
   listInventario:any = [];
+
+  
+  imgcreada = false;
+ 
+  imagenCreada;
 
   constructor(
     private activate: ActivatedRoute,
@@ -65,7 +71,13 @@ export class FormInventarioComponent implements OnInit {
     });
   }
   print(){
-
+    html2canvas(document.querySelector("#contenido")).then(canvas => {
+ 
+      this.imagenCreada = canvas.toDataURL();      
+ 
+    });
+    this.imgcreada = true;
+    console.log( this.imagenCreada)
   }
 
 }
