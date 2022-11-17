@@ -7,13 +7,13 @@ import { FormsModule } from '@angular/forms';
 
 @NgModule({
   entryComponents:[
-    ArticuloDialogComponent
+    ArticuloDialogComponent,
   ],
   declarations: [
-    ArticuloDialogComponent
+    ArticuloDialogComponent,
   ],
   exports:[
-    ArticuloDialogComponent
+    ArticuloDialogComponent,
   ],
   imports: [
     CommonModule,

@@ -22,6 +22,7 @@ import { FacturaComponent } from 'src/app/pages/factura/factura.component';
 import { LogsComponent } from 'src/app/pages/logs/logs.component';
 import { PerfilComponent } from 'src/app/pages/perfil/perfil.component';
 import { ProvedorComponent } from 'src/app/pages/provedor/provedor.component';
+import { CodigoPrintComponent } from 'src/app/pages/codigo-print/codigo-print.component';
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -33,7 +34,7 @@ import { ProvedorComponent } from 'src/app/pages/provedor/provedor.component';
     NgbModule,
     ClipboardModule,
     ToolsModule,
-    FormModule
+    FormModule,
   ],
   declarations: [
     DashboardComponent,
@@ -49,6 +50,7 @@ import { ProvedorComponent } from 'src/app/pages/provedor/provedor.component';
     LogsComponent,
     PerfilComponent,
     ProvedorComponent,
+    CodigoPrintComponent
   ]
 })
 

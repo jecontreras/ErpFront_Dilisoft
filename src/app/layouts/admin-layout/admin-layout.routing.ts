@@ -13,6 +13,7 @@ import { InventarioComponent } from 'src/app/pages/inventario/inventario.compone
 import { LogsComponent } from 'src/app/pages/logs/logs.component';
 import { PerfilComponent } from 'src/app/pages/perfil/perfil.component';
 import { ProvedorComponent } from 'src/app/pages/provedor/provedor.component';
+import { CodigoPrintComponent } from 'src/app/pages/codigo-print/codigo-print.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -21,6 +22,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'icons',          component: IconsComponent },
     { path: 'maps',           component: MapsComponent },
     { path: 'articulo',           component: ArticuloComponent },
+    { path: 'codigoprint',           component: CodigoPrintComponent },
     { path: 'categoria',           component: CategoriaComponent },
     { path: 'empresa',           component: EmpresaComponent },
     { path: 'factura',           component: FacturaComponent },

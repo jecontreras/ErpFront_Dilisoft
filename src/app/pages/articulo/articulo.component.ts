@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ArticuloService } from 'src/app/servicesComponent/articulo.service';
 
@@ -32,7 +33,7 @@ export class ArticuloComponent implements OnInit {
   };
   constructor(
     private _router: Router,
-    private _Articulo: ArticuloService
+    private _Articulo: ArticuloService,
   ) {
     this._dataConfig.model = _Articulo;
    }
@@ -43,6 +44,10 @@ export class ArticuloComponent implements OnInit {
 
   CrearArticulo(){
     this._router.navigate(['/formarticulo']);
+  }
+
+  printCodigo(){
+    this._router.navigate(['/codigoprint']);
   }
 
 }
