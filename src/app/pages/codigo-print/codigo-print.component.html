@@ -1,36 +1,65 @@
-<h2 >
-    Imprimir Codigos
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button class="btn btn-danger me-md-2" type="button" (click)="close()">
-            <i class="ni ni-fat-remove"></i>
-        </button>
-        <button class="btn btn-success me-md-2" type="button" (click)="seleccionado()">
-            Seleccionado
-        </button>
-    </div>
-</h2>
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+        <div class="header-body">
+            <!-- Card stats -->
+            <div class="row">
+                <div class="col">
+                    <div class="card shadow">
+                        <div class="card-header border-0">
+                            <div class="col-10">
+                                <div class="">
+                                    <h3 class="mb-0">Lista de Articulos</h3>
+                                </div>
+                            </div>
+                            <div class="col-2 text-end">
+                                <div class="" *ngIf="vista == 'inicial'">
+                                    <a class="dropdown-item" href="javascript:void(0)" routerLink="/articulo">Volver</a>
+                                </div>
+                                <div class="" *ngIf="vista == 'detalle'">
+                                    <a class="dropdown-item" href="javascript:void(0)" (click)="print()">Imprimir</a>
+                                    <a class="dropdown-item" href="javascript:void(0)" (click)="volverVista()">Volver</a>
+                                </div>
+                            </div>
 
-<div class="row">
-    <div class="col">
-        <div class="card shadow">
-            <div class="card-header border-0">
-                <h3 class="mb-0">Lista de Articulos</h3>
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="container">
-                <div class="row">
-                  <div class="col-sm" *ngFor="let row of listArtiuclos">
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                          <h5 class="card-title"></h5>
-                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                          <a href="#" class="btn btn-primary">Go somewhere</a>
                         </div>
                     </div>
-                  </div>
+                    <div class="col-12" *ngIf="vista == 'inicial'">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-sm" *ngFor="let row of listArtiuclos">
+                                    <div class="card" style="width: 18rem;">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ row.articulo.titulo }} </h5>
+                                            <p class="card-text">
+                                                <ngx-barcode [bc-value]="row.codigo" [bc-display-value]="true">
+                                                </ngx-barcode>
+                                            </p>
+                                            <a href="javascript:void(0)" class="btn btn-primary"
+                                                (click)="printCodigo( row )">Imprimir</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12" *ngIf="vista == 'detalle'">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col col-lg-2" *ngFor="let row of listSeleccionado">
+                                    <div class="card" style="width: 18rem;">
+                                        <div class="card-body">
+                                            <p class="card-text">
+                                                <ngx-barcode [bc-value]="row.codigo" [bc-display-value]="true">
+                                                </ngx-barcode>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
+            </div>
         </div>
     </div>
 </div>

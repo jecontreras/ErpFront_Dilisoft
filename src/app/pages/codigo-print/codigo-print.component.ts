@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToolsService } from 'src/app/services/tools.service';
 import { ArticuloService } from 'src/app/servicesComponent/articulo.service';
 
 @Component({
@@ -9,9 +10,12 @@ import { ArticuloService } from 'src/app/servicesComponent/articulo.service';
 export class CodigoPrintComponent implements OnInit {
   
   listArtiuclos:any = [];
+  vista:string = "inicial";
+  listSeleccionado:any = [];
 
   constructor(
-    private _articulos: ArticuloService
+    private _articulos: ArticuloService,
+    private _tools: ToolsService
   ) { }
 
   ngOnInit(): void {
@@ -28,8 +32,28 @@ export class CodigoPrintComponent implements OnInit {
 
   }
 
-  seleccionado(){
-    
+  print(){
+    window.print();
+  }
+
+  async printCodigo( row:any ){
+    let result:any = await this._tools.alertInput( {
+      title: "Cantidad de Etiquetas a imprimir",
+      input: "number"
+    });
+    console.log( result );
+    result = Number( result.value );
+    for (let i = 0; i < result; i++) {
+      this.listSeleccionado.push( { codigo: row.codigo } );
+      
+    }
+    this.vista = "detalle";
+
+  }
+
+  volverVista(){
+    this.vista = "inicial";
+    this.listSeleccionado = [];
   }
 
 }
