@@ -13,11 +13,13 @@
                             </div>
                             <div class="col-2 text-end">
                                 <div class="" *ngIf="vista == 'inicial'">
-                                    <a class="dropdown-item" href="javascript:void(0)" routerLink="/articulo">Volver</a>
+                                    <a class="btn btn-danger" href="javascript:void(0)" routerLink="/articulo">Volver</a>
                                 </div>
                                 <div class="" *ngIf="vista == 'detalle'">
-                                    <a class="dropdown-item" href="javascript:void(0)" (click)="print()">Imprimir</a>
-                                    <a class="dropdown-item" href="javascript:void(0)" (click)="volverVista()">Volver</a>
+
+
+                                    <a class="btn btn-primary" href="javascript:void(0)" (click)="print()">Imprimir</a>
+                                    <a class="btn btn-danger" href="javascript:void(0)" (click)="volverVista()">Volver</a>
                                 </div>
                             </div>
 
