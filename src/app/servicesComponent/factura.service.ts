@@ -22,4 +22,7 @@ export class FacturaService {
   delete(query:any){
     return this._model.querys('factura/'+query.id, query, 'delete');
   }
+  acentandoFct(query:any){
+    return this._model.querys('factura/asentarFactura',query, 'post');
+  }
 }
