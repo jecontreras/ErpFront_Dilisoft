@@ -10,8 +10,8 @@
                 </div>
                 <div class="col-2 text-end">
                     <div class="">
-                        <button type="button" class="btn btn-success" (click)="submit()">{{ titleBTN }} </button>
-                        <button type="button" class="btn btn-success" (click)="submit()"> </button>
+                        <button type="button" class="btn btn-success" (click)="submit()" *ngIf="!this.data.asentado">{{ titleBTN }} </button>
+                        <button type="button" class="btn btn-success" (click)="submit()" *ngIf="!this.data.asentado && id"> Asentar</button>
                         <a class="dropdown-item" href="javascript:void(0)" routerLink="/factura">Volver</a>
                     </div>
                 </div>
@@ -63,7 +63,7 @@
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-username">Tipo de Entrada</label>
-                                    <select class="form-control" [(ngModel)]="data.entrada" [disabled]="data.id">
+                                    <select class="form-control" [(ngModel)]="data.entrada" [disabled]="data.asentado">
                                         <option value="0">Entrada</option>
                                         <option value="1">Salida</option>
                                         <option value="2">Devolucion</option>
@@ -130,7 +130,7 @@
                                         <tbody>
                                             <tr *ngFor="let item of tablet.row; index as i">
                                                 <th>
-                                                    <button class="btn btn-danger me-md-2" type="button" (click)="checkseleccionado( item, i )" [disabled]="data.id">
+                                                    <button class="btn btn-danger me-md-2" type="button" (click)="checkseleccionado( item, i )" [disabled]="data.asentado">
                                                         <i class="ni ni-fat-remove"></i>
                                                     </button>
                                                 </th>

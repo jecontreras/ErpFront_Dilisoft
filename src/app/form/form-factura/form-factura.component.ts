@@ -137,7 +137,23 @@ export class FormFacturaComponent implements OnInit {
   }
 
   updateFun(){
-    let data:any = this.data;
+    let data:any = {
+      listArticulo: _.map(this.tablet.row, ( item:any )=>{
+        let data:any = {
+          estado: 3,
+          articulo: item.id,
+          articuloTalla: item.selectTalla,
+          articuloColor: item.selectColor,
+          cantidad: item.cantidadSelect,
+          ...item
+        };
+        if( this.data.entrada == 1 && this.data.tipoFactura == 1) data.precio = item.precioClienteDrop;
+        if( this.data.entrada == 1 && this.data.tipoFactura == 0) data.precio = item.precioOtras;
+        if( this.data.entrada == 0 ) data.precio = item.precioCompra;
+        return data
+      }),
+      ...this.data
+    }
     this._factura.update( data ).subscribe(( res:any )=>{
       this._tools.basic("Actualizado exitoso");
     });
@@ -168,6 +184,19 @@ export class FormFacturaComponent implements OnInit {
       this.data.id = this.id;
       this._tools.basic("Creado exitoso");
       this.titleBTN= "Acentar";
+    });
+  }
+
+  acentarFactura(){
+    if( !this.id ) return false;
+    let data:any = {
+      id: this.id,
+      asentado: true
+    };
+    this._factura.acentandoFct( data ).subscribe( ( res:any )=>{
+      if( res.status == 400 ) return this._tools.basic( res.data );
+      this.data.asentado = true;
+      this._tools.basic( res.data );
     });
   }
 
