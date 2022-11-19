@@ -89,7 +89,7 @@ export class FormFacturaComponent implements OnInit {
   }
 
   getData(){
-    this.titleBTN = "Actualizar";
+    this.titleBTN = "Acentar";
     this._factura.get( { where: { id: this.id } } ).subscribe(( res:any )=>{
       res = res.data[0];
       this.data = res || {};
@@ -148,6 +148,7 @@ export class FormFacturaComponent implements OnInit {
       factura: this.data,
       listArticulo: _.map(this.tablet.row, ( item:any )=>{
         let data:any = {
+          estado: 3,
           articulo: item.id,
           articuloTalla: item.selectTalla,
           articuloColor: item.selectColor,
@@ -166,7 +167,7 @@ export class FormFacturaComponent implements OnInit {
       this.id = res.id;
       this.data.id = this.id;
       this._tools.basic("Creado exitoso");
-      this.titleBTN= "Actualizar";
+      this.titleBTN= "Acentar";
     });
   }
 
