@@ -33,7 +33,15 @@ export class CodigoPrintComponent implements OnInit {
   }
 
   print(){
+    //window.print();
+    let printContents = document.getElementById("component1").innerHTML;
+    let originalContents = document.body.innerHTML;
+
+    document.body.innerHTML = printContents;
+
     window.print();
+
+    document.body.innerHTML = originalContents;
   }
 
   async printCodigo( row:any ){
@@ -54,6 +62,7 @@ export class CodigoPrintComponent implements OnInit {
   volverVista(){
     this.vista = "inicial";
     this.listSeleccionado = [];
+    location.reload();
   }
 
 }
