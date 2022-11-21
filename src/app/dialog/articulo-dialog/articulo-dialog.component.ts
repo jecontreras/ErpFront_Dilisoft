@@ -57,12 +57,12 @@ export class ArticuloDialogComponent implements OnInit {
   }
   getArticulos( ids:any ){
     this.tablet.row = [];
-    this._articulos.get( { where: { id: ids.articulo } } ).subscribe( ( res:any )=>{
+    this._articulos.get( { where: { id: ids.articulo.id } } ).subscribe( ( res:any )=>{
       res = res.data;
       this.tablet.row = res;
       this.datoBusqueda = "";
       for( let row of this.tablet.row ) {
-        row.selectColor = ids.listColor;
+        row.selectColor = ids.listColor.id;
         row.selectTalla = ids.id;
         row.cantidadSelect = 1;
         this.selectColor( row );

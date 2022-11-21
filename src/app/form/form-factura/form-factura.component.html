@@ -11,7 +11,7 @@
                 <div class="col-2 text-end">
                     <div class="">
                         <button type="button" class="btn btn-success" (click)="submit()" *ngIf="!this.data.asentado">{{ titleBTN }} </button>
-                        <button type="button" class="btn btn-success" (click)="submit()" *ngIf="!this.data.asentado && id"> Asentar</button>
+                        <button type="button" class="btn btn-success" (click)="acentarFactura()" *ngIf="!this.data.asentado && id"> Asentar</button>
                         <a class="dropdown-item" href="javascript:void(0)" routerLink="/factura">Volver</a>
                     </div>
                 </div>
@@ -20,7 +20,7 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row" id="component1">
     <div class="col-12 order-xl-1">
         <div class="card bg-secondary shadow">
             <div class="card-header bg-white border-0">
@@ -43,27 +43,27 @@
                                     <label class="form-control-label" for="input-username">Codigo</label>
                                     <ngx-barcode [bc-value]="data.codigo" [bc-display-value]="true"></ngx-barcode>
                                     <input type="text" [(ngModel)]="data.codigo"
-                                        class="form-control form-control-alternative" placeholder="" [disabled]="data.id">
+                                        class="form-control form-control-alternative" placeholder="" [disabled]="data.asentado">
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-username">Fecha</label>
                                     <input type="datetime" [(ngModel)]="data.fecha"
-                                        class="form-control form-control-alternative" placeholder="" [disabled]="data.id">
+                                        class="form-control form-control-alternative" placeholder="" [disabled]="data.asentado">
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-username">Nombre del cliente</label>
                                     <input type="text" [(ngModel)]="data.nombreCliente"
-                                        class="form-control form-control-alternative" placeholder="" [disabled]="data.id">
+                                        class="form-control form-control-alternative" placeholder="" [disabled]="data.asentado">
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-username">Tipo de Entrada</label>
-                                    <select class="form-control" [(ngModel)]="data.entrada" [disabled]="data.asentado">
+                                    <select class="form-control" [(ngModel)]="data.entrada" [disabled]="data.asentado" (change)="reloadValidacion(); suma();">
                                         <option value="0">Entrada</option>
                                         <option value="1">Salida</option>
                                         <option value="2">Devolucion</option>
@@ -74,7 +74,7 @@
                             <div class="col-lg-4" *ngIf="data.entrada == 1">
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-username">Tipo de cobro</label>
-                                    <select class="form-control" [(ngModel)]="data.tipoFactura" [disabled]="data.id">
+                                    <select class="form-control" [(ngModel)]="data.tipoFactura" [disabled]="data.asentado" (change)="suma()">
                                         <option value="0">Permitido</option>
                                         <option value="1">Normal</option>
                                     </select>
@@ -83,7 +83,7 @@
                             <div class="col-lg-4" *ngIf="data.entrada == 0">
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-username">Provedores</label>
-                                    <select class="form-control" [(ngModel)]="data.provedor" [disabled]="data.id">
+                                    <select class="form-control" [(ngModel)]="data.provedor" [disabled]="data.asentado">
                                         <option [value]="row.id" *ngFor="let row of listProvedor">{{ row.titulo}} </option>
                                     </select>
                                 </div>
@@ -91,7 +91,7 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-username">Descripcion</label>
-                                    <textarea rows="4" class="form-control form-control-alternative" [disabled]="data.id"
+                                    <textarea rows="4" class="form-control form-control-alternative" [disabled]="data.asentado"
                                         [(ngModel)]="data.descripcion"></textarea>
                                 </div>
                             </div>
@@ -146,18 +146,18 @@
                                                         <input currencyMask [(ngModel)]="item.precioTotal" class="form-control form-control-sm" [options]="opcionCurrencys" (change)="suma()" />
                                                     </div>
                                                     <div *ngIf="keys == 'color'">
-                                                        <select class="form-control"  [(ngModel)]="item.selectColor" (change)="selectColor( item )" [disabled]="data.id">
+                                                        <select class="form-control"  [(ngModel)]="item.selectColor" (change)="selectColor( item )" [disabled]="data.asentado">
                                                             <option *ngFor="let row of item.listColor" [value]="row.id">{{ row.color }}</option>
                                                         </select>
                                                     </div>
                                                     <div *ngIf="keys == 'talla' && item.selectColor">
-                                                        <select class="form-control"  [(ngModel)]="item.selectTalla" [disabled]="data.id">
+                                                        <select class="form-control"  [(ngModel)]="item.selectTalla" [disabled]="data.asentado">
                                                             <option [value]="row.id" *ngFor="let row of item.listTalla">{{ row.talla }}</option>
                                                         </select>
                                                     </div>
                                                     <div *ngIf="keys == 'cantidad' && item.selectTalla">
                                                         <input type="number" [(ngModel)]="item.cantidadSelect"
-                                                                class="form-control form-control-alternative" autofocus="autofocus" autocomplete="off" [disabled]="data.id" (change)="suma()">
+                                                                class="form-control form-control-alternative" autofocus="autofocus" autocomplete="off" [disabled]="data.asentado" (change)="suma()">
                                                     </div>
                                                 </th>
                                             </tr>

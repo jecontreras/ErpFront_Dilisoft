@@ -19,7 +19,7 @@ import { Store } from '@ngrx/store';
 export class FormFacturaComponent implements OnInit {
 
   data:any = {
-    tipoFactura: 1
+    tipoFactura: 1,
   };
   id:any;
   titleBTN:string = "Guardar";
@@ -81,7 +81,8 @@ export class FormFacturaComponent implements OnInit {
       this.data = {
         codigo: this._tools.codigo(),
         fecha: moment().format("DD/MM/YYYY"),
-        entrada: 1
+        entrada: 1,
+        tipoFactura: 1
       };
     }
     console.log(this.data)
@@ -89,7 +90,7 @@ export class FormFacturaComponent implements OnInit {
   }
 
   getData(){
-    this.titleBTN = "Acentar";
+    this.titleBTN = "Actualizar";
     this._factura.get( { where: { id: this.id } } ).subscribe(( res:any )=>{
       res = res.data[0];
       this.data = res || {};
@@ -105,6 +106,7 @@ export class FormFacturaComponent implements OnInit {
           cantidad: row.cantidad,
           cantidadSelect: row.cantidad,
           listColor: row.articulo.listColor,
+          precioClienteDrop: row.articulo.precioClienteDrop,
           precioCompra: row.precio,
           ...row
         };
@@ -136,26 +138,29 @@ export class FormFacturaComponent implements OnInit {
     else this.crearFun();
   }
 
-  updateFun(){
-    let data:any = {
-      listArticulo: _.map(this.tablet.row, ( item:any )=>{
-        let data:any = {
-          estado: 3,
-          articulo: item.id,
-          articuloTalla: item.selectTalla,
-          articuloColor: item.selectColor,
-          cantidad: item.cantidadSelect,
-          ...item
-        };
-        if( this.data.entrada == 1 && this.data.tipoFactura == 1) data.precio = item.precioClienteDrop;
-        if( this.data.entrada == 1 && this.data.tipoFactura == 0) data.precio = item.precioOtras;
-        if( this.data.entrada == 0 ) data.precio = item.precioCompra;
-        return data
-      }),
-      ...this.data
-    }
-    this._factura.update( data ).subscribe(( res:any )=>{
-      this._tools.basic("Actualizado exitoso");
+  async updateFun(){
+    return new Promise( resolve =>{
+      let data:any = {
+        listArticulo: _.map(this.tablet.row, ( item:any )=>{
+          let data:any = {
+            estado: 3,
+            articulo: item.id,
+            articuloTalla: item.selectTalla,
+            articuloColor: item.selectColor,
+            cantidad: item.cantidadSelect,
+            ...item
+          };
+          if( this.data.entrada == 1 && this.data.tipoFactura == 1) data.precio = item.precioClienteDrop;
+          if( this.data.entrada == 1 && this.data.tipoFactura == 0) data.precio = item.precioOtras;
+          if( this.data.entrada == 0 ) data.precio = item.precioCompra;
+          return data
+        }),
+        ...this.data
+      }
+      this._factura.update( data ).subscribe(( res:any )=>{
+        this._tools.basic("Actualizado exitoso");
+        resolve( true );
+      },( )=> { resolve( false ); } );
     });
   }
   crearFun(){
@@ -187,8 +192,10 @@ export class FormFacturaComponent implements OnInit {
     });
   }
 
-  acentarFactura(){
+  async acentarFactura(){
     if( !this.id ) return false;
+    let result:any = await this.updateFun();
+    if( !result ) return this._tools.basic("Tenemos problemas !Volver a intentarlo");
     let data:any = {
       id: this.id,
       asentado: true
@@ -197,6 +204,7 @@ export class FormFacturaComponent implements OnInit {
       if( res.status == 400 ) return this._tools.basic( res.data );
       this.data.asentado = true;
       this._tools.basic( res.data );
+      //this.print();
     });
   }
 
@@ -207,7 +215,7 @@ export class FormFacturaComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe( async ( result ) => {
       console.log(`Dialog result:`, result);
-      this.tablet.row = result;
+      this.tablet.row = result || [];
       this.suma();
     });
   }
@@ -221,17 +229,37 @@ export class FormFacturaComponent implements OnInit {
     this.suma();
  }
 
+ reloadValidacion(){
+  if( this.data.entrada == 0 ) this.data.tipoFactura == 5;
+ }
+
  suma(){
   this.data.monto = 0;
   for( let row of this.tablet.row ){
     if( !row.precioTotal ) row.precioTotal = 0;
     console.log( row, this.data );
-    if( this.data.entrada == 1 && this.data.tipoFactura == 1) row.precioTotal= row.precioClienteDrop * ( row.cantidadSelect || 0 ) ;
-    if( this.data.entrada == 1 && this.data.tipoFactura == 0) row.precioTotal= row.precioOtras * ( row.cantidadSelect || 0 ) ;
-    if( this.data.entrada == 0 ) row.precioTotal= row.precioCompra * ( row.cantidadSelect || 0 ) ;
+    if( this.data.entrada == 0  ) row.precioTotal= row.precioCompra * ( row.cantidadSelect || 0 ) ;
 
+    if( this.data.entrada == 1 && this.data.tipoFactura == 0) row.precioTotal= row.precioOtras * ( row.cantidadSelect || 0 ) ;
+
+    if( this.data.entrada == 1 && this.data.tipoFactura == 1) row.precioTotal= row.precioClienteDrop * ( row.cantidadSelect || 0 ) ;
+    
     if( ( this.data.entrada != 2 ) || ( this.data.entrada != 3 ) ) this.data.monto+= row.precioTotal;
+
   }
  }
+
+ print(){
+  //window.print();
+  console.log("**print")
+  let printContents = document.getElementById("component1").innerHTML;
+  let originalContents = document.body.innerHTML;
+
+  document.body.innerHTML = printContents;
+
+  window.print();
+
+  document.body.innerHTML = originalContents;
+}
 
 }
