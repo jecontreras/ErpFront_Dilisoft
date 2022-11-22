@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToolsService } from 'src/app/services/tools.service';
 import { ArticuloService } from 'src/app/servicesComponent/articulo.service';
 import { FacturaService } from 'src/app/servicesComponent/factura.service';
@@ -48,6 +48,7 @@ export class FormFacturaComponent implements OnInit {
     public dialog: MatDialog,
     private _provedor: ProvedorService,
     private _store: Store<USER>,
+    private _router: Router,
   ) { 
 
     this._store.subscribe((store: any) => {
@@ -184,12 +185,14 @@ export class FormFacturaComponent implements OnInit {
       }),
     }
     this._factura.create( data ).subscribe(( res:any )=>{
-      //console.log("*****", res)
-      res = res.data[0] || {};
+      console.log("*****", res)
+      if( res.status == 400 ) return this._tools.basic("Problemas!! Volver a intentar");
+      res = res.data || {};
       this.id = res.id;
       this.data.id = this.id;
       this._tools.basic("Creado exitoso");
-      this.titleBTN= "Acentar";
+      this.titleBTN= "Actualizar";
+      this._router.navigate(['/formfactura', this.id ] );
     });
   }
 
@@ -197,12 +200,22 @@ export class FormFacturaComponent implements OnInit {
     if( !this.id ) return false;
     let result:any = await this.updateFun();
     if( !result ) return this._tools.basic("Tenemos problemas !Volver a intentarlo");
+    
     let data:any = {
       id: this.id,
       asentado: true
     };
     this._factura.acentandoFct( data ).subscribe( ( res:any )=>{
-      if( res.status == 400 ) return this._tools.basic( res.data );
+      if( res.status == 400 ) {
+        let txt = res.data;
+        if( res.data[0] ){
+          txt = "";
+          for( let row of res.data ){
+            txt+= row.data;
+          }
+        }
+        return this._tools.basic( txt );
+      }
       this.data.asentado = true;
       this._tools.basic( res.data );
       //this.print();
