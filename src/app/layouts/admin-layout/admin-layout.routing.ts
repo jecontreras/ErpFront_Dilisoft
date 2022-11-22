@@ -14,6 +14,7 @@ import { LogsComponent } from 'src/app/pages/logs/logs.component';
 import { PerfilComponent } from 'src/app/pages/perfil/perfil.component';
 import { ProvedorComponent } from 'src/app/pages/provedor/provedor.component';
 import { CodigoPrintComponent } from 'src/app/pages/codigo-print/codigo-print.component';
+import { PrintarticulosComponent } from 'src/app/pages/printarticulos/printarticulos.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -30,4 +31,5 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'logs',           component: LogsComponent },
     { path: 'perfil',           component: PerfilComponent },
     { path: 'provedor',           component: ProvedorComponent },
+    { path: 'printarticulos',           component: PrintarticulosComponent },
 ];

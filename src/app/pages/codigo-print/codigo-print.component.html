@@ -35,7 +35,7 @@
                         <div class="col-sm" *ngFor="let row of listArtiuclos">
                             <div class="card" style="width: 18rem;">
                                 <div class="card-body">
-                                    <h5 class="card-title">{{ row.articulo.titulo }} </h5>
+                                    <h5 class="card-title">{{ row['articulo']?.titulo }} </h5>
                                     <p class="card-text">
                                         <ngx-barcode [bc-height]="10" [bc-width]="1" [bc-value]="row.codigo" [bc-display-value]="true"></ngx-barcode>
                                     </p>

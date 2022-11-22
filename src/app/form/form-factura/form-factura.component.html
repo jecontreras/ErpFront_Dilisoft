@@ -12,6 +12,7 @@
                     <div class="">
                         <button type="button" class="btn btn-success" (click)="submit()" *ngIf="!this.data.asentado">{{ titleBTN }} </button>
                         <button type="button" class="btn btn-success" (click)="acentarFactura()" *ngIf="!this.data.asentado && id"> Asentar</button>
+                        <button type="button" class="btn btn-success" (click)="print()" *ngIf="this.data.asentado && id"> Imprimir</button>
                         <a class="dropdown-item" href="javascript:void(0)" routerLink="/factura">Volver</a>
                     </div>
                 </div>

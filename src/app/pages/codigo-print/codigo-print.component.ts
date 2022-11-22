@@ -23,7 +23,7 @@ export class CodigoPrintComponent implements OnInit {
   }
 
   getArticulos(){
-    this._articulos.getTalla( { where: { }, limit: 1000 } ).subscribe( ( res:any )=>{
+    this._articulos.getTalla( { where: { estado: 0 }, limit: 1000 } ).subscribe( ( res:any )=>{
       this.listArtiuclos = res.data;
     });
   }

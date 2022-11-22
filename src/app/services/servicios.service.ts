@@ -63,7 +63,7 @@ export class ServiciosService {
       store = store.name;
       if(!store) return false;
       this.dataUser = store.user || {};
-      this.dataUser.id = "635c2fdab0f6ff3068000fef";
+      //this.dataUser.id = "635c2fdab0f6ff3068000fef";
     });
     if(Object.keys(this.dataUser).length >0 ){
       this.querys('user/querys',{
@@ -74,7 +74,7 @@ export class ServiciosService {
       }, 'post').subscribe((res:any)=>{
         res = res.data[0];
         localStorage.removeItem('user');
-        /*if(!res) {
+        if(!res) {
           let accion = new UserAction(this.dataUser,'delete')
           this._store.dispatch(accion);
           this._tools.presentToast("Tu sesión ha expirado")
@@ -84,7 +84,7 @@ export class ServiciosService {
           let accion = new UserAction( res, 'post');
           this._store.dispatch( accion );
           //localStorage.setItem('user', JSON.stringify(res));
-        }*/
+        }
       });
     }
   }

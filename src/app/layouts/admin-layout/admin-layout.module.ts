@@ -24,6 +24,7 @@ import { PerfilComponent } from 'src/app/pages/perfil/perfil.component';
 import { ProvedorComponent } from 'src/app/pages/provedor/provedor.component';
 import { CodigoPrintComponent } from 'src/app/pages/codigo-print/codigo-print.component';
 import { NgxBarcodeModule } from 'ngx-barcode';
+import { PrintarticulosComponent } from 'src/app/pages/printarticulos/printarticulos.component';
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -52,7 +53,8 @@ import { NgxBarcodeModule } from 'ngx-barcode';
     LogsComponent,
     PerfilComponent,
     ProvedorComponent,
-    CodigoPrintComponent
+    CodigoPrintComponent,
+    PrintarticulosComponent
   ]
 })
 

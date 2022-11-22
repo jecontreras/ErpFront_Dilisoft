@@ -115,6 +115,7 @@ export class FormFacturaComponent implements OnInit {
         this.selectColor( data );
         return data;
       } );
+       try { this.data.provedor = this.data.provedor.id; } catch (error) {}
       this.suma();
     });
   }
@@ -252,14 +253,14 @@ export class FormFacturaComponent implements OnInit {
  print(){
   //window.print();
   console.log("**print")
-  let printContents = document.getElementById("component1").innerHTML;
+  /*let printContents = document.getElementById("component1").innerHTML;
   let originalContents = document.body.innerHTML;
 
-  document.body.innerHTML = printContents;
+  document.body.innerHTML = printContents;*/
 
   window.print();
 
-  document.body.innerHTML = originalContents;
+  //document.body.innerHTML = originalContents;
 }
 
 }

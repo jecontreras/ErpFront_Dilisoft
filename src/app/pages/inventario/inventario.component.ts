@@ -44,4 +44,8 @@ export class InventarioComponent implements OnInit {
     this._router.navigate(['/forminventario']);
   }
 
+  printInventario(){
+    this._router.navigate(['/printarticulos']);
+  }
+
 }

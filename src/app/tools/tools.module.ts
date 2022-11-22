@@ -9,11 +9,11 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 @NgModule({
   declarations: [
     TablaComponent,
-    ArchivosComponent
+    ArchivosComponent,
   ],
   exports:[
     TablaComponent,
-    ArchivosComponent
+    ArchivosComponent,
   ],
   imports: [
     CommonModule,

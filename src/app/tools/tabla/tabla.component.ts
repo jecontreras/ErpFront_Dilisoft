@@ -28,13 +28,15 @@ export class TablaComponent implements OnInit {
   _model:any;
   notscrolly: boolean = true;
   notEmptyPost: boolean = true;
+  opcionCurrencys:any;
 
   constructor(
     private _router: Router,
-    private _tools: ToolsService
+    public _tools: ToolsService
   ) { }
 
   ngOnInit(): void {
+    this.opcionCurrencys = this._tools.currency;
     console.log("***", this._dataConfig )
     this.querys = this._dataConfig.querys || {};
     this._model = this._dataConfig.model;
