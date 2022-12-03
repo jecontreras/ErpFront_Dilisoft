@@ -25,4 +25,7 @@ export class InventarioService {
   detalle(query:any){
     return this._model.querys('inventario/detalle',query, 'post');
   }
+  asentar(query:any){
+    return this._model.querys('inventario/asentar',query, 'post');
+  }
 }

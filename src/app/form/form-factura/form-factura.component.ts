@@ -250,7 +250,7 @@ export class FormFacturaComponent implements OnInit {
  suma(){
   this.data.monto = 0;
   for( let row of this.tablet.row ){
-    if( !row.precioTotal ) row.precioTotal = 0;
+    if( ( !row.precioTotal )  || ( this.data.entrada != 2 ) || ( this.data.entrada != 3 ) ) row.precioTotal = 0;
     console.log( row, this.data );
     if( this.data.entrada == 0  ) row.precioTotal= row.precioCompra * ( row.cantidadSelect || 0 ) ;
 
