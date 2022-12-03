@@ -41,14 +41,14 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-username">Fecha</label>
-                                    <input type="text" [(ngModel)]="data.titulo"
+                                    <input type="text" [(ngModel)]="data.fecha"
                                         class="form-control form-control-alternative" placeholder="">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-username">Titulo</label>
-                                    <input type="text" [(ngModel)]="data.nit"
+                                    <input type="text" [(ngModel)]="data.titulo"
                                         class="form-control form-control-alternative" placeholder="">
                                 </div>
                             </div>
@@ -101,7 +101,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row" *ngIf="item.listColor">
                                         <ul class="list-group col-12">
                                             <li class="list-group-item" *ngFor="let key of item.listColor; index as i">
                                                 <div class="row">
@@ -150,6 +150,9 @@
                                                 </div>
                                             </li>
                                         </ul>
+                                    </div>
+                                    <div class="row" *ngIf="!item.listColor">
+                                        
                                     </div>
                                 </li>
                             </ul>

@@ -30,10 +30,10 @@ export class FormInventarioComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getDetalle();
     this.opcionCurrencys = this._tools.currency;
     this.id = ( this.activate.snapshot.paramMap.get('id'));
     if( this.id ) this.getData();
+    else this.getDetalle();
   }
 
   getDetalle(){
@@ -49,8 +49,17 @@ export class FormInventarioComponent implements OnInit {
     this._inventario.get( { where: { id: this.id } } ).subscribe(( res:any )=>{
       res = res.data[0];
       this.data = res || {};
-      this.asentado = this.data.asentado
+      this.asentado = this.data.asentado;
       console.log( this.data )
+      this.listInventario = _.map( this.data.listArticulo, ( item:any )=>{
+        return {
+          codigo: item.articulo.codigo,
+          cantidad: item.cantidadDisponible,
+          titulo: item.articulo.titulo,
+          createdAt: item.articulo.createdAt,
+          //listColor: 
+        };
+      });
     });
   }
 
@@ -69,6 +78,7 @@ export class FormInventarioComponent implements OnInit {
     let data = {
       listArticulo: _.map( this.listInventario, ( item:any )=>{
         let dataFinal:any = {};
+        let resulFinix:any = [];
         for( let row of item.listColor){
           for( let key of row.listTalla ){
             dataFinal.articulo = item.id;
@@ -76,17 +86,12 @@ export class FormInventarioComponent implements OnInit {
             dataFinal.cantidadReal = key.cantidadReal;
             dataFinal.articuloTalla = key.id;
             dataFinal.diferencia = key.diferencia;
+            dataFinal.user = this.data.user;
+            resulFinix.push( dataFinal );
           }
         }
-        return {
-          articulo: dataFinal.articulo,
-          cantidad: dataFinal.cantidad,
-          cantidadReal: dataFinal.cantidadReal,
-          articuloTalla: dataFinal.articuloTalla,
-          diferencia: dataFinal.diferencia,
-          user: this.data.user
-        }
-      }),
+        return resulFinix
+      })[0],
       ...this.data
     }
     this._inventario.create( data ).subscribe(( res:any )=>{
