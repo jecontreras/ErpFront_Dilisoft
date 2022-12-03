@@ -10,7 +10,8 @@
                 </div>
                 <div class="col-2 text-end">
                     <div class="">
-                        <button type="button" class="btn btn-success" (click)="submit()">{{ titleBTN }} </button>
+                        <button type="button" class="btn btn-success" (click)="submit()" *ngIf="!this.asentado">{{ titleBTN }} </button>
+                        <button type="button" class="btn btn-success" (click)="asentarBtn()" *ngIf="this.id && !this.asentado">Asentar </button>
                         <a class="dropdown-item" href="javascript:void(0)" routerLink="/inventario">Volver</a>
                     </div>
                 </div>
@@ -51,6 +52,20 @@
                                         class="form-control form-control-alternative" placeholder="">
                                 </div>
                             </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-username">Diferencial</label>
+                                    <input type="text" [(ngModel)]="data.totalQuantityDes"
+                                        class="form-control form-control-alternative" placeholder="">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-username">Valor Total</label>
+                                    <input currencyMask [(ngModel)]="data.totalDes"
+                                                class="form-control form-control-sm" [options]="opcionCurrencys" />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -64,25 +79,25 @@
                                         <div class="col-lg-2">
                                             <div class="form-group">
                                                 <input type="text" [(ngModel)]="item.codigo"
-                                                    class="form-control form-control-alternative">
+                                                    class="form-control form-control-alternative" disabled>
                                             </div>
                                         </div>
                                         <div class="col-lg-2">
                                             <div class="form-group">
                                                 <input type="number" [(ngModel)]="item.cantidad"
-                                                    class="form-control form-control-alternative">
+                                                    class="form-control form-control-alternative" disabled>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <input type="text" [(ngModel)]="item.titulo"
-                                                    class="form-control form-control-alternative">
+                                                    class="form-control form-control-alternative" disabled>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <input type="datetime" [(ngModel)]="item.createdAt"
-                                                    class="form-control form-control-alternative">
+                                                    class="form-control form-control-alternative" disabled>
                                             </div>
                                         </div>
                                     </div>
@@ -105,7 +120,9 @@
                                                                     <th scope="col">#</th>
                                                                     <th>Codigo</th>
                                                                     <th scope="col">Talla</th>
-                                                                    <th scope="col">Cantidad</th>
+                                                                    <th scope="col">Cantidad Existente</th>
+                                                                    <th scope="col">Cantidad Reales</th>
+                                                                    <th scope="col">Diferencia</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -119,6 +136,12 @@
                                                                     </td>
                                                                     <td>
                                                                         {{ ml.cantidad }}
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="number" [(ngModel)]="ml.cantidadReal" class="form-control form-control-alternative" (change)="suma()">
+                                                                    </td>
+                                                                    <td>
+                                                                        {{ ml.diferencia }}
                                                                     </td>
                                                                 </tr>
                                                             </tbody>
