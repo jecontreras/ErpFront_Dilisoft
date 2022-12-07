@@ -1,24 +1,21 @@
 <div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
     <div class="container-fluid">
         <div class="header-body">
-            <!-- Card stats -->
-            <div class="row">
-                <div class="col">
-                    <div class="card shadow">
-                        <div class="card-header border-0">
-                            <div class="col-10">
-                                <div class="">
-                                    <h3 class="mb-0">Lista de Articulos</h3>
-                                </div>
-                            </div>
-                            <div class="col-2 text-end">
-                                <a class="btn btn-primary" href="javascript:void(0)" (click)="print()">Imprimir</a>
-                                <a class="btn btn-danger" href="javascript:void(0)" (click)="volverVista()">Volver</a>
-                            </div>
 
-                        </div>
+            <div class="row card-header border-0">
+                <div class="col-10">
+                    <div class="">
+                        <h3 class="mb-0">Lista de Articulos</h3>
+                    </div>
+                    <div>
+                        <input style="    background: #cbcbcb; color: white;" type="text" [(ngModel)]="searchCodigo" class="form-control form-control-alternative" (change)="getDetalle()">
                     </div>
                 </div>
+                <div class="col-2 text-end">
+                    <a class="btn btn-primary" href="javascript:void(0)" (click)="print()">Imprimir</a>
+                    <a class="btn btn-danger" href="javascript:void(0)" (click)="volverVista()">Volver</a>
+                </div>
+
             </div>
         </div>
     </div>

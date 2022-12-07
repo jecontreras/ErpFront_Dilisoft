@@ -17,6 +17,7 @@ export const FormRoutes: Routes = [
     { path: 'formempresa/:id',           component: FormEmpresaComponent },
     { path: 'formfactura',           component: FormFacturaComponent },
     { path: 'formfactura/:id',           component: FormFacturaComponent },
+    { path: 'formfactura/:id/:print',           component: FormFacturaComponent },
     { path: 'forminventario',           component: FormInventarioComponent },
     { path: 'forminventario/:id',           component: FormInventarioComponent },
     { path: 'formlogs',           component: FormLogsComponent },

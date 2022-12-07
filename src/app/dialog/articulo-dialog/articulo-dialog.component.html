@@ -22,7 +22,7 @@
                     <thead class="thead-light">
                         <tr>
                             <th scope="col" *ngFor="let item of tablet.headers">{{ item }}</th>
-                            <th scope="col">Acciónes</th>
+                            <!--<th scope="col">Acciónes</th>-->
                         </tr>
                     </thead>
                     <tbody>
@@ -31,12 +31,12 @@
                                 <img [src]="item[keys]" *ngIf="keys == 'foto'">
                                 <span *ngIf="( keys != 'color' ) && ( keys != 'talla' ) && ( keys != 'cantidad' )">{{ item[keys] }} </span>
                                 <div *ngIf="keys == 'color'">
-                                    <select class="form-control"  [(ngModel)]="item.selectColor" (change)="selectColor( item )">
+                                    <select class="form-control"  [(ngModel)]="item.selectColor" (change)="selectColor( item )" disabled>
                                         <option *ngFor="let row of item.listColor" [value]="row.id">{{ row.color }}</option>
                                     </select>
                                 </div>
                                 <div *ngIf="keys == 'talla' && item.selectColor">
-                                    <select class="form-control"  [(ngModel)]="item.selectTalla">
+                                    <select class="form-control"  [(ngModel)]="item.selectTalla" disabled>
                                         <option [value]="row.id" *ngFor="let row of item.listTalla">{{ row.talla }}</option>
                                     </select>
                                 </div>
@@ -45,11 +45,11 @@
                                             class="form-control form-control-alternative" autocomplete="off" >
                                 </div>
                             </th>
-                            <th>
+                            <!--<th>
                                 <button class="btn btn-success me-md-2" type="button" (click)="checkseleccionado( item )">
                                     <i class="ni ni-fat-add"></i>
                                 </button>
-                            </th>
+                            </th>-->
                         </tr>
                     </tbody>
                 </table>

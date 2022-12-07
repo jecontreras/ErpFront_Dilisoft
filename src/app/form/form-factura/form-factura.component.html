@@ -12,7 +12,7 @@
                     <div class="">
                         <button type="button" class="btn btn-success" (click)="submit()" *ngIf="!this.data.asentado">{{ titleBTN }} </button>
                         <button type="button" class="btn btn-success" (click)="acentarFactura()" *ngIf="!this.data.asentado && id"> Asentar</button>
-                        <button type="button" class="btn btn-success" (click)="print()" *ngIf="this.data.asentado && id"> Imprimir</button>
+                        <button type="button" class="btn btn-success" (click)="openPrint()" *ngIf="this.data.asentado && id"> Imprimir</button>
                         <a class="dropdown-item" href="javascript:void(0)" routerLink="/factura">Volver</a>
                     </div>
                 </div>
@@ -114,7 +114,7 @@
                                                 class="form-control form-control-sm" [options]="opcionCurrencys" />
                                         </div>
                                         <div class="col-4 text-right">
-                                            <button type="button" class="btn btn-primary" (click)="openArticulo({})" *ngIf="!data.id">Abrir articulos</button>
+                                            <button type="button" class="btn btn-primary" (click)="openArticulo({})" *ngIf="!data.asentado">Abrir articulos</button>
                                         </div>
                                     </div>
                                 </div>
@@ -144,17 +144,19 @@
                                                         <input *ngIf="data.entrada == 1 && data.tipoFactura == 0" currencyMask [(ngModel)]="item.precioOtras" class="form-control form-control-sm" [options]="opcionCurrencys" (change)="suma()" />
                                                     </div>
                                                     <div *ngIf="keys == 'precioTotal'">
-                                                        <input currencyMask [(ngModel)]="item.precioTotal" class="form-control form-control-sm" [options]="opcionCurrencys" (change)="suma()" />
+                                                        <input currencyMask [(ngModel)]="item.precioTotal" class="form-control form-control-sm" [options]="opcionCurrencys" (change)="suma()" disabled/>
                                                     </div>
                                                     <div *ngIf="keys == 'color'">
-                                                        <select class="form-control"  [(ngModel)]="item.selectColor" (change)="selectColor( item )" [disabled]="data.asentado">
+                                                        {{ item.nameColor }}
+                                                        <!--<select class="form-control"  [(ngModel)]="item.selectColor" (change)="selectColor( item )" [disabled]="data.asentado" disabled>
                                                             <option *ngFor="let row of item.listColor" [value]="row.id">{{ row.color }}</option>
-                                                        </select>
+                                                        </select>-->
                                                     </div>
                                                     <div *ngIf="keys == 'talla' && item.selectColor">
-                                                        <select class="form-control"  [(ngModel)]="item.selectTalla" [disabled]="data.asentado">
+                                                        {{ item.nameTalla }}
+                                                        <!--<select class="form-control"  [(ngModel)]="item.selectTalla" [disabled]="data.asentado" disabled>
                                                             <option [value]="row.id" *ngFor="let row of item.listTalla">{{ row.talla }}</option>
-                                                        </select>
+                                                        </select>-->
                                                     </div>
                                                     <div *ngIf="keys == 'cantidad' && item.selectTalla">
                                                         <input type="number" [(ngModel)]="item.cantidadSelect"

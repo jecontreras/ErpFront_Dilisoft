@@ -11,7 +11,8 @@ import { InventarioService } from 'src/app/servicesComponent/inventario.service'
 export class PrintarticulosComponent implements OnInit {
   
   listInventario:any = [];
-  
+  searchCodigo!:string;
+
   constructor(
     private _inventario: InventarioService,
     private _tools: ToolsService,
@@ -23,7 +24,7 @@ export class PrintarticulosComponent implements OnInit {
   }
 
   getDetalle(){
-    this._inventario.detalle({ }).subscribe( ( res:any )=>{
+    this._inventario.detalle({ codigo: this.searchCodigo }).subscribe( ( res:any )=>{
       console.log("***,", res)
       this.listInventario = res.listArticulo || [];
     });

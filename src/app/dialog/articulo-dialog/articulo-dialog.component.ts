@@ -12,9 +12,9 @@ import * as _ from 'lodash';
 export class ArticuloDialogComponent implements OnInit {
   
   tablet:any = {
-    headers:["Codigo", "Titulo", "Color", "Talla", "Cantidad"],
+    headers:["Codigo", "Color", "Talla", "Cantidad"],
     row:[],
-    keys:["codigo", "titulo","color","talla","cantidad"]
+    keys:["codigo","color","talla","cantidad"]
   };
   querys:any = {
     where:{
@@ -64,6 +64,8 @@ export class ArticuloDialogComponent implements OnInit {
       for( let row of this.tablet.row ) {
         row.selectColor = ids.listColor.id;
         row.selectTalla = ids.id;
+        row.nameTalla = ids.talla;
+        row.nameColor = ids.listColor.color;
         row.cantidadSelect = 1;
         this.selectColor( row );
         this.checkseleccionado( row );

@@ -34,12 +34,14 @@
                   </th>
                   <th scope="row" *ngFor="let keys of _dataConfig.tablet.keys">
                     <img [src]="item[keys]" *ngIf="keys == 'foto'">
-                    <span *ngIf="( keys !='createdAt' ) && ( keys !='updatedAt' ) && ( keys !='categoria' ) && ( keys !='subcategoria' ) && ( keys !='provedor' ) && ( keys !='entrada' ) && ( keys !='monto' )">{{ item[keys] }}</span>
+                    <span *ngIf="( keys !='createdAt' ) && ( keys !='updatedAt' ) && ( keys !='asentado' ) &&  ( keys !='categoria' ) && ( keys !='subcategoria' ) && ( keys !='provedor' ) && ( keys !='entrada' ) && ( keys !='monto' )">{{ item[keys] }}</span>
 
                     <span *ngIf="keys =='monto'">
                       {{ _tools.monedaChange( 3, 2, item[keys] ) }}
                     </span>
-
+                    <span *ngIf="keys == 'asentado'">
+                      {{ item[keys] == true ? 'Asentada' : 'Guardada' }}
+                    </span>
                     <span *ngIf="( keys =='categoria' ) || ( keys =='subcategoria' ) || ( keys =='provedor' )">{{ item[keys]?.titulo }}</span>
 
                     <span *ngIf="( keys =='createdAt' ) || ( keys =='updatedAt' )"> {{ item[keys] | date:'medium'}} </span>

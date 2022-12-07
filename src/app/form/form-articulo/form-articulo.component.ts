@@ -109,23 +109,31 @@ export class FormArticuloComponent implements OnInit {
     });
   }
   newColor( obj, i ){
+    //console.log(obj)
     obj.check = !obj.check;
     if( obj.check == true ) this.listcolor.push({
-      listTalla:[{}],
+      listTalla:[{ talla: 0, cantidad: 1 }],
       codigo: this._tools.codigo()
     });
     
   }
   async dropColor( item:any ){
     item.estado = 1;
+    item.check = false;
     if( item.id ) await this.updateFun();
     this.listcolor =  _.filter( this.listcolor, ( row:any ) => row.color != item.color );
     //this.listcolor.splice( idx, 1);
   }
   newTalla( item:any ){
-    item.listTalla.push({});
+    item.check = !item.check;
+    if( item.check == true ) item.listTalla.push({
+      talla: 0,
+      cantidad: 1
+    });
   }
   async dropTalla( item:any, idx  ){
+    item.check = false;
+    item.listTalla[idx].check = false;
     item.listTalla[idx].estado = 1;
     if( item.id ) await this.updateFun();
     item.listTalla =  _.filter( item.listTalla, ( row:any ) => row.talla != item.talla );
@@ -152,8 +160,12 @@ export class FormArticuloComponent implements OnInit {
   crearFun(){
     let data = {
       articulo: this.data,
-      listDetalle: this.listcolor
+      listDetalle: _.filter( this.listcolor, ( item )=> {
+        item.listTalla = _.filter( item.listTalla, ( key )=> key.codigo );
+        return item;
+      } )
     };
+    //console.log( data )
     this._articulo.create( data ).subscribe(( res:any )=>{
       this.id = res.id;
       this.data.id = this.id;

@@ -24,9 +24,9 @@ export class FormFacturaComponent implements OnInit {
   id:any;
   titleBTN:string = "Guardar";
   tablet:any = {
-    headers:["Codigo", "Titulo", "Color", "Talla", "Cantidad", "Precio Unitario", "Precio Total"],
+    headers:["Codigo", "Color", "Talla", "Cantidad", "Precio Unitario", "Precio Total"],
     row:[],
-    keys:["codigo", "titulo","color","talla","cantidad", "precioClienteDrop", "precioTotal"]
+    keys:["codigo","color","talla","cantidad", "precioClienteDrop", "precioTotal"]
   };
   querys:any = {
     where:{
@@ -77,6 +77,7 @@ export class FormFacturaComponent implements OnInit {
   ngOnInit(): void {
     this.opcionCurrencys = this._tools.currency;
     this.id = ( this.activate.snapshot.paramMap.get('id'));
+    //console.log("***", this.activate.snapshot.paramMap.get('print'))
     if( this.id ) this.getData();
     else {
       this.data = {
@@ -86,7 +87,7 @@ export class FormFacturaComponent implements OnInit {
         tipoFactura: 1
       };
     }
-    console.log(this.data)
+    console.log(this.data, window.location.href)
     this.getProvedor();
   }
 
@@ -101,13 +102,16 @@ export class FormFacturaComponent implements OnInit {
           id: row.id,
           articulo: row.articulo.id,
           selectTalla: row.articuloTalla.id,
+          nameTalla: row.articuloTalla.talla,
           selectColor: row.articuloColor.id,
+          nameColor: row.articuloColor.color,
           codigo: row.articulo.codigo,
           titulo: row.articulo.titulo,
           cantidad: row.cantidad,
           cantidadSelect: row.cantidad,
           listColor: row.articulo.listColor,
-          precioClienteDrop: row.articulo.precioClienteDrop,
+          precioClienteDrop: row.precioClienteDrop,
+          precioOtras: row.precioOtras,
           precioCompra: row.precio,
           ...row
         };
@@ -118,6 +122,9 @@ export class FormFacturaComponent implements OnInit {
       } );
        try { this.data.provedor = this.data.provedor.id; } catch (error) {}
       this.suma();
+      setTimeout(()=>{
+        if( this.activate.snapshot.paramMap.get('print') ) this.print();
+      } )
     });
   }
 
@@ -229,7 +236,7 @@ export class FormFacturaComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe( async ( result ) => {
       console.log(`Dialog result:`, result);
-      this.tablet.row = result || [];
+      this.tablet.row.push( ...( result || [] ) );
       this.suma();
     });
   }
@@ -263,13 +270,17 @@ export class FormFacturaComponent implements OnInit {
   }
  }
 
+ openPrint(){
+  window.open( window.location.href+"/print" );
+ }
+
  print(){
   //window.print();
   console.log("**print")
-  /*let printContents = document.getElementById("component1").innerHTML;
+  let printContents = document.getElementById("component1").innerHTML;
   let originalContents = document.body.innerHTML;
 
-  document.body.innerHTML = printContents;*/
+  document.body.innerHTML = printContents;
 
   window.print();
 

@@ -70,7 +70,8 @@ export class TablaComponent implements OnInit {
     if(!confirm.value) return false;
     let data ={
       id: item.id,
-      estado: 1
+      estado: 1,
+      completo: true
     };
     this._model.update( data ).subscribe( (res:any )=>{
       this._dataConfig.tablet.row =  _.filter( this._dataConfig.tablet.row, ( row:any ) => row.id != data.id );
