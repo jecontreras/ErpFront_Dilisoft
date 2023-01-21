@@ -92,6 +92,22 @@ export class ToolsService {
     });
   }
 
+  async alertInputSelect( config ){
+    return new Promise( async ( resolve ) =>{
+      const { value: fruit } = await Swal.fire({
+        title: config.title,
+        input: 'select',
+        inputOptions: {
+          'Opciones': config.list,
+        },
+        inputPlaceholder: 'Seleccione',
+        showCancelButton: true
+      });
+      resolve( fruit  );
+    });
+    
+  }
+
   ProcessTime(text: any) {
     let timerInterval
     /*Swal.fire({

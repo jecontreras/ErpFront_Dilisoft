@@ -24,6 +24,7 @@ export class PrintarticulosComponent implements OnInit {
   }
 
   getDetalle(){
+    console.log( this.searchCodigo )
     this._inventario.detalle({ codigo: this.searchCodigo }).subscribe( ( res:any )=>{
       console.log("***,", res)
       this.listInventario = res.listArticulo || [];

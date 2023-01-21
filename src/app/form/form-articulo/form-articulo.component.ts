@@ -96,6 +96,7 @@ export class FormArticuloComponent implements OnInit {
       categoriaPadre:null,
       estado: 0
      }, limit: 1000 } ).subscribe(( res:any )=>{
+      console.log("*****", res)
       this.listCategoria = res.data;
     });
   }

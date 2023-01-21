@@ -14,6 +14,7 @@
                             <div class="col-2 text-end">
                                 <div class="" *ngIf="vista == 'inicial'">
                                     <a class="btn btn-danger" href="javascript:void(0)" routerLink="/articulo">Volver</a>
+                                    <a class="btn btn-primary" href="javascript:void(0)" (click)="nextCheck()">Siguiente</a>
                                 </div>
                                 <div class="" *ngIf="vista == 'detalle'">
 
@@ -32,6 +33,26 @@
 </div>
 <div class="row" id="component1">
     <div class="col-12" *ngIf="vista == 'inicial'">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm" *ngFor="let row of lisArticles">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ row.titulo }} </h5>
+                            <p class="card-text">
+                                <ngx-barcode [bc-height]="10" [bc-width]="1" [bc-value]="row.codigo" [bc-display-value]="true"></ngx-barcode>
+                            </p>
+                            <div class="form-group form-check">
+                                <input type="checkbox" class="form-check-input" [(ngModel)]="row.check">
+                                <label class="form-check-label" for="exampleCheck1">Seleccionar </label>
+                              </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12" *ngIf="vista == 'two'">
         <div class="container">
             <div class="row">
                 <div class="col-sm" *ngFor="let row of listArtiuclos">
@@ -56,6 +77,7 @@
                     <div class="card" style="width: 18rem;">
                         <div class="card-body">
                             <p class="card-text">
+                                <span>provedor: {{ row.vendor }}</span>
                                 <ngx-barcode [bc-height]="10" [bc-width]="1" [bc-value]="row.codigo" [bc-display-value]="true">
                                 </ngx-barcode>
                             </p>
