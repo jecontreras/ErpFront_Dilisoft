@@ -33,6 +33,7 @@
     "chart.js": "2.9.4",
     "clipboard": "2.0.10",
     "core-js": "3.21.1",
+    "file-saver": "^2.0.5",
     "html2canvas": "^1.4.1",
     "lodash": "^4.17.21",
     "mdb-angular-ui-kit": "^2.3.0",
@@ -47,6 +48,7 @@
     "nouislider": "15.5.1",
     "rxjs": "^7.5.5",
     "sweetalert2": "^11.5.1",
+    "xlsx": "^0.18.5",
     "zone.js": "~0.11.5"
   },
   "devDependencies": {

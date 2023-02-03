@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToolsService } from 'src/app/services/tools.service';
 import { InventarioService } from 'src/app/servicesComponent/inventario.service';
+import { XlsService } from 'src/app/servicesComponent/xls.service';
 
 @Component({
   selector: 'app-printarticulos',
@@ -9,14 +10,16 @@ import { InventarioService } from 'src/app/servicesComponent/inventario.service'
   styleUrls: ['./printarticulos.component.scss']
 })
 export class PrintarticulosComponent implements OnInit {
-  
+
   listInventario:any = [];
   searchCodigo!:string;
+  listXls:any = [];
 
   constructor(
     private _inventario: InventarioService,
     private _tools: ToolsService,
     private _router: Router,
+    private _xls: XlsService
   ) { }
 
   ngOnInit(): void {
@@ -28,6 +31,20 @@ export class PrintarticulosComponent implements OnInit {
     this._inventario.detalle({ codigo: this.searchCodigo }).subscribe( ( res:any )=>{
       console.log("***,", res)
       this.listInventario = res.listArticulo || [];
+      for( const item of this.listInventario ){
+        for( const keys of item.listColor ){
+          for( const pro of keys.listTalla ){
+            this.listXls.push( {
+              id: pro.id,
+              codigo: pro.codigo,
+              talla: pro.talla,
+              cantidad: pro.cantidad,
+              estado: pro.estado == 0 ? 'Activo' : 'inactivo',
+              cantidadReal: pro.cantidadReal
+            } );
+          }
+        }
+      }
     });
   }
 
@@ -36,7 +53,8 @@ export class PrintarticulosComponent implements OnInit {
   }
 
   print(){
-    window.print();
+    //window.print();
+    this._xls.exportAsExcelFile( this.listXls, "Articulos");
   }
 
 }
