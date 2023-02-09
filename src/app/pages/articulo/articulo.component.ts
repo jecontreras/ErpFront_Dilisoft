@@ -26,9 +26,9 @@ export class ArticuloComponent implements OnInit {
       }
     },
     tablet:{
-      headers:["Codigo","Imagen","Titulo","Cantidad","categoria","Creado","Actualizado"],
+      headers:['select',"Codigo","Imagen","Titulo","Cantidad","categoria","Creado","Actualizado"],
       row:[],
-      keys: ["codigo", "imagen", "titulo", "cantidad","categoria","createdAt","updatedAt"]
+      keys: ['select',"codigo", "imagen", "titulo", "cantidad","categoria","createdAt","updatedAt"]
     }
   };
   constructor(
@@ -39,7 +39,7 @@ export class ArticuloComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    
+
   }
 
   CrearArticulo(){

@@ -10,7 +10,7 @@ import * as _ from 'lodash';
   styleUrls: ['./articulo-dialog.component.scss']
 })
 export class ArticuloDialogComponent implements OnInit {
-  
+
   tablet:any = {
     headers:["Codigo", "Color", "Talla", "Cantidad"],
     row:[],
@@ -39,13 +39,14 @@ export class ArticuloDialogComponent implements OnInit {
   }
 
   filtroGet(){
-    this.querys.where.or = [
+    this.querys.where.codigo = this.datoBusqueda;
+    /*this.querys.where.or = [
       {
         codigo: {
           contains: this.datoBusqueda|| ''
         }
       }
-    ];
+    ];*/
     this.getArticulosTalla();
   }
   getArticulosTalla(){
@@ -57,7 +58,7 @@ export class ArticuloDialogComponent implements OnInit {
   }
   getArticulos( ids:any ){
     this.tablet.row = [];
-    this._articulos.get( { where: { id: ids.articulo.id } } ).subscribe( ( res:any )=>{
+    this._articulos.get( { where: { id: ids.articulo.id } } ).subscribe( async ( res:any )=>{
       res = res.data;
       this.tablet.row = res;
       this.datoBusqueda = "";
@@ -66,15 +67,17 @@ export class ArticuloDialogComponent implements OnInit {
         row.selectTalla = ids.id;
         row.nameTalla = ids.talla;
         row.nameColor = ids.listColor.color;
-        row.cantidadSelect = 1;
         this.selectColor( row );
         this.checkseleccionado( row );
+        const result: { value?:string; } = await this._tools.alertInput( { title: "Cantidad Seleccionar" } );
+        row.cantidadSelect = Number( result.value || 1 );
+        //console.log("****RESULT", row );
       }
     });
   }
 
   selectColor( item ){
-    console.log("****", item )
+    //console.log("****", item )
     item.listTalla = item.listColor.find( ( row:any )=> row.id == item.selectColor );
     try {
       item.listTalla = item.listTalla.listTalla;

@@ -5,6 +5,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { InfiniteScrollModule } from "ngx-infinite-scroll";
 import { ArchivosComponent } from './archivos/archivos.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { MyOwnCustomMaterialModule } from '../app.material.module';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
     CommonModule,
     InfiniteScrollModule,
     NgxDropzoneModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    MyOwnCustomMaterialModule
   ]
 })
 export class ToolsModule { }

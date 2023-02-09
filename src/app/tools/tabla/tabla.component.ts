@@ -1,11 +1,26 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit,Input } from '@angular/core';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
 import { ToolsService } from 'src/app/services/tools.service';
+export interface PeriodicElement {
+  name: string;
+  position: number;
+  weight: number;
+  symbol: string;
+  description: string;
+}
 @Component({
   selector: 'app-tabla',
   templateUrl: './tabla.component.html',
-  styleUrls: ['./tabla.component.scss']
+  styleUrls: ['./tabla.component.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class TablaComponent implements OnInit {
   @Input() _dataConfig: any = {
@@ -29,6 +44,10 @@ export class TablaComponent implements OnInit {
   notscrolly: boolean = true;
   notEmptyPost: boolean = true;
   opcionCurrencys:any;
+  header2 = ["codigo","Talla","Cantidad"];
+  keys2=["codigo","talla","cantidad"];
+
+  expandedElement: PeriodicElement | null;
 
   constructor(
     private _router: Router,
@@ -57,6 +76,13 @@ export class TablaComponent implements OnInit {
     this._model.get( this.querys ).subscribe( ( res:any  )=>{
       this._dataConfig.tablet.row.push(... res.data);
       this._dataConfig.tablet.row =_.unionBy(this._dataConfig.tablet.row || [], res.data, 'id');
+      for( const item of this._dataConfig.tablet.row ) for( const key of item.listColor ) {
+        key.amount = ( _.sumBy(key.listTalla, 'cantidad') || 1 );
+        let filter = key.listTalla.find( ( oll )=> oll.cantidad <= 5 );
+        if( filter ) item.danger = true;
+        filter = key.listTalla.find( ( oll )=> oll.cantidad <= 10 );
+        if( filter ) item.warning = true;
+      }
       console.log("****", this._dataConfig.tablet.row)
     });
   }

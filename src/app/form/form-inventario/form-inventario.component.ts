@@ -17,9 +17,9 @@ export class FormInventarioComponent implements OnInit {
   titleBTN:string = "Guardar";
   listInventario:any = [];
   opcionCurrencys:any;
-  
+
   imgcreada = false;
- 
+
   imagenCreada;
   asentado:boolean = false;
 
@@ -53,11 +53,11 @@ export class FormInventarioComponent implements OnInit {
       console.log( this.data )
       this.listInventario = _.map( this.data.listArticulo, ( item:any )=>{
         return {
-          codigo: item.articulo.codigo,
+          codigo: item.articuloTalla.codigo,
           cantidad: item.cantidadDisponible,
           titulo: item.articulo.titulo,
           createdAt: item.articulo.createdAt,
-          //listColor: 
+          //listColor:
         };
       });
     });
@@ -75,27 +75,30 @@ export class FormInventarioComponent implements OnInit {
     });
   }
   crearFun(){
-    let data = {
-      listArticulo: _.map( this.listInventario, ( item:any )=>{
-        let dataFinal:any = {};
-        let resulFinix:any = [];
-        for( let row of item.listColor){
-          for( let key of row.listTalla ){
-            dataFinal.articulo = item.id;
-            dataFinal.cantidad = key.cantidad;
-            dataFinal.cantidadReal = key.cantidadReal;
-            dataFinal.articuloTalla = key.id;
-            dataFinal.diferencia = key.diferencia;
-            dataFinal.user = this.data.user;
-            resulFinix.push( dataFinal );
-          }
+    let resulFinix:any = [];
+    for( const item of this.listInventario ){
+      for( let row of item.listColor){
+        const filter = row.listTalla.filter( ( lel )=> lel.cantidadReal !== lel.cantidad );
+        for( let key of filter ){
+          let dataFinal:any = {};
+          dataFinal.articulo = item.id;
+          dataFinal.cantidad = key.cantidad;
+          dataFinal.cantidadReal = key.cantidadReal;
+          dataFinal.articuloTalla = key.id;
+          dataFinal.diferencia = key.diferencia;
+          dataFinal.user = this.data.user;
+          resulFinix.push( dataFinal );
         }
-        return resulFinix
-      })[0],
-      ...this.data
+      }
     }
+    let data = {
+      ...this.data,
+      listArticulo: resulFinix
+    }
+    console.log("*****99", data)
     this._inventario.create( data ).subscribe(( res:any )=>{
       this._tools.basic("Creado exitoso")
+      res = res.data;
       this.id = res.id;
       this.data.id = this.id;
       this.titleBTN= "Actualizar";
@@ -109,16 +112,16 @@ export class FormInventarioComponent implements OnInit {
   }
   print(){
     html2canvas(document.querySelector("#contenido")).then(canvas => {
- 
-      this.imagenCreada = canvas.toDataURL();      
- 
+
+      this.imagenCreada = canvas.toDataURL();
+
     });
     this.imgcreada = true;
     console.log( this.imagenCreada)
   }
 
   suma(){
-    console.log( this.listInventario ); 
+    console.log( this.listInventario );
     this.data.totalQuantityDes = 0;
     this.data.totalDes = 0;
     for( let row of this.listInventario ) {
