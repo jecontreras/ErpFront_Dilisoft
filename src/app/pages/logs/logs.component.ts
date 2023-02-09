@@ -26,9 +26,9 @@ export class LogsComponent implements OnInit {
       }
     },
     tablet:{
-      headers:["Txt","Creado","Actualizado"],
+      headers:["Select","Txt","Creado","Actualizado"],
       row:[],
-      keys: ["tct","createdAt","updatedAt"]
+      keys: ["select","tct","createdAt","updatedAt"]
     }
   };
   constructor(

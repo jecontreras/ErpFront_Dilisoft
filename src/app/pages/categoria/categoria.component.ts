@@ -25,9 +25,9 @@ export class CategoriaComponent implements OnInit {
       }
     },
     tablet:{
-      headers:["titulo","Imagen","Descripcion","Creado","Actualizado"],
+      headers:["Select","titulo","Imagen","Descripcion","Creado","Actualizado"],
       row:[],
-      keys: ["titulo", "imagen", "descripcion","createdAt","updatedAt"]
+      keys: ["select","titulo", "imagen", "descripcion","createdAt","updatedAt"]
     }
   };
   constructor(

@@ -26,9 +26,9 @@ export class ProvedorComponent implements OnInit {
       }
     },
     tablet:{
-      headers:["Titulo","Celular","Creado","Actualizado"],
+      headers:["Select","Titulo","Celular","Creado","Actualizado"],
       row:[],
-      keys: ["titulo", "celular","createdAt","updatedAt"]
+      keys: ["select","titulo", "celular","createdAt","updatedAt"]
     }
   };
   constructor(

@@ -26,9 +26,9 @@ export class InventarioComponent implements OnInit {
       }
     },
     tablet:{
-      headers:["Select","Titulo","Fecha","Fecha de empalme","Descripcion","Creado","Actualizado"],
+      headers:["Select","Titulo","Asentado","Fecha","Fecha de empalme","Descripcion","Creado","Actualizado"],
       row:[],
-      keys: ['select',"titulo", "fecha", "fechaEmpalme", "descripcion","createdAt","updatedAt"]
+      keys: ['select',"titulo","asentado", "fecha", "fechaEmpalme", "descripcion","createdAt","updatedAt"]
     }
   };
   constructor(

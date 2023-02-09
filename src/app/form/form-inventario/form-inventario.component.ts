@@ -5,6 +5,8 @@ import * as moment from 'moment';
 import { ToolsService } from 'src/app/services/tools.service';
 import { InventarioService } from 'src/app/servicesComponent/inventario.service';
 import * as _ from 'lodash';
+import { USER } from 'src/app/interfaces/user';
+import { Store } from '@ngrx/store';
 @Component({
   selector: 'app-form-inventario',
   templateUrl: './form-inventario.component.html',
@@ -12,7 +14,9 @@ import * as _ from 'lodash';
 })
 export class FormInventarioComponent implements OnInit {
 
-  data:any = {};
+  data:any = {
+    fecha: moment().format("DD/MM/YYYY")
+  };
   id:any;
   titleBTN:string = "Guardar";
   listInventario:any = [];
@@ -22,12 +26,19 @@ export class FormInventarioComponent implements OnInit {
 
   imagenCreada;
   asentado:boolean = false;
-
+  dataUser:any = {};
   constructor(
     private activate: ActivatedRoute,
     private _tools: ToolsService,
-    private _inventario: InventarioService
-  ) { }
+    private _inventario: InventarioService,
+    private _store: Store<USER>,
+  ) {
+    this._store.subscribe((store: any) => {
+      store = store.name;
+      if(!store) return false;
+      this.dataUser = store.user || {};
+    });
+  }
 
   ngOnInit(): void {
     this.opcionCurrencys = this._tools.currency;
@@ -54,7 +65,7 @@ export class FormInventarioComponent implements OnInit {
       this.listInventario = _.map( this.data.listArticulo, ( item:any )=>{
         return {
           codigo: item.articuloTalla.codigo,
-          cantidad: item.cantidadDisponible,
+          cantidad: item.cantidadIngresar,
           titulo: item.articulo.titulo,
           createdAt: item.articulo.createdAt,
           //listColor:
@@ -93,6 +104,7 @@ export class FormInventarioComponent implements OnInit {
     }
     let data = {
       ...this.data,
+      user: this.dataUser.id,
       listArticulo: resulFinix
     }
     console.log("*****99", data)

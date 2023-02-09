@@ -26,9 +26,9 @@ export class EmpresaComponent implements OnInit {
       }
     },
     tablet:{
-      headers:["Titulo","Imagen","nit","Nombre acargo","Telefonno","Creado","Actualizado"],
+      headers:["Select","Titulo","Imagen","nit","Nombre acargo","Telefonno","Creado","Actualizado"],
       row:[],
-      keys: ["titulo", "imagen", "nit", "nombreAcargo","telefono","createdAt","updatedAt"]
+      keys: ["select","titulo", "imagen", "nit", "nombreAcargo","telefono","createdAt","updatedAt"]
     }
   };
   constructor(
