@@ -5,6 +5,7 @@ import { FormEmpresaComponent } from './form-empresa/form-empresa.component';
 import { FormFacturaComponent } from './form-factura/form-factura.component';
 import { FormInventarioComponent } from './form-inventario/form-inventario.component';
 import { FormLogsComponent } from './form-logs/form-logs.component';
+import { FormMoneyPaymentComponent } from './form-money-payment/form-money-payment.component';
 import { FormPerfilComponent } from './form-perfil/form-perfil.component';
 import { FormProvedorComponent } from './form-provedor/form-provedor.component';
 
@@ -26,4 +27,6 @@ export const FormRoutes: Routes = [
     { path: 'formperfil/:id',           component: FormPerfilComponent },
     { path: 'formprovedor',           component: FormProvedorComponent },
     { path: 'formprovedor/:id',           component: FormProvedorComponent },
+    { path: 'formmoneypayment',           component: FormMoneyPaymentComponent },
+    { path: 'formmoneypayment/:id',           component: FormMoneyPaymentComponent },
 ];

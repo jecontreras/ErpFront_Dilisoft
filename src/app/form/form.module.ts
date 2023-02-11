@@ -17,6 +17,7 @@ import { NgxBarcodeModule } from 'ngx-barcode';
 import { DialogModule } from '../dialog/dialog.module';
 import { MyOwnCustomMaterialModule } from '../app.material.module';
 import { ToolsModule } from '../tools/tools.module';
+import { FormMoneyPaymentComponent } from './form-money-payment/form-money-payment.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { ToolsModule } from '../tools/tools.module';
     FormInventarioComponent,
     FormLogsComponent,
     FormPerfilComponent,
-    FormProvedorComponent
+    FormProvedorComponent,
+    FormMoneyPaymentComponent
   ],
   exports:[
     FormArticuloComponent,
@@ -37,7 +39,8 @@ import { ToolsModule } from '../tools/tools.module';
     FormInventarioComponent,
     FormLogsComponent,
     FormPerfilComponent,
-    FormProvedorComponent
+    FormProvedorComponent,
+    FormMoneyPaymentComponent
   ],
   imports: [
     CommonModule,

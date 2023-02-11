@@ -89,6 +89,13 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-lg-4" *ngIf="data.asentado=== true">
+                              <div class="form-group">
+                                  <label class="form-control-label" for="input-username">Fecha asentada</label>
+                                  <input type="datetime" [(ngModel)]="data.fechaasentado"
+                                        class="form-control form-control-alternative" placeholder="" [disabled]="data.asentado">
+                              </div>
+                          </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-username">Descripcion</label>

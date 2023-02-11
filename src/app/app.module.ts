@@ -18,7 +18,6 @@ import { appReducer } from './redux/app';
 import { environment } from 'src/environments/environment';
 import { MyOwnCustomMaterialModule } from './app.material.module';
 
-
 @NgModule({
   imports: [
     BrowserAnimationsModule,

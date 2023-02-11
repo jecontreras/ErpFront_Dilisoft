@@ -76,13 +76,15 @@ export class TablaComponent implements OnInit {
     this._model.get( this.querys ).subscribe( ( res:any  )=>{
       this._dataConfig.tablet.row.push(... res.data);
       this._dataConfig.tablet.row =_.unionBy(this._dataConfig.tablet.row || [], res.data, 'id');
-      for( const item of this._dataConfig.tablet.row ) for( const key of item.listColor ) {
-        key.amount = ( _.sumBy(key.listTalla, 'cantidad') || 1 );
-        let filter = key.listTalla.find( ( oll )=> oll.cantidad <= 5 );
-        if( filter ) item.danger = true;
-        filter = key.listTalla.find( ( oll )=> oll.cantidad <= 10 );
-        if( filter ) item.warning = true;
-      }
+      try {
+        for( const item of this._dataConfig.tablet.row ) for( const key of item.listColor ) {
+          key.amount = ( _.sumBy(key.listTalla, 'cantidad') || 1 );
+          let filter = key.listTalla.find( ( oll )=> oll.cantidad <= 5 );
+          if( filter ) item.danger = true;
+          filter = key.listTalla.find( ( oll )=> oll.cantidad <= 10 );
+          if( filter ) item.warning = true;
+        }
+      } catch (error) {}
       console.log("****", this._dataConfig.tablet.row)
     });
   }

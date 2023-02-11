@@ -23,6 +23,7 @@ export const ROUTES: RouteInfo[] = [
     { path: '/logs', title: 'Logs',  icon:'ni-ui-04 text-pink', class: '' },
     { path: '/perfil', title: 'Roles',  icon:'ni-vector text-pink', class: '' },
     { path: '/provedor', title: 'Provedor',  icon:'ni-world text-pink', class: '' },
+    { path: '/moneypayment', title: 'abonos dinero',  icon:'ni-world text-pink', class: '' },
 ];
 
 @Component({

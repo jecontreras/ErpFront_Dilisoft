@@ -26,6 +26,7 @@ import { CodigoPrintComponent } from 'src/app/pages/codigo-print/codigo-print.co
 import { NgxBarcodeModule } from 'ngx-barcode';
 import { PrintarticulosComponent } from 'src/app/pages/printarticulos/printarticulos.component';
 import { NotificationsComponent } from 'src/app/pages/notifications/notifications.component';
+import { MoneyPaymentComponent } from 'src/app/pages/money-payment/money-payment.component';
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -56,7 +57,8 @@ import { NotificationsComponent } from 'src/app/pages/notifications/notification
     ProvedorComponent,
     CodigoPrintComponent,
     PrintarticulosComponent,
-    NotificationsComponent
+    NotificationsComponent,
+    MoneyPaymentComponent
   ]
 })
 
