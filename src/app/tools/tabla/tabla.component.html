@@ -59,13 +59,18 @@
                 <span *ngIf="( column !='createdAt' ) && ( column !='updatedAt' ) && ( column !='asentado' ) &&  ( column !='categoria' ) && ( column !='subcategoria' ) && ( column !='provedor' ) && ( column !='entrada' ) && ( column !='monto' )">{{ element[column] }}</span>
                 <div *ngIf="column === 'select' " ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
 
-                  <button type="button" class="btn btn-primary" (click)="openVer( element )">
-                    <i class="ni ni-check-bold"></i>
-                  </button>
-                  <button type="button" class="btn btn-danger" (click)="deleteItem( element )">
-                    <i class="ni ni-fat-remove"></i>
-                  </button>
-
+                  <span *ngIf="_dataConfig.returnHTML !== 'check'">
+                    <button type="button" class="btn btn-primary" (click)="openVer( element )">
+                      <i class="ni ni-check-bold"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger" (click)="deleteItem( element )">
+                      <i class="ni ni-fat-remove"></i>
+                    </button>
+                  </span>
+                  <span *ngIf="_dataConfig.returnHTML === 'check'">
+                    <input type="checkbox" class="form-check-input" [(ngModel)]="element.check">
+                    <label class="form-check-label" for="exampleCheck1">Seleccionar</label>
+                  </span>
                 </div>
                 <img [src]="element[column]" *ngIf="column == 'foto'">
 
@@ -75,7 +80,7 @@
                 <span *ngIf="column == 'asentado'">
                   {{ element[column] == true ? 'Asentada' : 'Guardada' }}
                 </span>
-                <span *ngIf="( column =='categoria' ) || ( column =='subcategoria' ) || ( column =='provedor' )">{{ element[column]?.titulo }}</span>
+                <span *ngIf="( column =='categoria' ) || ( column =='subcategoria' ) || ( column =='provedor' )">{{ element[column]?.titulo }}<span>
 
                 <span *ngIf="( column =='createdAt' ) || ( column =='updatedAt' )"> {{ element[column] | date:'medium'}} </span>
                 <span *ngIf="column =='entrada'">{{ element[column] == 0 ?"Entrada":"Salida" }}</span>
@@ -84,10 +89,10 @@
             </ng-container>
 
             <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
-            <ng-container matColumnDef="expandedDetail" *ngIf="_dataConfig.returnHTML === 'formarticulo/'">
+            <ng-container matColumnDef="expandedDetail">
               <td mat-cell *matCellDef="let element" [attr.colspan]="_dataConfig.tablet.keys.length">
                 <div class="example-element-detail"
-                    [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                    [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'" *ngIf="_dataConfig.returnHTML === 'formarticulo/'">
                     <ul class="list-group">
                       <li class="list-group-item" *ngFor="let row of element.listColor">
                         <div class="d-flex justify-content-between">
