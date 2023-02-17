@@ -11,7 +11,7 @@ export class MoneyPaymentComponent implements OnInit {
 
   _dataConfig:any = {
     titulo: "Lista de Provedores",
-    returnHTML: "formprovedor/",
+    returnHTML: "formmoneypayment/",
     dsAccion: true,
     model: "",
     querys:{

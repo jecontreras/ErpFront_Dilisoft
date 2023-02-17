@@ -7,6 +7,7 @@ import { ToolsService } from 'src/app/services/tools.service';
 import { FacturaService } from 'src/app/servicesComponent/factura.service';
 import { MoneyPaymentService } from 'src/app/servicesComponent/money-payment.service';
 import { ProvedorService } from 'src/app/servicesComponent/provedor.service';
+import * as _ from 'lodash';
 export interface PeriodicElement {
   name: string;
   position: number;
@@ -27,11 +28,12 @@ export class FormMoneyPaymentComponent implements OnInit {
   listProvedor:any = [];
   opcionCurrencys:any;
   listBill:billDto[] = [];
-  displayedColumns: string[] = ["select","codigo","nombreCliente","fecha", "monto","provedor","updatedAt","amountPass", "remaining"];
+  displayedColumns: string[] = ["select","codigo","Fecha", "Monto","Abono Total","Cantidad Abono", "Restante"];
+  displayedKeys: string[] = ["select","codigo","fecha", "monto","passMoney","amountPass", "remaining"];
   dataSource = new MatTableDataSource<billDto>(this.listBill);
   selection = new SelectionModel<billDto>(true, []);
   validateButton:boolean = false;
-
+  querys: { where: { estado: number; asentado:boolean; entrada:number; provedor?: string; coinFinix:boolean; }, limit: number; } = { where: { estado:0, asentado:true, entrada: 0, coinFinix:false }, limit: 100000 }
   constructor(
     private activate: ActivatedRoute,
     private _tools: ToolsService,
@@ -47,7 +49,7 @@ export class FormMoneyPaymentComponent implements OnInit {
     this.id = ( this.activate.snapshot.paramMap.get('id'));
     if( this.id ) this.getData();
     else {
-      this.getFacturas();
+      //this.getFacturas();
     }
   }
 
@@ -56,7 +58,27 @@ export class FormMoneyPaymentComponent implements OnInit {
     this._moneyPayment.get( { where: { id: this.id } } ).subscribe(( res:any )=>{
       res = res.data[0];
       this.data = res || {};
-      console.log( this.data )
+      this.getMoneyPayment();
+    });
+  }
+
+  getMoneyPayment(){
+    this._moneyPayment.getBill( { where: { moneyPayments: this.id }, limit: 10000 } ).subscribe( ( data )=>{
+      console.log( "****66",data)
+      this.listBill = _.map( data.data, ( row )=> {
+        const finixData = {
+          codigo: row.bill.codigo,
+          fecha: row.bill.fecha,
+          monto: row.bill.monto,
+          passMoney: row.bill.passMoney,
+          amountPass: row.coin,
+          remaining: row.remaining,
+          ...row
+        };
+        this.selection.toggle( finixData );
+        return finixData;
+      })
+      this.dataSource = new MatTableDataSource<billDto>(this.listBill);
     });
   }
 
@@ -66,11 +88,18 @@ export class FormMoneyPaymentComponent implements OnInit {
     });
   }
 
+  handleSelectSupplier(){
+    console.log( this.data );
+    this.querys.where.provedor = this.data.name;
+    this.getFacturas();
+  }
+
   getFacturas(){
-    this._factura.get( { where: { estado:0, asentado:true, entrada: 1/*coinFinix:false*/ } } ).subscribe( ( data )=>{
+    this._factura.get( this.querys ).subscribe( ( data )=>{
       this.listBill = data.data;
       console.log( "*****58",this.listBill )
       this.dataSource = new MatTableDataSource<billDto>(this.listBill);
+      this.addition();
     } );
   }
 
@@ -86,7 +115,10 @@ export class FormMoneyPaymentComponent implements OnInit {
     });
   }
   crearFun(){
-    let data = this.data
+    let data = {
+      listMoney: this.selection.selected,
+      ...this.data
+    }
     this._moneyPayment.create( data ).subscribe(( res:any )=>{
       this._tools.basic("Creado exitoso")
       this.id = res.id;
@@ -118,21 +150,27 @@ export class FormMoneyPaymentComponent implements OnInit {
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.codigo }`;
   }
-  async checkAmount( row:billDto ){
-    this.addition();
-    if( row.check ) return row.check = false;
-    const result: { value?:string; } = await this._tools.alertInput( { title: "Cantidad Seleccionar" } );
-    row.amountPass = Number( result.value || 1 );
-    row.check = true;
-    console.log( "***126",this.selection)
-  }
   addition(){
+    this.data.remaining = this.data.coin;
+    let cointReaminig:number = 0;
     for( const item of this.selection.selected ){
-      console.log("****130", item )
+      item.remaining = Number( ( item.monto - ( item.passMoney || 0 ) ) );
       if( ( this.data.coin >= item.amountPass ) && ( this.data.remaining ) ) {
-        item.remaining = item.monto - item.amountPass;
-        this.data.remaining = item.monto;
+        item.remaining = ( Number( ( item.monto - ( item.passMoney || 0 ) ) ) - Number( item.amountPass ) ) || 0;
+        cointReaminig+=item.amountPass;
       }
+    }
+    this.data.remaining = ( Number( this.data.coin ) - Number( cointReaminig ) ) || 0;
+  }
+  validateValue( row: billDto ){
+    const filter = this.selection.selected.find( ( item ) => item.id === row.id );
+    if( !filter ) this.selection.toggle(row)
+    if( row.monto >= row.amountPass ){
+      this.addition();
+    }else {
+      row.amountPass = 0;
+      row.remaining = row.monto;
+      this._tools.tooast({title: "Error problemas! No puedes asignar mas grande que en la factura ", icon: "error"});
     }
   }
 }

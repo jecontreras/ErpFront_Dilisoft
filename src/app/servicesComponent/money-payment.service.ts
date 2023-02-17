@@ -23,4 +23,17 @@ export class MoneyPaymentService {
   delete(query:any){
     return this._model.querys('moneypayments/'+query.id, query, 'delete');
   }
+
+  getBill(query:any){
+    return this._model.querys('moneypaymentsbill/querys',query, 'post');
+  }
+  createBill(query:any){
+    return this._model.querys('moneypaymentsbill',query, 'post');
+  }
+  updateBill(query:any){
+    return this._model.querys('moneypaymentsbill/'+query.id, query, 'put');
+  }
+  deleteBill(query:any){
+    return this._model.querys('moneypaymentsbill/'+query.id, query, 'delete');
+  }
 }

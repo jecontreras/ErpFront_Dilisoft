@@ -13,6 +13,7 @@ export interface Fruit {
     listTallas: any;
   }
   export interface FacturaDto{
+    id?:string;
     codigo?: string;
     fecha?:string;
     nombreCliente?:string;
@@ -31,4 +32,5 @@ export interface Fruit {
     check?: boolean;
     amountPass?: number;
     remaining?:number;
+    passMoney?:number;
   }
