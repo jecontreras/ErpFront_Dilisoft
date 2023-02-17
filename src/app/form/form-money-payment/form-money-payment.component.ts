@@ -27,9 +27,11 @@ export class FormMoneyPaymentComponent implements OnInit {
   listProvedor:any = [];
   opcionCurrencys:any;
   listBill:billDto[] = [];
-  displayedColumns: string[] = ["select","codigo","nombreCliente","fecha", "monto","provedor","updatedAt","Abonodo"];
+  displayedColumns: string[] = ["select","codigo","nombreCliente","fecha", "monto","provedor","updatedAt","amountPass", "remaining"];
   dataSource = new MatTableDataSource<billDto>(this.listBill);
   selection = new SelectionModel<billDto>(true, []);
+  validateButton:boolean = false;
+
   constructor(
     private activate: ActivatedRoute,
     private _tools: ToolsService,
@@ -106,7 +108,6 @@ export class FormMoneyPaymentComponent implements OnInit {
       this.selection.clear();
       return;
     }
-
     this.selection.select(...this.dataSource.data);
   }
 
@@ -116,5 +117,22 @@ export class FormMoneyPaymentComponent implements OnInit {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.codigo }`;
+  }
+  async checkAmount( row:billDto ){
+    this.addition();
+    if( row.check ) return row.check = false;
+    const result: { value?:string; } = await this._tools.alertInput( { title: "Cantidad Seleccionar" } );
+    row.amountPass = Number( result.value || 1 );
+    row.check = true;
+    console.log( "***126",this.selection)
+  }
+  addition(){
+    for( const item of this.selection.selected ){
+      console.log("****130", item )
+      if( ( this.data.coin >= item.amountPass ) && ( this.data.remaining ) ) {
+        item.remaining = item.monto - item.amountPass;
+        this.data.remaining = item.monto;
+      }
+    }
   }
 }

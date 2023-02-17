@@ -28,4 +28,7 @@ export interface Fruit {
     asentado?: boolean;
     fechaasentado?: string;
     coinFinix?: boolean;
+    check?: boolean;
+    amountPass?: number;
+    remaining?:number;
   }

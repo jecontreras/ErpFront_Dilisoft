@@ -80,8 +80,7 @@
                 <span *ngIf="column == 'asentado'">
                   {{ element[column] == true ? 'Asentada' : 'Guardada' }}
                 </span>
-                <span *ngIf="( column =='categoria' ) || ( column =='subcategoria' ) || ( column =='provedor' )">{{ element[column]?.titulo }}<span>
-
+                <span *ngIf="( column =='categoria' ) || ( column =='subcategoria' ) || ( column =='provedor' )">{{ element[column]?.titulo }}</span>
                 <span *ngIf="( column =='createdAt' ) || ( column =='updatedAt' )"> {{ element[column] | date:'medium'}} </span>
                 <span *ngIf="column =='entrada'">{{ element[column] == 0 ?"Entrada":"Salida" }}</span>
               </td>

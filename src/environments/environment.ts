@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   //url: "http://localhost:1337",
-  url: "https://1337-jecontreras-apiinventar-ydw58z1hvwx.ws-us86.gitpod.io"
+  url: "https://1337-jecontreras-apiinventar-ydw58z1hvwx.ws-us87.gitpod.io"
 };
 
 /*
