@@ -33,4 +33,5 @@ export interface Fruit {
     amountPass?: number;
     remaining?:number;
     passMoney?:number;
+    passMoney2?:number;
   }

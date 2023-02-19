@@ -5,12 +5,12 @@
       <div class="row card-header border-0">
         <div class="col-10">
           <div class="">
-            <h3 class="mb-0">{{ titleBTN }} Logs</h3>
+            <h3 class="mb-0">{{ titleBTN }} Abonos</h3>
           </div>
         </div>
         <div class="col-2 text-end">
           <div class="">
-            <button type="button" class="btn btn-success" (click)="submit()">{{ titleBTN }} </button>
+            <button type="button" class="btn btn-success" [disabled]="id" (click)="submit()">{{ titleBTN }} </button>
             <a class="dropdown-item" href="javascript:void(0)" routerLink="/moneypayment">Volver</a>
           </div>
         </div>
@@ -59,7 +59,7 @@
                     [options]="opcionCurrencys" (ngModelChange)="addition()" />
                 </div>
               </div>
-              <div class="col-lg-4">
+              <div class="col-lg-4" *ngIf="!id">
                 <div class="form-group">
                   <label class="form-control-label" for="input-username">Restante Disponible</label>
                   <input disabled currencyMask [(ngModel)]="data.remaining" class="form-control form-control-sm"
@@ -88,7 +88,7 @@
                       </span>
                     </th>
                     <td mat-cell *matCellDef="let element">
-                      <span *ngIf="( column !='createdAt' ) && ( column !='updatedAt' ) &&  ( column !='provedor' ) && ( column !='monto' ) && ( column !='amountPass' ) && ( column !=='remaining' )">{{ element[column] }}</span>
+                      <span *ngIf="( column !='createdAt' ) && ( column !='updatedAt' ) &&  ( column !='provedor' ) && ( column !='monto' ) && ( column !='amountPass' ) && ( column !=='remaining' ) && ( column !=='passMoney' )">{{ element[column] }}</span>
                       <span *ngIf="( column ==='monto' ) || ( column ==='remaining' ) || ( column ==='passMoney' )" >
                         {{ _tools.monedaChange( 3, 2, element[column] ) }}
                       </span>

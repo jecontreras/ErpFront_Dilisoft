@@ -8,6 +8,7 @@ import { FacturaService } from 'src/app/servicesComponent/factura.service';
 import { MoneyPaymentService } from 'src/app/servicesComponent/money-payment.service';
 import { ProvedorService } from 'src/app/servicesComponent/provedor.service';
 import * as _ from 'lodash';
+import * as moment from 'moment';
 export interface PeriodicElement {
   name: string;
   position: number;
@@ -22,8 +23,8 @@ export interface PeriodicElement {
 })
 export class FormMoneyPaymentComponent implements OnInit {
 
-  data:any = {};
-  id:any;
+  data:any = { date: moment().format("DD/MM/YYYY")};
+  id:string;
   titleBTN:string = "Guardar";
   listProvedor:any = [];
   opcionCurrencys:any;
@@ -70,7 +71,7 @@ export class FormMoneyPaymentComponent implements OnInit {
           codigo: row.bill.codigo,
           fecha: row.bill.fecha,
           monto: row.bill.monto,
-          passMoney: row.bill.passMoney,
+          passMoney: ( row.bill.monto ) - ( row.bill.passMoney ),
           amountPass: row.coin,
           remaining: row.remaining,
           ...row
@@ -97,14 +98,19 @@ export class FormMoneyPaymentComponent implements OnInit {
   getFacturas(){
     this._factura.get( this.querys ).subscribe( ( data )=>{
       this.listBill = data.data;
-      console.log( "*****58",this.listBill )
+      this.listBill = _.map( this.listBill, ( row )=>{
+        return {
+          ...row,
+          passMoney: ( row.monto ) - ( row.passMoney ),
+          passMoney2: ( row.monto ) - ( row.passMoney ),
+        }
+      })
       this.dataSource = new MatTableDataSource<billDto>(this.listBill);
-      this.addition();
     } );
   }
 
   submit(){
-    if( this.id ) this.updateFun();
+    if( this.id ) return false;
     else this.crearFun();
   }
 
@@ -154,11 +160,13 @@ export class FormMoneyPaymentComponent implements OnInit {
     this.data.remaining = this.data.coin;
     let cointReaminig:number = 0;
     for( const item of this.selection.selected ){
+      console.log("***158", item)
       item.remaining = Number( ( item.monto - ( item.passMoney || 0 ) ) );
-      if( ( this.data.coin >= item.amountPass ) && ( this.data.remaining ) ) {
-        item.remaining = ( Number( ( item.monto - ( item.passMoney || 0 ) ) ) - Number( item.amountPass ) ) || 0;
+      item.passMoney = ( item.passMoney2 || 0 );
+        item.passMoney = ( item.passMoney + item.amountPass ) || 0;
+        if( ( item.remaining - Number( item.amountPass ) ) <=- 0 ) item.remaining = 0;
+        else item.remaining = ( item.remaining - Number( item.amountPass ) )
         cointReaminig+=item.amountPass;
-      }
     }
     this.data.remaining = ( Number( this.data.coin ) - Number( cointReaminig ) ) || 0;
   }
