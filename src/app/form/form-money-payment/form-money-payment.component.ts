@@ -1,7 +1,7 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FacturaDto as billDto } from 'src/app/interfaces/interfaces';
 import { ToolsService } from 'src/app/services/tools.service';
 import { FacturaService } from 'src/app/servicesComponent/factura.service';
@@ -40,7 +40,8 @@ export class FormMoneyPaymentComponent implements OnInit {
     private _tools: ToolsService,
     private _moneyPayment: MoneyPaymentService,
     private _provedor: ProvedorService,
-    private _factura: FacturaService
+    private _factura: FacturaService,
+    private _router: Router,
   ) {
   }
 
@@ -71,7 +72,7 @@ export class FormMoneyPaymentComponent implements OnInit {
           codigo: row.bill.codigo,
           fecha: row.bill.fecha,
           monto: row.bill.monto,
-          passMoney: ( row.bill.monto ) - ( row.bill.passMoney ),
+          passMoney: ( row.bill.passMoney ),
           amountPass: row.coin,
           remaining: row.remaining,
           ...row
@@ -101,10 +102,10 @@ export class FormMoneyPaymentComponent implements OnInit {
       this.listBill = _.map( this.listBill, ( row )=>{
         return {
           ...row,
-          passMoney: ( row.monto ) - ( row.passMoney ),
-          passMoney2: ( row.monto ) - ( row.passMoney ),
+          passMoney2: row.passMoney,
         }
       })
+      //this.addition2();
       this.dataSource = new MatTableDataSource<billDto>(this.listBill);
     } );
   }
@@ -122,14 +123,17 @@ export class FormMoneyPaymentComponent implements OnInit {
   }
   crearFun(){
     let data = {
-      listMoney: this.selection.selected,
+      listMoney: _.filter( this.selection.selected, ( item )=> item.amountPass ),
       ...this.data
-    }
+    };
+    if( Object.keys( data.listMoney ).length == 0 ) return this._tools.basic("Error necesita almenos una factura a que abonar")
+    if( data.remaining !== 0  ) return this._tools.basic("Error no puede quedar con un valor tiene que estar en sero el restante disponible!!")
     this._moneyPayment.create( data ).subscribe(( res:any )=>{
-      this._tools.basic("Creado exitoso")
-      this.id = res.id;
+      res = res.data;
+      this.id = res.id; 
       this.data.id = this.id;
-      this.titleBTN= "Actualizar";
+      this._tools.tooast( {title: "Creado exitoso" } );
+      this._router.navigate(['/formmoneypayment', this.id ] );
     });
   }
 
@@ -156,18 +160,17 @@ export class FormMoneyPaymentComponent implements OnInit {
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.codigo }`;
   }
+
   addition(){
     this.data.remaining = this.data.coin;
     let cointReaminig:number = 0;
     for( const item of this.selection.selected ){
-      console.log("***158", item)
       item.passMoney = ( item.passMoney2 || 0 );
-      //item.passMoney = ( item.passMoney + item.amountPass ) || 0;
       item.remaining = Number( ( item.monto - ( item.passMoney || 0 ) ) );
-        if( ( item.remaining - Number( item.amountPass ) ) <=- 0 ) item.remaining = 0;
-        else item.remaining = ( item.remaining - Number( item.amountPass ) )
-        cointReaminig+=item.amountPass;
-        console.log("****167", item.remaining, item.amountPass )
+      if( ( item.remaining - Number( item.amountPass ) ) <=- 0 ) item.remaining = 0;
+      else item.remaining = ( item.remaining - Number( item.amountPass ) )
+      cointReaminig+=item.amountPass;
+      item.passMoney = ( item.passMoney + item.amountPass ) || 0;
     }
     this.data.remaining = ( Number( this.data.coin ) - Number( cointReaminig ) ) || 0;
   }
@@ -180,6 +183,7 @@ export class FormMoneyPaymentComponent implements OnInit {
       row.amountPass = 0;
       row.remaining = row.monto;
       this._tools.tooast({title: "Error problemas! No puedes asignar mas grande que en la factura ", icon: "error"});
+      this.addition();
     }
   }
 }
