@@ -94,7 +94,7 @@
                       </span>
                       <span>
                         <input *ngIf="column ==='amountPass'" currencyMask [(ngModel)]="element[column]" class="form-control form-control-sm"
-                        [options]="opcionCurrencys" (ngModelChange)="validateValue(element)" />
+                        [options]="opcionCurrencys" (blur)="validateValue(element)" />
                       </span>
                       <span *ngIf="( column ==='provedor' )">{{ element[column]?.titulo }}</span>
                       <span *ngIf="( column ==='createdAt' ) || ( column ==='updatedAt' )"> {{ element[column] | date:'medium'}} </span>

@@ -161,12 +161,13 @@ export class FormMoneyPaymentComponent implements OnInit {
     let cointReaminig:number = 0;
     for( const item of this.selection.selected ){
       console.log("***158", item)
-      item.remaining = Number( ( item.monto - ( item.passMoney || 0 ) ) );
       item.passMoney = ( item.passMoney2 || 0 );
-        item.passMoney = ( item.passMoney + item.amountPass ) || 0;
+      //item.passMoney = ( item.passMoney + item.amountPass ) || 0;
+      item.remaining = Number( ( item.monto - ( item.passMoney || 0 ) ) );
         if( ( item.remaining - Number( item.amountPass ) ) <=- 0 ) item.remaining = 0;
         else item.remaining = ( item.remaining - Number( item.amountPass ) )
         cointReaminig+=item.amountPass;
+        console.log("****167", item.remaining, item.amountPass )
     }
     this.data.remaining = ( Number( this.data.coin ) - Number( cointReaminig ) ) || 0;
   }
