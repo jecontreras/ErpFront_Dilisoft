@@ -39,6 +39,7 @@ export class FormFacturaComponent implements OnInit {
   opcionCurrencys:any;
   listProvedor:any = [];
   dataUser:any = {};
+  dv:any = {};
 
   constructor(
     private activate: ActivatedRoute,
@@ -49,7 +50,7 @@ export class FormFacturaComponent implements OnInit {
     private _provedor: ProvedorService,
     private _store: Store<USER>,
     private _router: Router,
-  ) { 
+  ) {
 
     this._store.subscribe((store: any) => {
       store = store.name;
@@ -58,7 +59,7 @@ export class FormFacturaComponent implements OnInit {
     });
 
     document.addEventListener("DOMContentLoaded", () => {
-      
+
       const $codigo:any = document.querySelector("#codigo");
       $codigo.addEventListener("keydown", ( evento:any ) => {
           if (evento.keyCode === 13) {
@@ -78,7 +79,7 @@ export class FormFacturaComponent implements OnInit {
     this.opcionCurrencys = this._tools.currency;
     this.id = ( this.activate.snapshot.paramMap.get('id'));
     //console.log("***", this.activate.snapshot.paramMap.get('print'))
-    if( this.id ) this.getData();
+    if( this.id ) { this.titleBTN = "Actualizar"; this.getData( this.id, 'view' );}
     else {
       this.data = {
         codigo: this._tools.codigo(),
@@ -91,13 +92,15 @@ export class FormFacturaComponent implements OnInit {
     this.getProvedor();
   }
 
-  getData(){
-    this.titleBTN = "Actualizar";
-    this._factura.get( { where: { id: this.id } } ).subscribe(( res:any )=>{
+  getData( id:string, opt:string ){
+    this._factura.get( { where: { id: id } } ).subscribe(( res:any )=>{
       res = res.data[0];
-      this.data = res || {};
+      if( opt == 'view') {
+        this.data = res || {};
+        try { this.data.provedor = this.data.provedor.id; } catch (error) {}
+      }else this.data.tipoFactura = res.tipoFactura;
       //console.log( this.data )
-      this.tablet.row = _.map( this.data.listFacturaArticulo, ( row )=>{
+      this.tablet.row = _.map( res.listFacturaArticulo, ( row )=>{
         let data:any = {
           id: row.id,
           articulo: row.articulo.id,
@@ -120,12 +123,21 @@ export class FormFacturaComponent implements OnInit {
         this.selectColor( data );
         return data;
       } );
-       try { this.data.provedor = this.data.provedor.id; } catch (error) {}
       this.suma();
       setTimeout(()=>{
         if( this.activate.snapshot.paramMap.get('print') ) this.print();
       } )
     });
+  }
+
+  getcdFactura(){
+    this._factura.get( { where: { codigo: this.data.cdFactura, asentado:true } } ).subscribe(( res )=>{
+      res = res.data[0];
+      if( !res ) return this._tools.basic("No se encontro la factura");
+      this._tools.basic("Factura encontrada!");
+      this.dv = res || {};
+      this.getData( this.dv.id,'dev' );
+    })
   }
 
   getProvedor(){
@@ -207,7 +219,7 @@ export class FormFacturaComponent implements OnInit {
     if( !this.id ) return false;
     let result:any = await this.updateFun();
     if( !result ) return this._tools.basic("Tenemos problemas !Volver a intentarlo");
-    
+
     let data:any = {
       id: this.id,
       asentado: true
@@ -257,14 +269,14 @@ export class FormFacturaComponent implements OnInit {
  suma(){
   this.data.monto = 0;
   for( let row of this.tablet.row ){
-    if( ( !row.precioTotal )  || ( this.data.entrada != 2 ) || ( this.data.entrada != 3 ) ) row.precioTotal = 0;
+    if( ( !row.precioTotal ) || ( this.data.entrada != 3 ) ) row.precioTotal = 0;
     console.log( row, this.data );
     if( this.data.entrada == 0  ) row.precioTotal= row.precioCompra * ( row.cantidadSelect || 0 ) ;
 
-    if( this.data.entrada == 1 && this.data.tipoFactura == 0) row.precioTotal= row.precioOtras * ( row.cantidadSelect || 0 ) ;
+    if( ( this.data.entrada == 1 || this.data.entrada == 2 ) && this.data.tipoFactura == 0) row.precioTotal= row.precioOtras * ( row.cantidadSelect || 0 ) ;
 
-    if( this.data.entrada == 1 && this.data.tipoFactura == 1) row.precioTotal= row.precioClienteDrop * ( row.cantidadSelect || 0 ) ;
-    
+    if( ( this.data.entrada == 1 || this.data.entrada == 2 ) && this.data.tipoFactura == 1) row.precioTotal= row.precioClienteDrop * ( row.cantidadSelect || 0 ) ;
+
     if( ( this.data.entrada != 2 ) || ( this.data.entrada != 3 ) ) this.data.monto+= row.precioTotal;
 
   }

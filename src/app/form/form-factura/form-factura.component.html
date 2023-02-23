@@ -72,6 +72,13 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-lg-4" *ngIf="data.entrada == 2">
+                              <div class="form-group">
+                                  <label class="form-control-label" for="input-username">Codigo de Factura</label>
+                                  <input type="text" [(ngModel)]="data.cdFactura" (change)="getcdFactura()"
+                                        class="form-control form-control-alternative" placeholder="" [disabled]="data.asentado">
+                              </div>
+                          </div>
                             <div class="col-lg-4" *ngIf="data.entrada == 1">
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-username">Tipo de cobro</label>
@@ -105,6 +112,49 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div *ngIf="data.entrada == 2">
+                  <div class="row">
+                      <div class="col-12">
+                          <div class="card shadow">
+                              <div class="card-header border-0">
+                                  <div class="row align-items-center">
+                                    <h3 class="mb-0">Información Factura de Devolucion</h3>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-lg-4">
+                          <div class="form-group">
+                              <label class="form-control-label" for="input-username">Codigo</label>
+                              <input type="text" [(ngModel)]="data.codigo"
+                                  class="form-control form-control-alternative" placeholder="" disabled>
+                          </div>
+                      </div>
+                      <div class="col-lg-4">
+                          <div class="form-group">
+                              <label class="form-control-label" for="input-username">Fecha</label>
+                              <input type="datetime" [(ngModel)]="dv.fecha"
+                                  class="form-control form-control-alternative" placeholder="" disabled>
+                          </div>
+                      </div>
+                      <div class="col-lg-4">
+                          <div class="form-group">
+                              <label class="form-control-label" for="input-username">Nombre del cliente</label>
+                              <input type="text" [(ngModel)]="dv.nombreCliente"
+                                  class="form-control form-control-alternative" placeholder="" disabled>
+                          </div>
+                      </div>
+                      <div class="col-lg-4">
+                          <div class="form-group">
+                            <div class="form-group">
+                              <label class="form-control-label" for="input-username">Fecha asentada</label>
+                              <input type="datetime" [(ngModel)]="dv.fechaasentado"
+                                    class="form-control form-control-alternative" placeholder="" disabled>
+                            </div>
+                          </div>
+                      </div>
+                  </div>
                 </div>
                 <div>
                     <div class="row">
@@ -146,9 +196,9 @@
                                                     <img [src]="item[keys]" *ngIf="keys == 'foto'">
                                                     <span *ngIf="( keys != 'color' ) && ( keys != 'talla' ) && ( keys != 'cantidad' ) && ( keys != 'precioClienteDrop' ) && ( keys != 'precioTotal' )">{{ item[keys] }} </span>
                                                     <div *ngIf="keys == 'precioClienteDrop'">
-                                                        <input *ngIf="data.entrada == 1 && data.tipoFactura == 1" currencyMask [(ngModel)]="item.precioClienteDrop" class="form-control form-control-sm" [options]="opcionCurrencys" (change)="suma()" />
+                                                        <input *ngIf="( data.entrada == 1 || data.entrada == 2 ) && data.tipoFactura == 1" currencyMask [(ngModel)]="item.precioClienteDrop" class="form-control form-control-sm" [options]="opcionCurrencys" (change)="suma()" />
                                                         <input *ngIf="data.entrada == 0" currencyMask [(ngModel)]="item.precioCompra" class="form-control form-control-sm" [options]="opcionCurrencys" (change)="suma()" />
-                                                        <input *ngIf="data.entrada == 1 && data.tipoFactura == 0" currencyMask [(ngModel)]="item.precioOtras" class="form-control form-control-sm" [options]="opcionCurrencys" (change)="suma()" />
+                                                        <input *ngIf="( data.entrada == 1 || data.entrada == 2 ) && data.tipoFactura == 0" currencyMask [(ngModel)]="item.precioOtras" class="form-control form-control-sm" [options]="opcionCurrencys" (change)="suma()" />
                                                     </div>
                                                     <div *ngIf="keys == 'precioTotal'">
                                                         <input currencyMask [(ngModel)]="item.precioTotal" class="form-control form-control-sm" [options]="opcionCurrencys" (change)="suma()" disabled/>
