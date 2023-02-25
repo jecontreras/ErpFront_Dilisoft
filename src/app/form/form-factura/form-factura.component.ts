@@ -116,6 +116,7 @@ export class FormFacturaComponent implements OnInit {
           precioClienteDrop: row.precioClienteDrop,
           precioOtras: row.precioOtras,
           precioCompra: row.precio,
+          eliminado: false,
           ...row
         };
         let filtro = data.listColor.find( ( keys:any ) => keys.id == row.articuloColor.id );
@@ -133,9 +134,10 @@ export class FormFacturaComponent implements OnInit {
   getcdFactura(){
     this._factura.get( { where: { codigo: this.data.cdFactura, asentado:true } } ).subscribe(( res )=>{
       res = res.data[0];
+      this.dv = {};
       if( !res ) return this._tools.basic("No se encontro la factura");
       this._tools.basic("Factura encontrada!");
-      this.dv = res || {};
+      this.dv = res;
       this.getData( this.dv.id,'dev' );
     })
   }
@@ -157,6 +159,7 @@ export class FormFacturaComponent implements OnInit {
   submit(){
     if( this.id ) this.updateFun();
     else this.crearFun();
+    setTimeout(()=>location.reload(), 2000 );
   }
 
   async updateFun(){
@@ -248,7 +251,16 @@ export class FormFacturaComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe( async ( result ) => {
       console.log(`Dialog result:`, result);
-      this.tablet.row.push( ...( result || [] ) );
+      const format= [];
+      for( const item of result ) {
+        format.push( {
+          ... item,
+          eliminado: false,
+          articulo: item.id,
+          id: ""
+         })
+      }
+      this.tablet.row.push( ...( format || [] ) );
       this.suma();
     });
   }
@@ -256,8 +268,9 @@ export class FormFacturaComponent implements OnInit {
   checkseleccionado( item:any, idx:any ){
     item.check = !item.check;
     //this.tablet.row = _.filter( this.tablet.row, ( key:any ) => key.selectTalla == item.selectTalla );
-    console.log( item, this.tablet.row, idx );
-    this.tablet.row.splice( idx, 1 );
+    if( item.id ){
+      item.eliminado = true;
+    }else this.tablet.row.splice( idx, 1 );
     this._tools.basic("Borrado exitoso")
     this.suma();
  }
@@ -269,15 +282,17 @@ export class FormFacturaComponent implements OnInit {
  suma(){
   this.data.monto = 0;
   for( let row of this.tablet.row ){
-    if( ( !row.precioTotal ) || ( this.data.entrada != 3 ) ) row.precioTotal = 0;
-    console.log( row, this.data );
-    if( this.data.entrada == 0  ) row.precioTotal= row.precioCompra * ( row.cantidadSelect || 0 ) ;
+    if( row.eliminado == false ){
+      if( ( !row.precioTotal ) || ( this.data.entrada != 3 ) ) row.precioTotal = 0;
+      console.log( row, this.data );
+      if( this.data.entrada == 0  ) row.precioTotal= row.precioCompra * ( row.cantidadSelect || 0 ) ;
 
-    if( ( this.data.entrada == 1 || this.data.entrada == 2 ) && this.data.tipoFactura == 0) row.precioTotal= row.precioOtras * ( row.cantidadSelect || 0 ) ;
+      if( ( this.data.entrada == 1 || this.data.entrada == 2 ) && this.data.tipoFactura == 0) row.precioTotal= row.precioOtras * ( row.cantidadSelect || 0 ) ;
 
-    if( ( this.data.entrada == 1 || this.data.entrada == 2 ) && this.data.tipoFactura == 1) row.precioTotal= row.precioClienteDrop * ( row.cantidadSelect || 0 ) ;
+      if( ( this.data.entrada == 1 || this.data.entrada == 2 ) && this.data.tipoFactura == 1) row.precioTotal= row.precioClienteDrop * ( row.cantidadSelect || 0 ) ;
 
-    if( ( this.data.entrada != 2 ) || ( this.data.entrada != 3 ) ) this.data.monto+= row.precioTotal;
+      if( ( this.data.entrada != 2 ) || ( this.data.entrada != 3 ) ) this.data.monto+= row.precioTotal;
+    }
 
   }
  }

@@ -10,7 +10,7 @@
                 </div>
                 <div class="col-2 text-end">
                     <div class="">
-                        <button type="button" class="btn btn-success" (click)="submit()" *ngIf="!this.data.asentado">{{ titleBTN }} </button>
+                        <button type="button" class="btn btn-success" (click)="submit()">{{ titleBTN }} </button>
                         <button type="button" class="btn btn-success" (click)="acentarFactura()" *ngIf="!this.data.asentado && id"> Asentar</button>
                         <button type="button" class="btn btn-success" (click)="openPrint()" *ngIf="this.data.asentado && id"> Imprimir</button>
                         <a class="dropdown-item" href="javascript:void(0)" routerLink="/factura">Volver</a>
@@ -67,18 +67,18 @@
                                     <select class="form-control" [(ngModel)]="data.entrada" [disabled]="data.asentado" (change)="reloadValidacion(); suma();">
                                         <option value="0">Entrada</option>
                                         <option value="1">Salida</option>
-                                        <option value="2">Devolucion</option>
-                                        <option value="3">Cambio</option>
+                                        <!--<option value="2">Devolucion</option>
+                                        <option value="3">Cambio</option>-->
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-lg-4" *ngIf="data.entrada == 2">
+                            <!--<div class="col-lg-4" *ngIf="data.entrada == 2">
                               <div class="form-group">
                                   <label class="form-control-label" for="input-username">Codigo de Factura</label>
                                   <input type="text" [(ngModel)]="data.cdFactura" (change)="getcdFactura()"
                                         class="form-control form-control-alternative" placeholder="" [disabled]="data.asentado">
                               </div>
-                          </div>
+                          </div>-->
                             <div class="col-lg-4" *ngIf="data.entrada == 1">
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-username">Tipo de cobro</label>
@@ -113,7 +113,7 @@
                         </div>
                     </div>
                 </div>
-                <div *ngIf="data.entrada == 2">
+                <!--<div *ngIf="data.entrada == 2">
                   <div class="row">
                       <div class="col-12">
                           <div class="card shadow">
@@ -127,7 +127,7 @@
                       <div class="col-lg-4">
                           <div class="form-group">
                               <label class="form-control-label" for="input-username">Codigo</label>
-                              <input type="text" [(ngModel)]="data.codigo"
+                              <input type="text" [(ngModel)]="dv.codigo"
                                   class="form-control form-control-alternative" placeholder="" disabled>
                           </div>
                       </div>
@@ -155,7 +155,7 @@
                           </div>
                       </div>
                   </div>
-                </div>
+                </div>-->
                 <div>
                     <div class="row">
                         <div class="col">
@@ -171,7 +171,7 @@
                                                 class="form-control form-control-sm" [options]="opcionCurrencys" />
                                         </div>
                                         <div class="col-4 text-right">
-                                            <button type="button" class="btn btn-primary" (click)="openArticulo({})" *ngIf="!data.asentado">Abrir articulos</button>
+                                            <button type="button" class="btn btn-primary" (click)="openArticulo({})">Abrir articulos</button>
                                         </div>
                                     </div>
                                 </div>
@@ -188,9 +188,10 @@
                                         <tbody>
                                             <tr *ngFor="let item of tablet.row; index as i">
                                                 <th>
-                                                    <button class="btn btn-danger me-md-2" type="button" (click)="checkseleccionado( item, i )" [disabled]="data.asentado">
+                                                    <button class="btn btn-danger me-md-2" type="button" (click)="checkseleccionado( item, i )" *ngIf="item.eliminado == false ">
                                                         <i class="ni ni-fat-remove"></i>
                                                     </button>
+                                                    <h6 *ngIf="item.eliminado == true ">Eliminado</h6>
                                                 </th>
                                                 <th scope="row" *ngFor="let keys of tablet.keys">
                                                     <img [src]="item[keys]" *ngIf="keys == 'foto'">
@@ -217,7 +218,7 @@
                                                     </div>
                                                     <div *ngIf="keys == 'cantidad' && item.selectTalla">
                                                         <input type="number" [(ngModel)]="item.cantidadSelect"
-                                                                class="form-control form-control-alternative" autofocus="autofocus" autocomplete="off" [disabled]="data.asentado" (change)="suma()">
+                                                                class="form-control form-control-alternative" autofocus="autofocus" autocomplete="off"(change)="suma()">
                                                     </div>
                                                 </th>
                                             </tr>
