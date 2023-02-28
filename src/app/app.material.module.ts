@@ -6,6 +6,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatTableModule} from '@angular/material/table';
 import {MatListModule} from '@angular/material/list';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatPaginatorModule} from '@angular/material/paginator';
 @NgModule({
   imports: [
     DragDropModule,
@@ -13,7 +14,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatTabsModule,
     MatTableModule,
     MatListModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatPaginatorModule
   ],
   exports: [
     DragDropModule,
@@ -21,7 +23,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatTabsModule,
     MatTableModule,
     MatListModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatPaginatorModule
   ],
 })
 export class MyOwnCustomMaterialModule { }

@@ -126,8 +126,8 @@ export class FormFacturaComponent implements OnInit {
       } );
       this.suma();
       setTimeout(()=>{
-        if( this.activate.snapshot.paramMap.get('print') ) this.print();
-      } )
+        //if( this.activate.snapshot.paramMap.get('print') ) this.print();
+      }, 3000)
     });
   }
 
@@ -156,10 +156,10 @@ export class FormFacturaComponent implements OnInit {
     } catch (error) { item.listTalla = []; }
   }
 
-  submit(){
-    if( this.id ) this.updateFun();
-    else this.crearFun();
-    setTimeout(()=>location.reload(), 2000 );
+  async submit(){
+    if( this.id ) await this.updateFun();
+    else await this.crearFun();
+    setTimeout(()=>location.reload(), 3000 );
   }
 
   async updateFun(){
@@ -188,34 +188,37 @@ export class FormFacturaComponent implements OnInit {
     });
   }
   crearFun(){
-    this.data.user = this.dataUser.id;
-    let data:any = {
-      factura: this.data,
-      listArticulo: _.map(this.tablet.row, ( item:any )=>{
-        let data:any = {
-          estado: 3,
-          articulo: item.id,
-          articuloTalla: item.selectTalla,
-          articuloColor: item.selectColor,
-          cantidad: item.cantidadSelect,
-          ...item
-        };
-        if( this.data.entrada == 1 && this.data.tipoFactura == 1) data.precio = item.precioClienteDrop;
-        if( this.data.entrada == 1 && this.data.tipoFactura == 0) data.precio = item.precioOtras;
-        if( this.data.entrada == 0 ) data.precio = item.precioCompra;
-        return data
-      }),
-    }
-    this._factura.create( data ).subscribe(( res:any )=>{
-      console.log("*****", res)
-      if( res.status == 400 ) return this._tools.basic("Problemas!! Volver a intentar");
-      res = res.data || {};
-      this.id = res.id;
-      this.data.id = this.id;
-      this._tools.basic("Creado exitoso");
-      this.titleBTN= "Actualizar";
-      this._router.navigate(['/formfactura', this.id ] );
-    });
+    return new Promise( resolve =>{
+      this.data.user = this.dataUser.id;
+      let data:any = {
+        factura: this.data,
+        listArticulo: _.map(this.tablet.row, ( item:any )=>{
+          let data:any = {
+            estado: 3,
+            articulo: item.id,
+            articuloTalla: item.selectTalla,
+            articuloColor: item.selectColor,
+            cantidad: item.cantidadSelect,
+            ...item
+          };
+          if( this.data.entrada == 1 && this.data.tipoFactura == 1) data.precio = item.precioClienteDrop;
+          if( this.data.entrada == 1 && this.data.tipoFactura == 0) data.precio = item.precioOtras;
+          if( this.data.entrada == 0 ) data.precio = item.precioCompra;
+          return data
+        }),
+      }
+      this._factura.create( data ).subscribe(( res:any )=>{
+        console.log("*****", res)
+        if( res.status == 400 ) { resolve( false ); return this._tools.basic("Problemas!! Volver a intentar");}
+        res = res.data || {};
+        this.id = res.id;
+        this.data.id = this.id;
+        this._tools.basic("Creado exitoso");
+        this.titleBTN= "Actualizar";
+        this._router.navigate(['/formfactura', this.id ] );
+        resolve( true );
+      },( )=>resolve( false ) );
+    })
   }
 
   async acentarFactura(){
@@ -265,7 +268,9 @@ export class FormFacturaComponent implements OnInit {
     });
   }
 
-  checkseleccionado( item:any, idx:any ){
+  async checkseleccionado( item:any, idx:any ){
+    let confirm = await this._tools.confirm( {title:"Eliminar", detalle:"Deseas Eliminar Dato", confir:"Si Eliminar"} );
+    if(!confirm.value) return false;
     item.check = !item.check;
     //this.tablet.row = _.filter( this.tablet.row, ( key:any ) => key.selectTalla == item.selectTalla );
     if( item.id ){

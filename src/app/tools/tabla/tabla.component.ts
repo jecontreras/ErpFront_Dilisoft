@@ -1,8 +1,10 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit,Input } from '@angular/core';
+import { Component, OnInit,Input, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
 import { ToolsService } from 'src/app/services/tools.service';
+import {MatPaginator} from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 export interface PeriodicElement {
   name: string;
   position: number;
@@ -46,8 +48,14 @@ export class TablaComponent implements OnInit {
   opcionCurrencys:any;
   header2 = ["codigo","Talla","Cantidad"];
   keys2=["codigo","talla","cantidad"];
+  txtFilter:string;
 
   expandedElement: PeriodicElement | null;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  resultsLength = 0;
+  isLoadingResults = true;
+  isRateLimitReached = false;
 
   constructor(
     private _router: Router,
@@ -63,6 +71,12 @@ export class TablaComponent implements OnInit {
     this.getList();
   }
 
+  pageEvent(ev: any) {
+    this.querys.page = ev.pageIndex;
+    this.querys.limit = ev.pageSize;
+    this.getList();
+  }
+
   onScroll() {
     if (this.notscrolly && this.notEmptyPost) {
       this.notscrolly = false;
@@ -71,11 +85,22 @@ export class TablaComponent implements OnInit {
     }
   }
 
+  filterTxt(){
+    this.querys.page = 0;
+    this.querys.where.codigo = this.txtFilter;
+    this._dataConfig.tablet.row = [];
+    this.resultsLength = 0;
+    this.getList();
+  }
+
   getList(){
     console.log("**", this.querys)
     this._model.get( this.querys ).subscribe( ( res:any  )=>{
+      this.resultsLength = res.count;
       this._dataConfig.tablet.row.push(... res.data);
       this._dataConfig.tablet.row =_.unionBy(this._dataConfig.tablet.row || [], res.data, 'id');
+      this.isLoadingResults = false;
+      this.isRateLimitReached = false;
       try {
         for( const item of this._dataConfig.tablet.row ) for( const key of item.listColor ) {
           key.amount = ( _.sumBy(key.listTalla, 'cantidad') || 1 );
@@ -87,6 +112,11 @@ export class TablaComponent implements OnInit {
       } catch (error) {}
       console.log("****", this._dataConfig.tablet.row)
     });
+  }
+
+  resetPaging(): void {
+    this.paginator.pageIndex = 0;
+    this.querys.page = 0;
   }
 
   openVer( item ){

@@ -6,6 +6,7 @@ import { InfiniteScrollModule } from "ngx-infinite-scroll";
 import { ArchivosComponent } from './archivos/archivos.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { MyOwnCustomMaterialModule } from '../app.material.module';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { MyOwnCustomMaterialModule } from '../app.material.module';
     InfiniteScrollModule,
     NgxDropzoneModule,
     NgxSpinnerModule,
-    MyOwnCustomMaterialModule
+    MyOwnCustomMaterialModule,
+    FormsModule
   ]
 })
 export class ToolsModule { }

@@ -8,126 +8,99 @@
             <h3 class="mb-0">{{ _dataConfig.titulo }} </h3>
           </div>
           <div class="table-responsive">
-            <!--<table class="table align-items-center table-flush">
-              <thead class="thead-light">
-                <tr>
-                  <th scope="col" *ngIf="_dataConfig.dsAccion">Acciónes</th>
-                  <th scope="col" *ngFor="let item of _dataConfig.tablet.headers">{{ item }}</th>
-                </tr>
-              </thead>
-              <tbody
-              infiniteScroll [infiniteScrollDistance]="50"
-              [infiniteScrollThrottle]="60" (scrolled)="onScroll()"
-              >
-                <tr *ngFor="let item of _dataConfig.tablet.row">
-                  <th *ngIf="_dataConfig.dsAccion">
-                    <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
+            <div class="form-group">
+                <label class="form-control-label" for="input-username">Buscador por Codigo</label>
+                <input type="text" [(ngModel)]="txtFilter" class="form-control form-control-alternative"
+                    placeholder="Buscar item por codigo" (change)="filterTxt()">
+            </div>
+            <div class="example-loading-shade"
+                  *ngIf="isLoadingResults || isRateLimitReached">
+              <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+              <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
+                GitHub's API rate limit has been reached. It will be reset in one minute.
+              </div>
+            </div>
+            <table mat-table
+                  [dataSource]="_dataConfig.tablet.row" multiTemplateDataRows
+                  class="mat-elevation-z8" matSort
+                  matSortActive="created" matSortDisableClear matSortDirection="desc"
+                  (matSortChange)="resetPaging()">
+              <ng-container matColumnDef="{{column}}" *ngFor="let column of _dataConfig.tablet.keys">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear> {{column}} </th>
+                <td mat-cell *matCellDef="let element" [ngClass]="{'danger': element.danger == true, 'medium': element.warning == true }">
+                  <span *ngIf="( column !='createdAt' ) && ( column !='updatedAt' ) && ( column !='asentado' ) &&  ( column !='categoria' ) && ( column !='subcategoria' ) && ( column !='provedor' ) && ( column !='entrada' ) && ( column !='monto' )">{{ element[column] }}</span>
+                  <div *ngIf="column === 'select' " ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
 
-                      <button type="button" class="btn btn-primary" (click)="openVer( item )">
+                    <span *ngIf="_dataConfig.returnHTML !== 'check'">
+                      <button type="button" class="btn btn-primary" (click)="openVer( element )">
                         <i class="ni ni-check-bold"></i>
                       </button>
-                      <button type="button" class="btn btn-danger" (click)="deleteItem( item )">
+                      <button type="button" class="btn btn-danger" (click)="deleteItem( element )">
                         <i class="ni ni-fat-remove"></i>
                       </button>
-
-                      </div>
-                  </th>
-                  <th scope="row" *ngFor="let keys of _dataConfig.tablet.keys">
-                    <img [src]="item[keys]" *ngIf="keys == 'foto'">
-                    <span *ngIf="( keys !='createdAt' ) && ( keys !='updatedAt' ) && ( keys !='asentado' ) &&  ( keys !='categoria' ) && ( keys !='subcategoria' ) && ( keys !='provedor' ) && ( keys !='entrada' ) && ( keys !='monto' )">{{ item[keys] }}</span>
-
-                    <span *ngIf="keys =='monto'">
-                      {{ _tools.monedaChange( 3, 2, item[keys] ) }}
                     </span>
-                    <span *ngIf="keys == 'asentado'">
-                      {{ item[keys] == true ? 'Asentada' : 'Guardada' }}
+                    <span *ngIf="_dataConfig.returnHTML === 'check'">
+                      <input type="checkbox" class="form-check-input" [(ngModel)]="element.check">
+                      <label class="form-check-label" for="exampleCheck1">Seleccionar</label>
                     </span>
-                    <span *ngIf="( keys =='categoria' ) || ( keys =='subcategoria' ) || ( keys =='provedor' )">{{ item[keys]?.titulo }}</span>
+                  </div>
+                  <img [src]="element[column]" *ngIf="column == 'foto'">
 
-                    <span *ngIf="( keys =='createdAt' ) || ( keys =='updatedAt' )"> {{ item[keys] | date:'medium'}} </span>
-                    <span *ngIf="keys =='entrada'">{{ item[keys] == 0 ?"Entrada":"Salida" }}</span>
-                  </th>
-                </tr>
-              </tbody>
-            </table>-->
-            <table mat-table
-                [dataSource]="_dataConfig.tablet.row" multiTemplateDataRows
-                class="mat-elevation-z8">
-            <ng-container matColumnDef="{{column}}" *ngFor="let column of _dataConfig.tablet.keys">
-              <th mat-header-cell *matHeaderCellDef> {{column}} </th>
-              <td mat-cell *matCellDef="let element" [ngClass]="{'danger': element.danger == true, 'medium': element.warning == true }">
-                <span *ngIf="( column !='createdAt' ) && ( column !='updatedAt' ) && ( column !='asentado' ) &&  ( column !='categoria' ) && ( column !='subcategoria' ) && ( column !='provedor' ) && ( column !='entrada' ) && ( column !='monto' )">{{ element[column] }}</span>
-                <div *ngIf="column === 'select' " ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
-
-                  <span *ngIf="_dataConfig.returnHTML !== 'check'">
-                    <button type="button" class="btn btn-primary" (click)="openVer( element )">
-                      <i class="ni ni-check-bold"></i>
-                    </button>
-                    <button type="button" class="btn btn-danger" (click)="deleteItem( element )">
-                      <i class="ni ni-fat-remove"></i>
-                    </button>
+                  <span *ngIf="column =='monto'">
+                    {{ _tools.monedaChange( 3, 2, element[column] ) }}
                   </span>
-                  <span *ngIf="_dataConfig.returnHTML === 'check'">
-                    <input type="checkbox" class="form-check-input" [(ngModel)]="element.check">
-                    <label class="form-check-label" for="exampleCheck1">Seleccionar</label>
+                  <span *ngIf="column == 'asentado'">
+                    {{ element[column] == true ? 'Asentada' : 'Guardada' }}
                   </span>
-                </div>
-                <img [src]="element[column]" *ngIf="column == 'foto'">
+                  <span *ngIf="( column =='categoria' ) || ( column =='subcategoria' ) || ( column =='provedor' )">{{ element[column]?.titulo }}</span>
+                  <span *ngIf="( column =='createdAt' ) || ( column =='updatedAt' )"> {{ element[column] | date:'medium'}} </span>
+                  <span *ngIf="column =='entrada'">{{ element[column] == 0 ?"Entrada":"Salida" }}</span>
+                </td>
 
-                <span *ngIf="column =='monto'">
-                  {{ _tools.monedaChange( 3, 2, element[column] ) }}
-                </span>
-                <span *ngIf="column == 'asentado'">
-                  {{ element[column] == true ? 'Asentada' : 'Guardada' }}
-                </span>
-                <span *ngIf="( column =='categoria' ) || ( column =='subcategoria' ) || ( column =='provedor' )">{{ element[column]?.titulo }}</span>
-                <span *ngIf="( column =='createdAt' ) || ( column =='updatedAt' )"> {{ element[column] | date:'medium'}} </span>
-                <span *ngIf="column =='entrada'">{{ element[column] == 0 ?"Entrada":"Salida" }}</span>
-              </td>
+              </ng-container>
 
-            </ng-container>
+              <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+              <ng-container matColumnDef="expandedDetail">
+                <td mat-cell *matCellDef="let element" [attr.colspan]="_dataConfig.tablet.keys.length">
+                  <div class="example-element-detail"
+                      [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'" *ngIf="_dataConfig.returnHTML === 'formarticulo/'">
+                      <ul class="list-group">
+                        <li class="list-group-item" *ngFor="let row of element.listColor">
+                          <div class="d-flex justify-content-between">
+                            <div><span>Color: {{ row.color }} </span></div>
+                            <div></div>
+                            <div><label>Cantidad: {{ row.amount }} </label></div>
+                          </div>
+                            <table class="table align-items-center table-flush">
+                              <thead class="thead-light">
+                                <tr>
+                                  <th scope="col" *ngFor="let item of header2">{{ item }}</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let item of row.listTalla" [ngClass]="{'full': item.cantidad >= 10, 'medium': item.cantidad <= 10, 'danger': item.cantidad <= 5}">
+                                  <th scope="row" *ngFor="let keys of keys2">
+                                    <span>{{ item[keys] }}</span>
+                                  </th>
+                                </tr>
+                              </tbody>
+                            </table>
+                        </li>
+                      </ul>
+                  </div>
+                </td>
+              </ng-container>
 
-            <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
-            <ng-container matColumnDef="expandedDetail">
-              <td mat-cell *matCellDef="let element" [attr.colspan]="_dataConfig.tablet.keys.length">
-                <div class="example-element-detail"
-                    [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'" *ngIf="_dataConfig.returnHTML === 'formarticulo/'">
-                    <ul class="list-group">
-                      <li class="list-group-item" *ngFor="let row of element.listColor">
-                        <div class="d-flex justify-content-between">
-                          <div><span>Color: {{ row.color }} </span></div>
-                          <div></div>
-                          <div><label>Cantidad: {{ row.amount }} </label></div>
-                        </div>
-                          <table class="table align-items-center table-flush">
-                            <thead class="thead-light">
-                              <tr>
-                                <th scope="col" *ngFor="let item of header2">{{ item }}</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr *ngFor="let item of row.listTalla" [ngClass]="{'full': item.cantidad >= 10, 'medium': item.cantidad <= 10, 'danger': item.cantidad <= 5}">
-                                <th scope="row" *ngFor="let keys of keys2">
-                                  <span>{{ item[keys] }}</span>
-                                </th>
-                              </tr>
-                            </tbody>
-                          </table>
-                      </li>
-                    </ul>
-                </div>
-              </td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="_dataConfig.tablet.keys"></tr>
-            <tr mat-row *matRowDef="let element; columns: _dataConfig.tablet.keys;"
-                class="example-element-row"
-                [class.example-expanded-row]="expandedElement === element"
-                (click)="expandedElement = expandedElement === element ? null : element">
-            </tr>
-            <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
-          </table>
+              <tr mat-header-row *matHeaderRowDef="_dataConfig.tablet.keys"></tr>
+              <tr mat-row *matRowDef="let element; columns: _dataConfig.tablet.keys;"
+                  class="example-element-row"
+                  [class.example-expanded-row]="expandedElement === element"
+                  (click)="expandedElement = expandedElement === element ? null : element">
+              </tr>
+              <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+              </table>
           </div>
+          <mat-paginator [length]="resultsLength" [pageSize]="10"  (page)="pageEvent($event)"></mat-paginator>
         </div>
       </div>
     </div>
