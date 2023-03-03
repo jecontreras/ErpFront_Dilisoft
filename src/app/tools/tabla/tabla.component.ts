@@ -74,6 +74,8 @@ export class TablaComponent implements OnInit {
   pageEvent(ev: any) {
     this.querys.page = ev.pageIndex;
     this.querys.limit = ev.pageSize;
+    this.isLoadingResults = true;
+    this.isRateLimitReached = true;
     this.getList();
   }
 
@@ -87,9 +89,15 @@ export class TablaComponent implements OnInit {
 
   filterTxt(){
     this.querys.page = 0;
-    this.querys.where.codigo = this.txtFilter;
     this._dataConfig.tablet.row = [];
     this.resultsLength = 0;
+    this.isLoadingResults = true;
+    this.isRateLimitReached = true;
+    if( this.txtFilter ){
+      this.querys.where.codigo = this.txtFilter;
+    }else{
+      delete this.querys.where.codigo;
+    }
     this.getList();
   }
 

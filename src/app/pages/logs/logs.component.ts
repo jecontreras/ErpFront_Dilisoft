@@ -11,7 +11,7 @@ export class LogsComponent implements OnInit {
 
   _dataConfig:any = {
     titulo: "Lista de Logs",
-    returnHTML: "formarticulo/",
+    returnHTML: "formlogs/",
     dsAccion: true,
     model: "",
     querys:{
@@ -28,7 +28,7 @@ export class LogsComponent implements OnInit {
     tablet:{
       headers:["Select","Txt","Creado","Actualizado"],
       row:[],
-      keys: ["select","tct","createdAt","updatedAt"]
+      keys: ["select","txt","createdAt","updatedAt"]
     }
   };
   constructor(

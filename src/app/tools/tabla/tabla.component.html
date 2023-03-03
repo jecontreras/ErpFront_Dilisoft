@@ -17,10 +17,10 @@
                   *ngIf="isLoadingResults || isRateLimitReached">
               <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
               <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
-                GitHub's API rate limit has been reached. It will be reset in one minute.
+                Se ha alcanzado el límite de tasa de API. Se restablecerá en un minuto.
               </div>
             </div>
-            <table mat-table
+            <table mat-table *ngIf="!isLoadingResults"
                   [dataSource]="_dataConfig.tablet.row" multiTemplateDataRows
                   class="mat-elevation-z8" matSort
                   matSortActive="created" matSortDisableClear matSortDirection="desc"
@@ -35,7 +35,7 @@
                       <button type="button" class="btn btn-primary" (click)="openVer( element )">
                         <i class="ni ni-check-bold"></i>
                       </button>
-                      <button type="button" class="btn btn-danger" (click)="deleteItem( element )">
+                      <button type="button" class="btn btn-danger" (click)="deleteItem( element )" *ngIf="( _dataConfig.returnHTML !== 'formlogs/' ) || _dataConfig.returnHTML !== 'formmoneypayment/'">
                         <i class="ni ni-fat-remove"></i>
                       </button>
                     </span>

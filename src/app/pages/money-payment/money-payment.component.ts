@@ -26,9 +26,9 @@ export class MoneyPaymentComponent implements OnInit {
       }
     },
     tablet:{
-      headers:["Select","Titulo","Celular","Creado","Actualizado"],
+      headers:["Select","Codigo","Description","Monto","Creado","Actualizado"],
       row:[],
-      keys: ["select","titulo", "celular","createdAt","updatedAt"]
+      keys: ["select","codigo","description", "coin","createdAt","updatedAt"]
     }
   };
   constructor(

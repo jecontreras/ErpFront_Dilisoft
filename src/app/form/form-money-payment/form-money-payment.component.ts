@@ -124,13 +124,14 @@ export class FormMoneyPaymentComponent implements OnInit {
   crearFun(){
     let data = {
       listMoney: _.filter( this.selection.selected, ( item )=> item.amountPass ),
-      ...this.data
+      ...this.data,
+      codigo: this._tools.codigo()
     };
     if( Object.keys( data.listMoney ).length == 0 ) return this._tools.basic("Error necesita almenos una factura a que abonar")
     if( data.remaining !== 0  ) return this._tools.basic("Error no puede quedar con un valor tiene que estar en sero el restante disponible!!")
     this._moneyPayment.create( data ).subscribe(( res:any )=>{
       res = res.data;
-      this.id = res.id; 
+      this.id = res.id;
       this.data.id = this.id;
       this._tools.tooast( {title: "Creado exitoso" } );
       this._router.navigate(['/formmoneypayment', this.id ] );

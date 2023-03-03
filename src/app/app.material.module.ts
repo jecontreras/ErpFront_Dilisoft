@@ -7,6 +7,8 @@ import {MatTableModule} from '@angular/material/table';
 import {MatListModule} from '@angular/material/list';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+
 @NgModule({
   imports: [
     DragDropModule,
@@ -15,7 +17,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MatTableModule,
     MatListModule,
     MatCheckboxModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     DragDropModule,
@@ -24,7 +27,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MatTableModule,
     MatListModule,
     MatCheckboxModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatProgressSpinnerModule
   ],
 })
 export class MyOwnCustomMaterialModule { }
