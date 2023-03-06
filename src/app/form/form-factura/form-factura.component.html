@@ -157,7 +157,7 @@
                                         <tbody>
                                             <tr *ngFor="let item of tablet.row; index as i">
                                                 <th>
-                                                    <button class="btn btn-danger me-md-2" type="button" (click)="checkseleccionado( item, i )" *ngIf="item.eliminado == false " [disabled]="data.entrada == 1 && data.asentado">
+                                                    <button class="btn btn-danger me-md-2" type="button" (click)="checkseleccionado( item, i )" *ngIf="item.eliminado == false " [disabled]="data.entrada == 0 && data.asentado">
                                                         <i class="ni ni-fat-remove"></i>
                                                     </button>
                                                     <h6 *ngIf="item.eliminado == true ">Eliminado</h6>
