@@ -5,6 +5,8 @@ import * as _ from 'lodash';
 import { ToolsService } from 'src/app/services/tools.service';
 import {MatPaginator} from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import * as moment from 'moment';
+import { XlsService } from 'src/app/servicesComponent/xls.service';
 export interface PeriodicElement {
   name: string;
   position: number;
@@ -49,6 +51,7 @@ export class TablaComponent implements OnInit {
   header2 = ["codigo","Talla","Cantidad"];
   keys2=["codigo","talla","cantidad"];
   txtFilter:string;
+  txtTipeFill:string = '2';
 
   expandedElement: PeriodicElement | null;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -56,9 +59,11 @@ export class TablaComponent implements OnInit {
   resultsLength = 0;
   isLoadingResults = true;
   isRateLimitReached = false;
+  listXls:any = [];
 
   constructor(
     private _router: Router,
+    private _xls: XlsService,
     public _tools: ToolsService
   ) { }
 
@@ -95,8 +100,14 @@ export class TablaComponent implements OnInit {
     this.isRateLimitReached = true;
     if( this.txtFilter ){
       this.querys.where.codigo = this.txtFilter;
-    }else{
+    }
+    else if( this.txtTipeFill ){
+      if( this.txtTipeFill != '2' ) this.querys.where.entrada = Number( this.txtTipeFill );
+      else delete this.querys.where.entrada;
+    }
+    else{
       delete this.querys.where.codigo;
+      delete this.querys.where.entrada;
     }
     this.getList();
   }
@@ -110,14 +121,29 @@ export class TablaComponent implements OnInit {
       this.isLoadingResults = false;
       this.isRateLimitReached = false;
       try {
-        for( const item of this._dataConfig.tablet.row ) for( const key of item.listColor ) {
-          key.amount = ( _.sumBy(key.listTalla, 'cantidad') || 1 );
-          let filter = key.listTalla.find( ( oll )=> oll.cantidad <= 5 );
-          if( filter ) item.danger = true;
-          filter = key.listTalla.find( ( oll )=> oll.cantidad <= 10 );
-          if( filter ) item.warning = true;
+        for( const item of this._dataConfig.tablet.row ){
+          if( item.asentado == false ) { item.warning = true; item.full = false;  item.danger = false;}
+          if( item.fechaasentado ){
+            if( item.tipoFactura == 1 ){
+            const day = ( moment( moment( item.fechaasentado ).format('DD/MM/YYYY') ).diff( moment( ).format('DD/MM/YYYY'), 'days' ) );
+            //console.log("****124", day);
+              if(  day >= 5 ) { item.warning = true; item.danger = false; item.full = false; }
+              if(  day >= 14 ) { item.warning = false; item.full = false;  item.danger = true; }
+            }
+          }
+          if( item.coinFinix ) { item.warning = false; item.full = true;  item.danger = false; }
+          if( item.listColor ){
+            for( const key of item.listColor ) {
+              key.amount = ( _.sumBy(key.listTalla, 'cantidad') || 1 );
+              let filter = key.listTalla.find( ( oll )=> oll.cantidad <= 5 );
+              if( filter ) { item.warning = false; item.full = false;  item.danger = true;}
+              filter = key.listTalla.find( ( oll )=> oll.cantidad <= 10 );
+              if( filter ) { item.warning = true; item.full = false;  item.danger = false; }
+            }
+          }
         }
-      } catch (error) {}
+      } catch (error) { console.error("****130", error)}
+      this.listXls = this._dataConfig.tablet.row;
       console.log("****", this._dataConfig.tablet.row)
     });
   }
@@ -143,6 +169,11 @@ export class TablaComponent implements OnInit {
     this._model.update( data ).subscribe( (res:any )=>{
       this._dataConfig.tablet.row =  _.filter( this._dataConfig.tablet.row, ( row:any ) => row.id != data.id );
     },()=>this._tools.basic("Problemas al Eliminar Item") );
+  }
+
+  print(){
+    //window.print();
+    this._xls.exportAsExcelFile( this.listXls, "Articulos");
   }
 
 }

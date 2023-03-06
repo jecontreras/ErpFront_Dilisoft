@@ -40,6 +40,7 @@ export class FormFacturaComponent implements OnInit {
   listProvedor:any = [];
   dataUser:any = {};
   dv:any = {};
+  disabledPrint:boolean = false;
 
   constructor(
     private activate: ActivatedRoute,
@@ -120,7 +121,6 @@ export class FormFacturaComponent implements OnInit {
           ...row
         };
         let filtro = data.listColor.find( ( keys:any ) => keys.id == row.articuloColor.id );
-        console.log( filtro, data )
         this.selectColor( data );
         return data;
       } );
@@ -249,6 +249,8 @@ export class FormFacturaComponent implements OnInit {
 
   openArticulo(obj:any){
     const dialogRef = this.dialog.open(ArticuloDialogComponent,{
+      width: "50%",
+      height: "800px",
       data: {datos: obj || {}}
     });
 
@@ -282,6 +284,7 @@ export class FormFacturaComponent implements OnInit {
 
  reloadValidacion(){
   if( this.data.entrada == 0 ) this.data.tipoFactura == 5;
+  if( this.data.entrada == 1 ) delete this.data.provedor;
  }
 
  suma(){
@@ -303,7 +306,13 @@ export class FormFacturaComponent implements OnInit {
  }
 
  openPrint(){
-  window.open( window.location.href+"/print" );
+  //window.open( window.location.href+"/print" );
+  this.disabledPrint = true;
+  setTimeout(()=>{
+    this._tools.print();
+    setTimeout(()=> this.disabledPrint = false, 3000);
+  }, 2000 );
+
  }
 
  print(){
