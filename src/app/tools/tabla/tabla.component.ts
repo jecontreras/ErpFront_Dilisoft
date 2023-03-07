@@ -124,9 +124,13 @@ export class TablaComponent implements OnInit {
         for( const item of this._dataConfig.tablet.row ){
           if( item.asentado == false ) { item.warning = true; item.full = false;  item.danger = false;}
           if( item.fechaasentado ){
-            if( item.tipoFactura == 1 ){
-            const day = ( moment( moment( item.fechaasentado ).format('DD/MM/YYYY') ).diff( moment( ).format('DD/MM/YYYY'), 'days' ) );
-            //console.log("****124", day);
+            if( item.tipoFactura == 1 && item.coinFinix == false ){
+              let date_1:any = new Date( moment( item.fechaasentado ).format("YYYY-DD-MM") );
+              let date_2:any = new Date( moment( ).format("YYYY-MM-DD") );
+              let day_as_milliseconds = 86400000;
+              let diff_in_millisenconds = date_2 - date_1;
+              let day = diff_in_millisenconds / day_as_milliseconds;
+              console.log("****124", day);
               if(  day >= 5 ) { item.warning = true; item.danger = false; item.full = false; }
               if(  day >= 14 ) { item.warning = false; item.full = false;  item.danger = true; }
             }
