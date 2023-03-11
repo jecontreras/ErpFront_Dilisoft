@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToolsService } from 'src/app/services/tools.service';
 import { ArticuloService } from 'src/app/servicesComponent/articulo.service';
@@ -7,6 +7,11 @@ import * as _ from 'lodash';
 import { ArticuloLogService } from 'src/app/servicesComponent/articulo-log.service';
 import { USER } from 'src/app/interfaces/sotarage';
 import { Store } from '@ngrx/store';
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import {MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material/autocomplete';
+import { MatChipInputEvent } from '@angular/material/chips';
 
 @Component({
   selector: 'app-form-articulo',
@@ -39,6 +44,18 @@ export class FormArticuloComponent implements OnInit {
   }
   dataUser:any = {};
   _dataConfig:any = {};
+
+  visible = true;
+  selectable = true;
+  removable = true;
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+  fruitCtrl = new FormControl();
+  filteredTallas: Observable<string[]>;
+  listTallas: string[] = ['36','37', '38', '39', '40', '41', '42', '43','44'];
+  alllistTallas: string[] = ['34','35','36','37', '38', '39', '40', '41', '42', '43','44'];
+
+  @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
+  @ViewChild('auto') matAutocomplete: MatAutocomplete;
   
   constructor(
     private _tools: ToolsService,
@@ -174,5 +191,58 @@ export class FormArticuloComponent implements OnInit {
       this._tools.basic("Creado exitoso")
     });
   }
+
+  add(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our fruit
+    if ((value || '').trim()) {
+      this.listTallas.push(value.trim());
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+
+    this.fruitCtrl.setValue(null);
+  }
+
+  remove(fruit: string): void {
+    const index = this.listTallas.indexOf(fruit);
+
+    if (index >= 0) {
+      this.listTallas.splice(index, 1);
+    }
+  }
+
+  selected(event: MatAutocompleteSelectedEvent): void {
+    this.listTallas.push(event.option.viewValue);
+    this.fruitInput.nativeElement.value = '';
+    this.fruitCtrl.setValue(null);
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.alllistTallas.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
+  }
+
+  processCode(){
+    console.log("***RRR")
+    if(this.id) return false;
+    for( let row of this.listcolor ){
+      console.log("***234", row)
+      row.listTalla = [];
+      if( row.color ){
+        for( let item of this.listTallas ){
+          if( item ) row.listTalla.push( { codigo: `${ ( row.color.charAt(0) ).toUpperCase() }${ this.data.codigo }-${item}`, talla: item, cantidad: 1 } );
+        }
+      }
+    }
+  }
+
+
 
 }

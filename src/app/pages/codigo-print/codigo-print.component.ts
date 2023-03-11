@@ -3,6 +3,8 @@ import { ToolsService } from 'src/app/services/tools.service';
 import { ArticuloService } from 'src/app/servicesComponent/articulo.service';
 import * as _ from 'lodash';
 import { ProvedorService } from 'src/app/servicesComponent/provedor.service';
+import { MatDialog } from '@angular/material/dialog';
+import { CheckCodePrintComponent } from 'src/app/dialog/check-code-print/check-code-print.component';
 @Component({
   selector: 'app-codigo-print',
   templateUrl: './codigo-print.component.html',
@@ -19,7 +21,8 @@ export class CodigoPrintComponent implements OnInit {
   constructor(
     private _articulos: ArticuloService,
     private _tools: ToolsService,
-    private _provedor: ProvedorService
+    private _provedor: ProvedorService,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -94,6 +97,18 @@ export class CodigoPrintComponent implements OnInit {
     this.vista = "inicial";
     this.listSeleccionado = [];
     location.reload();
+  }
+
+  openSelect(){
+    const dialogRef = this.dialog.open(CheckCodePrintComponent,{
+      width: "50%",
+      height: "800px",
+      data: {datos: {}}
+    });
+
+    dialogRef.afterClosed().subscribe( async ( result ) => {
+      console.log(`Dialog result:`, result);
+    });
   }
 
 }

@@ -114,8 +114,9 @@ export class FormFacturaComponent implements OnInit {
           cantidad: row.cantidad,
           cantidadSelect: row.cantidad,
           listColor: row.articulo.listColor,
-          precioClienteDrop: row.precioClienteDrop,
-          precioOtras: row.precioOtras,
+          precioClienteDrop: row.precio,
+          precioShipping: row.precio,
+          precioOtras: row.precio,
           precioCompra: row.precio,
           eliminado: false,
           ...row
@@ -174,6 +175,7 @@ export class FormFacturaComponent implements OnInit {
             cantidad: item.cantidadSelect,
             ...item
           };
+          if( this.data.entrada == 1 && this.data.tipoFactura == 2) data.precio = item.precioShipping;
           if( this.data.entrada == 1 && this.data.tipoFactura == 1) data.precio = item.precioClienteDrop;
           if( this.data.entrada == 1 && this.data.tipoFactura == 0) data.precio = item.precioOtras;
           if( this.data.entrada == 0 ) data.precio = item.precioCompra;
@@ -201,6 +203,7 @@ export class FormFacturaComponent implements OnInit {
             cantidad: item.cantidadSelect,
             ...item
           };
+          if( this.data.entrada == 1 && this.data.tipoFactura == 2) data.precio = item.precioShipping;
           if( this.data.entrada == 1 && this.data.tipoFactura == 1) data.precio = item.precioClienteDrop;
           if( this.data.entrada == 1 && this.data.tipoFactura == 0) data.precio = item.precioOtras;
           if( this.data.entrada == 0 ) data.precio = item.precioCompra;
@@ -298,6 +301,7 @@ export class FormFacturaComponent implements OnInit {
       if( ( this.data.entrada == 1 || this.data.entrada == 2 ) && this.data.tipoFactura == 0) row.precioTotal= row.precioOtras * ( row.cantidadSelect || 0 ) ;
 
       if( ( this.data.entrada == 1 || this.data.entrada == 2 ) && this.data.tipoFactura == 1) row.precioTotal= row.precioClienteDrop * ( row.cantidadSelect || 0 ) ;
+      if( ( this.data.entrada == 1 || this.data.entrada == 2 ) && this.data.tipoFactura == 2) row.precioTotal= row.precioShipping * ( row.cantidadSelect || 0 ) ;
 
       if( ( this.data.entrada != 2 ) || ( this.data.entrada != 3 ) ) this.data.monto+= row.precioTotal;
     }

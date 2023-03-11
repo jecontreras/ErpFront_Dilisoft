@@ -9,6 +9,9 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatSelectModule} from '@angular/material/select';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+
 @NgModule({
   imports: [
     DragDropModule,
@@ -19,7 +22,9 @@ import {MatSelectModule} from '@angular/material/select';
     MatCheckboxModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
-    MatSelectModule
+    MatSelectModule,
+    MatChipsModule,
+    MatAutocompleteModule
   ],
   exports: [
     DragDropModule,
@@ -30,7 +35,9 @@ import {MatSelectModule} from '@angular/material/select';
     MatCheckboxModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
-    MatSelectModule
+    MatSelectModule,
+    MatChipsModule,
+    MatAutocompleteModule
   ],
 })
 export class MyOwnCustomMaterialModule { }
