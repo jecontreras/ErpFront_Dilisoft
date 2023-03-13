@@ -11,7 +11,7 @@ import { CheckCodePrintComponent } from 'src/app/dialog/check-code-print/check-c
   styleUrls: ['./codigo-print.component.scss']
 })
 export class CodigoPrintComponent implements OnInit {
-  
+
   listArtiuclos:any = [];
   vista:string = "inicial";
   listSeleccionado:any = [];
@@ -56,6 +56,8 @@ export class CodigoPrintComponent implements OnInit {
   }
 
   print(){
+    this._tools.print();
+    return false;
     //window.print();
     let printContents = document.getElementById("component1").innerHTML;
     let originalContents = document.body.innerHTML;
@@ -87,7 +89,7 @@ export class CodigoPrintComponent implements OnInit {
     //console.log( vendor );
     for (let i = 0; i < result; i++) {
       this.listSeleccionado.push( { codigo: row.codigo, vendor: vendor } );
-      
+
     }
     this.vista = "detalle";
 
@@ -103,11 +105,19 @@ export class CodigoPrintComponent implements OnInit {
     const dialogRef = this.dialog.open(CheckCodePrintComponent,{
       width: "50%",
       height: "800px",
-      data: {datos: {}}
+      data: { datos: this.listArtiuclos.filter( ( row:any )=> row.check == true ) }
     });
 
     dialogRef.afterClosed().subscribe( async ( result ) => {
       console.log(`Dialog result:`, result);
+      for( let row of result ){
+        for (let i = 0; i < row.cantidadCheck; i++) {
+          this.listSeleccionado.push( { codigo: row.codigo, vendor: row.provedor } );
+
+        }
+      }
+      this.vista = "detalle";
+      console.log("****118", this.listSeleccionado)
     });
   }
 
