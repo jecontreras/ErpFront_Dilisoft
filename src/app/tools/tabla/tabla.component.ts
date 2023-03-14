@@ -93,18 +93,6 @@ export class TablaComponent implements OnInit {
     this.querys.page = 0;
     this.getList();
     if( ( this._dataConfig.returnHTML === 'formmoneypayment/' ) || this._dataConfig.returnHTML === 'formfactura/' ) this.getSupplier();
-    if( this._dataConfig.returnHTML === 'formfactura/' ) this.getDetail();
-  }
-
-  getDetail(){
-    this._model.getDetail({ user: this.dataUser.id } ).subscribe(( res:any )=>{
-      res = res.data;
-      console.log("*****102", res)
-      this.dataDummary = {
-        sumPending: res.sumPending,
-        paymentsTotal: res.paymentsTotal
-      }
-    });
   }
 
   getSupplier(){
@@ -150,6 +138,18 @@ export class TablaComponent implements OnInit {
       else this.querys.where.provedor = this.txtSupplier;
     }
     this.getList();
+    if( this._dataConfig.returnHTML === 'formfactura/' ) this.getDetail();
+  }
+
+  getDetail(){
+    this._model.getDetail({ user: this.dataUser.id, provedor: this.txtSupplier } ).subscribe(( res:any )=>{
+      res = res.data;
+      console.log("*****102", res)
+      this.dataDummary = {
+        sumPending: res.sumPending || 0,
+        paymentsTotal: res.paymentsTotal || 0
+      }
+    });
   }
 
   getList(){
@@ -188,6 +188,7 @@ export class TablaComponent implements OnInit {
               if( filter ) { item.warning = false; item.full = false;  item.danger = true;}
               filter = key.listTalla.find( ( oll )=> oll.cantidad <= 10 );
               if( filter ) { item.warning = true; item.full = false;  item.danger = false; }
+              for(let kepi of key.listTalla ) if( kepi.cantidad <= 5 ) { item.warning = false; item.full = false;  item.danger = true;}
             }
           }
         }

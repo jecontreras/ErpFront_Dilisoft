@@ -127,9 +127,10 @@ export class FormMoneyPaymentComponent implements OnInit {
       ...this.data,
       codigo: this._tools.codigo()
     };
-    console.log("*****130", data)
-    if( Object.keys( data.listMoney ).length == 0 ) return this._tools.basic("Error necesita almenos una factura a que abonar")
-    if( data.remaining !== 0  ) return this._tools.basic("Error no puede quedar con un valor tiene que estar en sero el restante disponible!!")
+    if( !data.loan ){
+      if( Object.keys( data.listMoney ).length == 0 ) return this._tools.basic("Error necesita almenos una factura a que abonar")
+      if( data.remaining !== 0  ) return this._tools.basic("Error no puede quedar con un valor tiene que estar en sero el restante disponible!!")
+    }
     this._moneyPayment.create( data ).subscribe(( res:any )=>{
       res = res.data;
       this.id = res.id;

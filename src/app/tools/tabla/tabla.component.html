@@ -175,6 +175,10 @@
                         <span>{{ _tools.monedaChange( 3,2, element.monto ) }} </span>
                       </div>
                       <div class="col-sm-3 col-6">
+                        <label for="">Abonos ala factura:&nbsp;</label>
+                        <span>{{ _tools.monedaChange( 3,2, element.passMoney ) }} </span>
+                      </div>
+                      <div class="col-sm-3 col-6">
                         <label for="">Tipo Factura:&nbsp;</label>
                         <span>{{ element.entrada == 0 ? 'Entrada' : 'salida' }} </span>
                       </div>
@@ -193,10 +197,6 @@
                       <div class="col-sm-3 col-6">
                         <label for="">Fecha Asentado:&nbsp;</label>
                         <span>{{ element.fechaasentado }} </span>
-                      </div>
-                      <div class="col-sm-3 col-6">
-                        <label for="">Abonos ala factura:&nbsp;</label>
-                        <span>{{ _tools.monedaChange( 3,2, element.passMoney ) }} </span>
                       </div>
                       <div class="col-sm-3 col-6">
                         <label for="">Fecha vencimiento:&nbsp;</label>
