@@ -17,9 +17,11 @@
                                     <a class="btn btn-primary" href="javascript:void(0)" (click)="nextCheck()">Siguiente</a>
                                 </div>
                                 <div class="" *ngIf="vista == 'detalle'">
-
-
                                     <a class="btn btn-primary" href="javascript:void(0)" (click)="print()">Imprimir</a>
+                                    <a class="btn btn-danger" href="javascript:void(0)" (click)="volverVista()">Volver</a>
+                                </div>
+                                <div class="" *ngIf="vista == 'two'">
+                                    <a class="btn btn-primary" href="javascript:void(0)" (click)="openSelect()">Imprimir</a>
                                     <a class="btn btn-danger" href="javascript:void(0)" (click)="volverVista()">Volver</a>
                                 </div>
                             </div>
@@ -31,7 +33,7 @@
         </div>
     </div>
 </div>
-<div class="row" id="component1">
+<div class="row" id="print">
     <div class="col-12" *ngIf="vista == 'inicial'">
         <div class="container">
             <div class="row">
@@ -62,8 +64,9 @@
                             <p class="card-text">
                                 <ngx-barcode [bc-height]="10" [bc-width]="1" [bc-value]="row.codigo" [bc-display-value]="true"></ngx-barcode>
                             </p>
-                            <a href="javascript:void(0)" class="btn btn-primary"
-                                (click)="printCodigo( row )">Imprimir</a>
+                            <input type="checkbox" class="form-check-input" [(ngModel)]="row.check">
+                            <!--<a href="javascript:void(0)" class="btn btn-primary"
+                                (click)="printCodigo( row )">Imprimir</a>-->
                         </div>
                     </div>
                 </div>

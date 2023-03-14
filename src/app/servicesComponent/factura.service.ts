@@ -13,6 +13,9 @@ export class FacturaService {
   get(query:any){
     return this._model.querys('factura/querys',query, 'post');
   }
+  getDetail(query:any){
+    return this._model.querys('factura/getDetail',query, 'post');
+  }
   create(query:any){
     return this._model.querys('factura',query, 'post');
   }

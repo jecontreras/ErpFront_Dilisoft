@@ -23,7 +23,7 @@ export interface PeriodicElement {
 })
 export class FormMoneyPaymentComponent implements OnInit {
 
-  data:any = { date: moment().format("DD/MM/YYYY")};
+  data:any = { date: moment().format("YYYY-MM-DD") };
   id:string;
   titleBTN:string = "Guardar";
   listProvedor:any = [];

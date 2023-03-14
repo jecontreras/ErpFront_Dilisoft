@@ -4,7 +4,6 @@ import { FormArticuloComponent } from './form-articulo/form-articulo.component';
 import { RouterModule } from '@angular/router';
 import { FormRoutes } from './admin-layout.routing';
 import { NgxCurrencyModule } from "ngx-currency";
-import { FormsModule } from '@angular/forms';
 import { FormCategoriaComponent } from './form-categoria/form-categoria.component';
 import { FormEmpresaComponent } from './form-empresa/form-empresa.component';
 import { FormFacturaComponent } from './form-factura/form-factura.component';
@@ -18,6 +17,7 @@ import { DialogModule } from '../dialog/dialog.module';
 import { MyOwnCustomMaterialModule } from '../app.material.module';
 import { ToolsModule } from '../tools/tools.module';
 import { FormMoneyPaymentComponent } from './form-money-payment/form-money-payment.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -51,6 +51,7 @@ import { FormMoneyPaymentComponent } from './form-money-payment/form-money-payme
     DialogModule,
     ToolsModule,
     MyOwnCustomMaterialModule,
+    ReactiveFormsModule,
     RouterModule.forChild(FormRoutes),
   ]
 })

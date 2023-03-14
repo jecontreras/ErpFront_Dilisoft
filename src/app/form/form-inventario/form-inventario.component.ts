@@ -15,7 +15,7 @@ import { Store } from '@ngrx/store';
 export class FormInventarioComponent implements OnInit {
 
   data:any = {
-    fecha: moment().format("DD/MM/YYYY")
+    fecha: moment().format("YYYY-MM-DD")
   };
   id:any;
   titleBTN:string = "Guardar";

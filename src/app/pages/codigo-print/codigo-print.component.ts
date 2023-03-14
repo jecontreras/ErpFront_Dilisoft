@@ -3,13 +3,15 @@ import { ToolsService } from 'src/app/services/tools.service';
 import { ArticuloService } from 'src/app/servicesComponent/articulo.service';
 import * as _ from 'lodash';
 import { ProvedorService } from 'src/app/servicesComponent/provedor.service';
+import { MatDialog } from '@angular/material/dialog';
+import { CheckCodePrintComponent } from 'src/app/dialog/check-code-print/check-code-print.component';
 @Component({
   selector: 'app-codigo-print',
   templateUrl: './codigo-print.component.html',
   styleUrls: ['./codigo-print.component.scss']
 })
 export class CodigoPrintComponent implements OnInit {
-  
+
   listArtiuclos:any = [];
   vista:string = "inicial";
   listSeleccionado:any = [];
@@ -19,7 +21,8 @@ export class CodigoPrintComponent implements OnInit {
   constructor(
     private _articulos: ArticuloService,
     private _tools: ToolsService,
-    private _provedor: ProvedorService
+    private _provedor: ProvedorService,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -53,6 +56,8 @@ export class CodigoPrintComponent implements OnInit {
   }
 
   print(){
+    this._tools.print();
+    return false;
     //window.print();
     let printContents = document.getElementById("component1").innerHTML;
     let originalContents = document.body.innerHTML;
@@ -84,7 +89,7 @@ export class CodigoPrintComponent implements OnInit {
     //console.log( vendor );
     for (let i = 0; i < result; i++) {
       this.listSeleccionado.push( { codigo: row.codigo, vendor: vendor } );
-      
+
     }
     this.vista = "detalle";
 
@@ -94,6 +99,26 @@ export class CodigoPrintComponent implements OnInit {
     this.vista = "inicial";
     this.listSeleccionado = [];
     location.reload();
+  }
+
+  openSelect(){
+    const dialogRef = this.dialog.open(CheckCodePrintComponent,{
+      width: "50%",
+      height: "800px",
+      data: { datos: this.listArtiuclos.filter( ( row:any )=> row.check == true ) }
+    });
+
+    dialogRef.afterClosed().subscribe( async ( result ) => {
+      console.log(`Dialog result:`, result);
+      for( let row of result ){
+        for (let i = 0; i < row.cantidadCheck; i++) {
+          this.listSeleccionado.push( { codigo: row.codigo, vendor: row.provedor } );
+
+        }
+      }
+      this.vista = "detalle";
+      console.log("****118", this.listSeleccionado)
+    });
   }
 
 }
