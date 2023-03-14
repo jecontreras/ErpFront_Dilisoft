@@ -51,10 +51,18 @@
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-username">Fecha</label>
                                     <span *ngIf="disabledPrint">&nbsp; {{ data.fecha }}</span>
-                                    <input type="datetime" [(ngModel)]="data.fecha" *ngIf="!disabledPrint"
+                                    <input type="date" [(ngModel)]="data.fecha" *ngIf="!disabledPrint"
                                         class="form-control form-control-alternative" placeholder="" [disabled]="data.asentado">
                                 </div>
                             </div>
+                            <div class="col-lg-4" *ngIf="data.entrada == 0 ">
+                              <div class="form-group">
+                                  <label class="form-control-label" for="input-username">Fecha de Vencimiento</label>
+                                  <span *ngIf="disabledPrint">&nbsp; {{ data.expiration }}</span>
+                                  <input type="date" [(ngModel)]="data.expiration" *ngIf="!disabledPrint"
+                                      class="form-control form-control-alternative" placeholder="" [disabled]="data.asentado">
+                              </div>
+                          </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-username">Nombre del cliente</label>
@@ -107,7 +115,7 @@
                                     <label  class="form-check-label" for="exampleCheck1">Factura cancela en su totalida</label>
                               </div>
                             </div>
-                            <div class="col-lg-4" *ngIf="data.entrada == 0">
+                            <div class="col-lg-4" *ngIf="data.entrada == 0 && this.data.asentado">
                               <div class="form-group">
                                 <label class="form-control-label" for="input-username">Abono a la factura</label>
                                 <span *ngIf="disabledPrint">&nbsp; {{ data.passMoney }}</span>
@@ -190,15 +198,9 @@
                                                     </div>
                                                     <div *ngIf="keys == 'color'">
                                                         {{ item.nameColor }}
-                                                        <!--<select class="form-control"  [(ngModel)]="item.selectColor" (change)="selectColor( item )" [disabled]="data.asentado" disabled>
-                                                            <option *ngFor="let row of item.listColor" [value]="row.id">{{ row.color }}</option>
-                                                        </select>-->
                                                     </div>
                                                     <div *ngIf="keys == 'talla' && item.selectColor">
                                                         {{ item.nameTalla }}
-                                                        <!--<select class="form-control"  [(ngModel)]="item.selectTalla" [disabled]="data.asentado" disabled>
-                                                            <option [value]="row.id" *ngFor="let row of item.listTalla">{{ row.talla }}</option>
-                                                        </select>-->
                                                     </div>
                                                     <div *ngIf="keys == 'cantidad' && item.selectTalla">
                                                         <input type="number" [(ngModel)]="item.cantidadSelect" [disabled]="data.entrada == 0 && data.asentado" *ngIf="!disabledPrint"

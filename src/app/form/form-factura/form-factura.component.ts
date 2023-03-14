@@ -84,7 +84,7 @@ export class FormFacturaComponent implements OnInit {
     else {
       this.data = {
         codigo: this._tools.codigo(),
-        fecha: moment().format("DD/MM/YYYY"),
+        fecha: moment().format("YYYY-MM-DD"),
         entrada: 1,
         tipoFactura: 1
       };
@@ -159,8 +159,12 @@ export class FormFacturaComponent implements OnInit {
 
   async submit(){
     if( this.id ) await this.updateFun();
-    else await this.crearFun();
-    setTimeout(()=>location.reload(), 3000 );
+    else {
+      const validate = this.validateInput();
+      if( validate ) await this.crearFun();
+      else return false;
+    }
+    setTimeout( ()=> location.reload(), 3000 );
   }
 
   async updateFun(){
@@ -222,6 +226,18 @@ export class FormFacturaComponent implements OnInit {
         resolve( true );
       },( )=>resolve( false ) );
     })
+  }
+
+  validateInput(){
+    if( !this.data.codigo ) {this._tools.basic("Por favor ingresar Campo de codigo"); return false; }
+    if( !this.data.fecha ) { this._tools.basic("Por favor ingresar Campo de fecha"); return false;}
+    if( this.data.entrada == 1 ) if( !this.data.tipoFactura ) { this._tools.basic("Por favor ingresar Campo de tipoFactura"); return false; }
+    if( this.data.entrada == 0 ) {
+      if( !this.data.expiration ) { this._tools.basic("Por favor ingresar Campo de fecha de vencimiento"); return false; }
+      if( !this.data.provedor ) { this._tools.basic("Por favor ingresar Campo de codigo"); return false; }
+    }
+    if( !this.data.codigo ) { this._tools.basic("Por favor ingresar Campo de codigo"); return false; }
+    return true;
   }
 
   async acentarFactura(){
