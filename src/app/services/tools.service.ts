@@ -348,5 +348,14 @@ export class ToolsService {
     popupWin.document.close();
   }
 
+  uppercaseFirstLetter( txt:any ){
+    let titleCode = txt.split(" ");
+    let finix = String();
+        for( const row of titleCode ){
+          finix+= ( row.charAt(0) ).toUpperCase();
+        }
+    return finix;
+  }
+
 
 }

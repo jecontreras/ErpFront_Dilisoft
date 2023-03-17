@@ -51,7 +51,7 @@ export class FormArticuloComponent implements OnInit {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   fruitCtrl = new FormControl();
   filteredTallas: Observable<string[]>;
-  listTallas: string[] = ['36','37', '38', '39', '40', '41', '42', '43','44'];
+  listTallas: string[] = ['34','35','36','37', '38', '39', '40', '41', '42', '43','44'];
   alllistTallas: string[] = ['34','35','36','37', '38', '39', '40', '41', '42', '43','44'];
 
   @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
@@ -106,6 +106,10 @@ export class FormArticuloComponent implements OnInit {
         resolve( res.data );
       });
     });
+  }
+
+  handleSelectCategory(){
+    this.listTallas = ( this.listSubCategoria.find(( item:any )=> item.id === this.data.subcategoria ) ).listSizes || [];
   }
 
   getCategoria(){
@@ -233,13 +237,14 @@ export class FormArticuloComponent implements OnInit {
     console.log("***RRR")
     if(this.id) return false;
     for( let row of this.listcolor ){
-      console.log("***234", row)
       row.listTalla = [];
       if( row.color ){
         for( let item of this.listTallas ){
-          if( item ) row.listTalla.push( { codigo: `${ ( row.color.charAt(0) ).toUpperCase() }${ this.data.codigo }-${item}`, talla: item, cantidad: 1 } );
+          let titleCode = this._tools.uppercaseFirstLetter( row.color );
+          if( item ) row.listTalla.push( { codigo: `${ titleCode }${ this.data.codigo }-${item}`, talla: item, cantidad: 1 } );
         }
       }
+      row.listTalla = _.orderBy( row.listTalla, 'talla');
     }
   }
 

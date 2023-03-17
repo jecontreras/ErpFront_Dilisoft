@@ -32,7 +32,7 @@ export class CodigoPrintComponent implements OnInit {
   }
 
   getArticles(){
-    this._articulos.get( { } ).subscribe(( res )=>{
+    this._articulos.get( { where:{}, limit: 1000000 } ).subscribe(( res )=>{
       this.lisArticles= res.data;
     });
   }
@@ -45,7 +45,7 @@ export class CodigoPrintComponent implements OnInit {
   }
 
   getArticulos( id ){
-    this._articulos.getTalla( { where: { articulo: id, estado: 0 }, limit: 1000 } ).subscribe( ( res:any )=>{
+    this._articulos.getTalla( { where: { articulo: id, estado: 0 }, limit: 100000 } ).subscribe( ( res:any )=>{
       this.listArtiuclos = res.data;
     });
   }
@@ -98,7 +98,7 @@ export class CodigoPrintComponent implements OnInit {
   volverVista(){
     this.vista = "inicial";
     this.listSeleccionado = [];
-    location.reload();
+    //location.reload();
   }
 
   openSelect(){

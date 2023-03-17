@@ -117,6 +117,8 @@ export class FormFacturaComponent implements OnInit {
           precioClienteDrop: row.precio,
           precioShipping: row.precio,
           precioOtras: row.precio,
+          precioLokompro: row.precio,
+          precioArley: row.precioArley,
           precioCompra: row.precio,
           eliminado: false,
           ...row
@@ -164,7 +166,7 @@ export class FormFacturaComponent implements OnInit {
       if( validate ) await this.crearFun();
       else return false;
     }
-    setTimeout( ()=> location.reload(), 3000 );
+    //setTimeout( ()=> location.reload(), 3000 );
   }
 
   async updateFun(){
@@ -179,6 +181,8 @@ export class FormFacturaComponent implements OnInit {
             cantidad: item.cantidadSelect,
             ...item
           };
+          if( this.data.entrada == 1 && this.data.tipoFactura == 4) data.precio = item.precioArley;
+          if( this.data.entrada == 1 && this.data.tipoFactura == 3) data.precio = item.precioLokompro;
           if( this.data.entrada == 1 && this.data.tipoFactura == 2) data.precio = item.precioShipping;
           if( this.data.entrada == 1 && this.data.tipoFactura == 1) data.precio = item.precioClienteDrop;
           if( this.data.entrada == 1 && this.data.tipoFactura == 0) data.precio = item.precioOtras;
@@ -207,6 +211,8 @@ export class FormFacturaComponent implements OnInit {
             cantidad: item.cantidadSelect,
             ...item
           };
+          if( this.data.entrada == 1 && this.data.tipoFactura == 4) data.precio = item.precioArley;
+          if( this.data.entrada == 1 && this.data.tipoFactura == 3) data.precio = item.precioLokompro;
           if( this.data.entrada == 1 && this.data.tipoFactura == 2) data.precio = item.precioShipping;
           if( this.data.entrada == 1 && this.data.tipoFactura == 1) data.precio = item.precioClienteDrop;
           if( this.data.entrada == 1 && this.data.tipoFactura == 0) data.precio = item.precioOtras;
@@ -311,13 +317,14 @@ export class FormFacturaComponent implements OnInit {
   for( let row of this.tablet.row ){
     if( row.eliminado == false ){
       if( ( !row.precioTotal ) || ( this.data.entrada != 3 ) ) row.precioTotal = 0;
-      console.log( row, this.data );
       if( this.data.entrada == 0  ) row.precioTotal= row.precioCompra * ( row.cantidadSelect || 0 ) ;
 
       if( ( this.data.entrada == 1 || this.data.entrada == 2 ) && this.data.tipoFactura == 0) row.precioTotal= row.precioOtras * ( row.cantidadSelect || 0 ) ;
 
       if( ( this.data.entrada == 1 || this.data.entrada == 2 ) && this.data.tipoFactura == 1) row.precioTotal= row.precioClienteDrop * ( row.cantidadSelect || 0 ) ;
       if( ( this.data.entrada == 1 || this.data.entrada == 2 ) && this.data.tipoFactura == 2) row.precioTotal= row.precioShipping * ( row.cantidadSelect || 0 ) ;
+      if( ( this.data.entrada == 1 || this.data.entrada == 2 ) && this.data.tipoFactura == 3) row.precioTotal= row.precioLokompro * ( row.cantidadSelect || 0 ) ;
+      if( ( this.data.entrada == 1 || this.data.entrada == 2 ) && this.data.tipoFactura == 4) row.precioTotal= row.precioArley * ( row.cantidadSelect || 0 ) ;
 
       if( ( this.data.entrada != 2 ) || ( this.data.entrada != 3 ) ) this.data.monto+= row.precioTotal;
     }
