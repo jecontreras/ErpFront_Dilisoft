@@ -32,7 +32,7 @@ export class CodigoPrintComponent implements OnInit {
   }
 
   getArticles(){
-    this._articulos.get( { where:{}, limit: 1000000 } ).subscribe(( res )=>{
+    this._articulos.get( { where:{estado: 0 }, limit: 1000000 } ).subscribe(( res )=>{
       this.lisArticles= res.data;
     });
   }
