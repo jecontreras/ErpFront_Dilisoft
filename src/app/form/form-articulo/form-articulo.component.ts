@@ -19,7 +19,7 @@ import { MatChipInputEvent } from '@angular/material/chips';
   styleUrls: ['./form-articulo.component.scss']
 })
 export class FormArticuloComponent implements OnInit {
-  
+
   listCategoria:any = [];
   listSubCategoria:any = [];
   opcionCurrencys:any;
@@ -51,12 +51,12 @@ export class FormArticuloComponent implements OnInit {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   fruitCtrl = new FormControl();
   filteredTallas: Observable<string[]>;
-  listTallas: string[] = ['36','37', '38', '39', '40', '41', '42', '43','44'];
+  listTallas: string[] = ['34','35','36','37', '38', '39', '40', '41', '42', '43','44'];
   alllistTallas: string[] = ['34','35','36','37', '38', '39', '40', '41', '42', '43','44'];
 
   @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
-  
+
   constructor(
     private _tools: ToolsService,
     private _articulo: ArticuloService,
@@ -64,7 +64,7 @@ export class FormArticuloComponent implements OnInit {
     private _categoria: CategoriaService,
     private _articuloLog: ArticuloLogService,
     private _store: Store<USER>,
-  ) { 
+  ) {
     this._store.subscribe((store: any) => {
       store = store.name;
       if(!store) return false;
@@ -108,6 +108,10 @@ export class FormArticuloComponent implements OnInit {
     });
   }
 
+  handleSelectCategory(){
+    this.listTallas = ( this.listSubCategoria.find(( item:any )=> item.id === this.data.subcategoria ) ).listSizes || [];
+  }
+
   getCategoria(){
     this._categoria.get( { where: {
       categoriaPadre:null,
@@ -133,7 +137,7 @@ export class FormArticuloComponent implements OnInit {
       listTalla:[{ talla: 0, cantidad: 1 }],
       codigo: this._tools.codigo()
     });
-    
+
   }
   async dropColor( item:any ){
     item.estado = 1;
@@ -143,19 +147,22 @@ export class FormArticuloComponent implements OnInit {
     //this.listcolor.splice( idx, 1);
   }
   newTalla( item:any ){
+    this.processCode();
+    /*
     item.check = !item.check;
     if( item.check == true ) item.listTalla.push({
       talla: 0,
       cantidad: 1
-    });
+    });*/
   }
   async dropTalla( item:any, idx  ){
+    console.log("****157", item, idx)
     item.check = false;
     item.listTalla[idx].check = false;
     item.listTalla[idx].estado = 1;
     if( item.id ) await this.updateFun();
-    item.listTalla =  _.filter( item.listTalla, ( row:any ) => row.talla != item.talla );
-  } 
+    item.listTalla =  _.filter( item.listTalla, ( row:any ) => row.talla != item.listTalla[idx].talla );
+  }
   submit(){
     this.data.user = this.dataUser.id;
     if( this.id ) this.updateFun();
@@ -233,13 +240,14 @@ export class FormArticuloComponent implements OnInit {
     console.log("***RRR")
     if(this.id) return false;
     for( let row of this.listcolor ){
-      console.log("***234", row)
       row.listTalla = [];
       if( row.color ){
         for( let item of this.listTallas ){
-          if( item ) row.listTalla.push( { codigo: `${ ( row.color.charAt(0) ).toUpperCase() }${ this.data.codigo }-${item}`, talla: item, cantidad: 1 } );
+          let titleCode = this._tools.uppercaseFirstLetter( row.color );
+          if( item ) row.listTalla.push( { codigo: `${ titleCode }${ this.data.codigo }-${item}`, talla: item, cantidad: 1 } );
         }
       }
+      row.listTalla = _.orderBy( row.listTalla, 'talla');
     }
   }
 

@@ -70,7 +70,7 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-email">Subcategoria</label>
-                                    <select class="form-control" [(ngModel)]="data.subcategoria">
+                                    <select class="form-control" [(ngModel)]="data.subcategoria" (change)="handleSelectCategory()">
                                         <option [value]="item.id" *ngFor="let item of listSubCategoria">{{ item.titulo }}</option>
                                     </select>
                                 </div>
@@ -84,7 +84,7 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label class="form-control-label" for="input-email">Precio Venta</label>
+                                    <label class="form-control-label" for="input-email">Precio Venta ( local )</label>
                                     <input currencyMask [(ngModel)]="data.precioClienteDrop"
                                         class="form-control form-control-sm" [options]="opcionCurrencys" />
                                 </div>
@@ -100,6 +100,20 @@
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-email">Precio de Drop Shipping</label>
                                     <input currencyMask [(ngModel)]="data.precioShipping"
+                                        class="form-control form-control-sm" [options]="opcionCurrencys" />
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-email">Precio de Lokomproaqui</label>
+                                    <input currencyMask [(ngModel)]="data.precioLokompro"
+                                        class="form-control form-control-sm" [options]="opcionCurrencys" />
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-email">Precio de Arley</label>
+                                    <input currencyMask [(ngModel)]="data.precioArley"
                                         class="form-control form-control-sm" [options]="opcionCurrencys" />
                                 </div>
                             </div>
@@ -205,13 +219,13 @@
                                                                 <input type="text" [(ngModel)]="keys.codigo" class="form-control form-control-alternative">
                                                               </td>
                                                               <td>
-                                                                <input type="number" [(ngModel)]="keys.talla" class="form-control form-control-alternative" (blur)="newTalla(item, im)">
+                                                                <input type="text" [(ngModel)]="keys.talla" class="form-control form-control-alternative" (blur)="newTalla(item, im)">
                                                               </td>
                                                               <td>
-                                                                <input type="number" [(ngModel)]="keys.cantidad" [disabled]="id" class="form-control form-control-alternative">
+                                                                <input type="text" [(ngModel)]="keys.cantidad" [disabled]="id" class="form-control form-control-alternative">
                                                               </td>
                                                               <td>
-                                                                <button type="button" class="btn btn-danger" (click)="dropTalla(keys)"><i class="ni ni-fat-remove"></i></button>
+                                                                <button type="button" class="btn btn-danger" (click)="dropTalla(item, im)"><i class="ni ni-fat-remove"></i></button>
                                                               </td>
                                                             </tr>
                                                             </tbody>
@@ -245,7 +259,7 @@
                                                     <span *ngIf="keys =='tipoEntrada'">
                                                         <p *ngIf="item[keys] == 0" class="btnEntrada">Entrada</p>
                                                         <p *ngIf="item[keys] == 1" class="btnSalida">Salida</p>
-                                                        
+
                                                     </span>
                                                     <span *ngIf="keys =='createdAt'"> {{ item[keys] | date:'medium'}} </span>
                                                 </th>
@@ -256,7 +270,7 @@
                                 </ul>
                             </li>
                         </ul>
-                    </mat-tab> 
+                    </mat-tab>
                     <!--<mat-tab label="Movimiento de salida">
                         <ul class="list-group">
                             <li class="list-group-item" *ngFor="let row of listcolor">

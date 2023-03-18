@@ -23,7 +23,7 @@ export class CheckCodePrintComponent implements OnInit {
   ngOnInit(): void {
     this.getVendor();
     this.dataSource = this.datas.datos || [];
-    for( let row of this.dataSource) row.cantidadCheck = 5;
+    for( let row of this.dataSource) row.cantidadCheck = 0;
   }
 
   seleccionado(){
