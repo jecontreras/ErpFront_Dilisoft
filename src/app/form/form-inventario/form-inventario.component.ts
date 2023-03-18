@@ -27,6 +27,8 @@ export class FormInventarioComponent implements OnInit {
   imagenCreada;
   asentado:boolean = false;
   dataUser:any = {};
+  filtreTxt:string;
+  cloneData:any =  [];
   constructor(
     private activate: ActivatedRoute,
     private _tools: ToolsService,
@@ -51,6 +53,7 @@ export class FormInventarioComponent implements OnInit {
     this._inventario.detalle({ }).subscribe( ( res:any )=>{
       console.log("***,", res)
       this.listInventario = res.listArticulo || [];
+      this.cloneData = _.clone( this.listInventario );
       this.suma();
     });
   }
@@ -67,11 +70,16 @@ export class FormInventarioComponent implements OnInit {
           codigo: item.articuloTalla.codigo,
           cantidad: item.cantidadIngresar,
           titulo: item.articulo.titulo,
-          createdAt: item.articulo.createdAt,
+          createdAt: moment(item.articulo.createdAt).format("YYYY-MM-DD"),
           //listColor:
         };
       });
     });
+  }
+
+  txtFilter(){
+    if( this.filtreTxt ) this.listInventario = this.listInventario.filter( ( row )=> row.codigo === this.filtreTxt )
+    else this.listInventario = this.cloneData;
   }
 
   submit(){

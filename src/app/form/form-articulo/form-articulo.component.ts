@@ -19,7 +19,7 @@ import { MatChipInputEvent } from '@angular/material/chips';
   styleUrls: ['./form-articulo.component.scss']
 })
 export class FormArticuloComponent implements OnInit {
-  
+
   listCategoria:any = [];
   listSubCategoria:any = [];
   opcionCurrencys:any;
@@ -56,7 +56,7 @@ export class FormArticuloComponent implements OnInit {
 
   @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
-  
+
   constructor(
     private _tools: ToolsService,
     private _articulo: ArticuloService,
@@ -64,7 +64,7 @@ export class FormArticuloComponent implements OnInit {
     private _categoria: CategoriaService,
     private _articuloLog: ArticuloLogService,
     private _store: Store<USER>,
-  ) { 
+  ) {
     this._store.subscribe((store: any) => {
       store = store.name;
       if(!store) return false;
@@ -137,7 +137,7 @@ export class FormArticuloComponent implements OnInit {
       listTalla:[{ talla: 0, cantidad: 1 }],
       codigo: this._tools.codigo()
     });
-    
+
   }
   async dropColor( item:any ){
     item.estado = 1;
@@ -147,19 +147,22 @@ export class FormArticuloComponent implements OnInit {
     //this.listcolor.splice( idx, 1);
   }
   newTalla( item:any ){
+    this.processCode();
+    /*
     item.check = !item.check;
     if( item.check == true ) item.listTalla.push({
       talla: 0,
       cantidad: 1
-    });
+    });*/
   }
   async dropTalla( item:any, idx  ){
+    console.log("****157", item, idx)
     item.check = false;
     item.listTalla[idx].check = false;
     item.listTalla[idx].estado = 1;
     if( item.id ) await this.updateFun();
-    item.listTalla =  _.filter( item.listTalla, ( row:any ) => row.talla != item.talla );
-  } 
+    item.listTalla =  _.filter( item.listTalla, ( row:any ) => row.talla != item.listTalla[idx].talla );
+  }
   submit(){
     this.data.user = this.dataUser.id;
     if( this.id ) this.updateFun();

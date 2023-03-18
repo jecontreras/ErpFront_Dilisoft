@@ -19,7 +19,7 @@
       <td mat-cell *matCellDef="let element">
         <span *ngIf="( column !== 'cantidadCheck' ) && ( column !== 'provedor' )">{{element[column]}} </span>
         <span *ngIf="column === 'cantidadCheck'">
-          <input type="number" [(ngModel)]="element.cantidadCheck" class="form-control form-control-alternative" autocomplete="off" >
+          <input type="text" [(ngModel)]="element.cantidadCheck" class="form-control form-control-alternative" autocomplete="off" >
         </span>
         <span *ngIf="column === 'provedor'">
           <select class="form-control"  [(ngModel)]="element.provedor">
