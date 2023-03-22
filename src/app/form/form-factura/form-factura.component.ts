@@ -24,9 +24,9 @@ export class FormFacturaComponent implements OnInit {
   id:any;
   titleBTN:string = "Guardar";
   tablet:any = {
-    headers:["Codigo", "Color", "Talla", "Cantidad", "Precio Unitario", "Precio Total"],
+    headers:["Codigo", "Color", "Talla", "Existencia", "Cantidad", "Precio Unitario", "Precio Total"],
     row:[],
-    keys:["codigo","color","talla","cantidad", "precioClienteDrop", "precioTotal"]
+    keys:["codigo","color","talla",'existencia',"cantidad", "precioClienteDrop", "precioTotal"]
   };
   querys:any = {
     where:{
