@@ -145,11 +145,17 @@
                                             <h3 class="mb-0">Información Factura</h3>
                                         </div>
                                         <div>
-                                            <label class="form-control-label" for="input-username">Precio Total</label>
-                                            <span *ngIf="disabledPrint">&nbsp; {{ data.monto }}</span>
-                                            <input *ngIf="!disabledPrint" currencyMask [(ngModel)]="data.monto"
+                                            <label class="form-control-label" for="input-username">Cantidad de pares</label>
+                                            <span *ngIf="disabledPrint">&nbsp; {{ data.cantidadPares }}</span>
+                                            <input *ngIf="!disabledPrint" currencyMask [(ngModel)]="data.cantidadPares"
                                                 class="form-control form-control-sm" [options]="opcionCurrencys" />
                                         </div>
+                                        <div>
+                                          <label class="form-control-label" for="input-username">Precio Total</label>
+                                          <span *ngIf="disabledPrint">&nbsp; {{ data.monto }}</span>
+                                          <input *ngIf="!disabledPrint" currencyMask [(ngModel)]="data.monto"
+                                              class="form-control form-control-sm" [options]="opcionCurrencys" />
+                                      </div>
                                         <div class="col-4 text-right">
                                             <button type="button" class="btn btn-primary" *ngIf="( data.entrada != 0 || !id ) || !this.data.asentado " (click)="openArticulo({})">Abrir articulos</button>
                                         </div>
@@ -213,7 +219,7 @@
                                                         {{ item.nameTalla }}
                                                     </div>
                                                     <div *ngIf="keys == 'cantidad' && item.selectTalla">
-                                                        <input type="number" [(ngModel)]="item.cantidadSelect" [disabled]="data.entrada == 0 && data.asentado" *ngIf="!disabledPrint"
+                                                        <input type="text" [(ngModel)]="item.cantidadSelect" [disabled]="data.entrada == 0 && data.asentado" *ngIf="!disabledPrint"
                                                                 class="form-control form-control-alternative" autofocus="autofocus" autocomplete="off"(change)="suma()">
                                                         <span *ngIf="disabledPrint">&nbsp; {{ item.cantidadSelect }}</span>
                                                     </div>

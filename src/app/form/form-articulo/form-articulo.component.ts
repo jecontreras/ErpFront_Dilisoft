@@ -244,7 +244,7 @@ export class FormArticuloComponent implements OnInit {
       if( row.color ){
         for( let item of this.listTallas ){
           let titleCode = this._tools.uppercaseFirstLetter( row.color );
-          if( item ) row.listTalla.push( { codigo: `${ titleCode }${ this.data.codigo }-${item}`, talla: item, cantidad: 1 } );
+          if( item ) row.listTalla.push( { codigo: `${ titleCode }${ this.data.codigo } ${item}`, talla: item, cantidad: 1 } );
         }
       }
       row.listTalla = _.orderBy( row.listTalla, 'talla');

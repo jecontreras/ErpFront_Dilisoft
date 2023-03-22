@@ -314,17 +314,19 @@ export class FormFacturaComponent implements OnInit {
 
  suma(){
   this.data.monto = 0;
+  this.data.cantidadPares = 0;
   for( let row of this.tablet.row ){
     if( row.eliminado == false ){
+      this.data.cantidadPares+= row.cantidadSelect
       if( ( !row.precioTotal ) || ( this.data.entrada != 3 ) ) row.precioTotal = 0;
-      if( this.data.entrada == 0  ) row.precioTotal= row.precioCompra * ( row.cantidadSelect || 0 ) ;
+      if( this.data.entrada == 0  ) row.precioTotal= row.precioCompra * ( Number( row.cantidadSelect ) || 0 ) ;
 
-      if( ( this.data.entrada == 1 || this.data.entrada == 2 ) && this.data.tipoFactura == 0) row.precioTotal= row.precioOtras * ( row.cantidadSelect || 0 ) ;
+      if( ( this.data.entrada == 1 || this.data.entrada == 2 ) && this.data.tipoFactura == 0) row.precioTotal= row.precioOtras * ( Number( row.cantidadSelect ) || 0 ) ;
 
-      if( ( this.data.entrada == 1 || this.data.entrada == 2 ) && this.data.tipoFactura == 1) row.precioTotal= row.precioClienteDrop * ( row.cantidadSelect || 0 ) ;
-      if( ( this.data.entrada == 1 || this.data.entrada == 2 ) && this.data.tipoFactura == 2) row.precioTotal= row.precioShipping * ( row.cantidadSelect || 0 ) ;
-      if( ( this.data.entrada == 1 || this.data.entrada == 2 ) && this.data.tipoFactura == 3) row.precioTotal= row.precioLokompro * ( row.cantidadSelect || 0 ) ;
-      if( ( this.data.entrada == 1 || this.data.entrada == 2 ) && this.data.tipoFactura == 4) row.precioTotal= row.precioArley * ( row.cantidadSelect || 0 ) ;
+      if( ( this.data.entrada == 1 || this.data.entrada == 2 ) && this.data.tipoFactura == 1) row.precioTotal= row.precioClienteDrop * ( Number( row.cantidadSelect ) || 0 ) ;
+      if( ( this.data.entrada == 1 || this.data.entrada == 2 ) && this.data.tipoFactura == 2) row.precioTotal= row.precioShipping * ( Number( row.cantidadSelect ) || 0 ) ;
+      if( ( this.data.entrada == 1 || this.data.entrada == 2 ) && this.data.tipoFactura == 3) row.precioTotal= row.precioLokompro * ( Number( row.cantidadSelect ) || 0 ) ;
+      if( ( this.data.entrada == 1 || this.data.entrada == 2 ) && this.data.tipoFactura == 4) row.precioTotal= row.precioArley * ( Number( row.cantidadSelect ) || 0 ) ;
 
       if( ( this.data.entrada != 2 ) || ( this.data.entrada != 3 ) ) this.data.monto+= row.precioTotal;
     }
