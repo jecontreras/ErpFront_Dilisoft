@@ -10,6 +10,7 @@ import { XlsService } from 'src/app/servicesComponent/xls.service';
 import { ProvedorService } from 'src/app/servicesComponent/provedor.service';
 import { USER } from 'src/app/interfaces/user';
 import { Store } from '@ngrx/store';
+import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 export interface PeriodicElement {
   name: string;
   position: number;
@@ -70,19 +71,27 @@ export class TablaComponent implements OnInit {
     paymentsTotal: 0
   };
   dataUser:any = {};
+	hoveredDate: NgbDate | null = null;
 
+	fromDate: NgbDate;
+	toDate: NgbDate | null = null;
+  viewDisabled:boolean = false;
+  
   constructor(
     private _router: Router,
     private _xls: XlsService,
     public _tools: ToolsService,
     private _supplier: ProvedorService,
     private _store: Store<USER>,
+    calendar: NgbCalendar
   ) {
     this._store.subscribe((store: any) => {
       store = store.name;
       if(!store) return false;
       this.dataUser = store.user || {};
     });
+    /*this.fromDate = calendar.getToday();
+		this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);*/
   }
 
   ngOnInit(): void {
@@ -116,6 +125,36 @@ export class TablaComponent implements OnInit {
       this.getList();
     }
   }
+  
+  onDateSelection(date: NgbDate) {
+		if (!this.fromDate && !this.toDate) {
+			this.fromDate = date;
+		} else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
+			this.toDate = date;
+		} else {
+			this.toDate = null;
+			this.fromDate = date;
+		}
+	}
+
+	isHovered(date: NgbDate) {
+		return (
+			this.fromDate && !this.toDate && this.hoveredDate && date.after(this.fromDate) && date.before(this.hoveredDate)
+		);
+	}
+
+	isInside(date: NgbDate) {
+		return this.toDate && date.after(this.fromDate) && date.before(this.toDate);
+	}
+
+	isRange(date: NgbDate) {
+		return (
+			date.equals(this.fromDate) ||
+			(this.toDate && date.equals(this.toDate)) ||
+			this.isInside(date) ||
+			this.isHovered(date)
+		);
+	}
 
   filterTxt(){
     this.querys.page = 0;
@@ -134,9 +173,20 @@ export class TablaComponent implements OnInit {
       else delete this.querys.where.entrada;
     }
     if( this.txtSupplier ){
+      delete this.querys.where.fecha;
       if( ( this._dataConfig.returnHTML === 'formmoneypayment/' ) ) this.querys.where.name = this.txtSupplier;
       else this.querys.where.provedor = this.txtSupplier;
     }
+    try {
+      if( this.fromDate.day && this.toDate.day ){
+        let fecha1 = String(this.fromDate.year) + "-" + String(this.fromDate.month) + "-" +String(this.fromDate.day);
+        let fecha2 = String(this.toDate.year) +"-"+ String(this.toDate.month) + "-"+ String(this.toDate.day);
+        this.querys.where.createdAt = {
+          ">=": moment( fecha1 ).format(),
+          "<=":moment( fecha2).format()
+        };
+      }
+    } catch (error) { }
     this.getList();
     if( this._dataConfig.returnHTML === 'formfactura/' ) this.getDetail();
   }
@@ -224,6 +274,10 @@ export class TablaComponent implements OnInit {
   print(){
     //window.print();
     this._xls.exportAsExcelFile( this.listXls, "Articulos");
+  }
+
+  handleActivateMenu(){
+    this.viewDisabled = !this.viewDisabled;
   }
 
 }

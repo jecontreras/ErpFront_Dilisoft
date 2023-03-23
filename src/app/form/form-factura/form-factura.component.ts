@@ -41,7 +41,7 @@ export class FormFacturaComponent implements OnInit {
   dataUser:any = {};
   dv:any = {};
   disabledPrint:boolean = false;
-
+  btnDisabled:boolean = false;
   constructor(
     private activate: ActivatedRoute,
     private _tools: ToolsService,
@@ -94,7 +94,7 @@ export class FormFacturaComponent implements OnInit {
   }
 
   getData( id:string, opt:string ){
-    this._factura.get( { where: { id: id } } ).subscribe(( res:any )=>{
+    this._factura.getDetallado( { where: { id: id } } ).subscribe(( res:any )=>{
       res = res.data[0];
       if( opt == 'view') {
         this.data = res || {};
@@ -160,77 +160,87 @@ export class FormFacturaComponent implements OnInit {
   }
 
   async submit(){
+    if( this.btnDisabled ) return true;
+    this.btnDisabled = true;
     if( this.id ) await this.updateFun();
     else {
       const validate = this.validateInput();
       if( validate ) await this.crearFun();
-      else return false;
     }
+    this.btnDisabled = false;
     //setTimeout( ()=> location.reload(), 3000 );
   }
 
   async updateFun(){
     return new Promise( resolve =>{
-      let data:any = {
-        listArticulo: _.map(this.tablet.row, ( item:any )=>{
-          let data:any = {
-            estado: 3,
-            articulo: item.id,
-            articuloTalla: item.selectTalla,
-            articuloColor: item.selectColor,
-            cantidad: item.cantidadSelect,
-            ...item
-          };
-          if( this.data.entrada == 1 && this.data.tipoFactura == 4) data.precio = item.precioArley;
-          if( this.data.entrada == 1 && this.data.tipoFactura == 3) data.precio = item.precioLokompro;
-          if( this.data.entrada == 1 && this.data.tipoFactura == 2) data.precio = item.precioShipping;
-          if( this.data.entrada == 1 && this.data.tipoFactura == 1) data.precio = item.precioClienteDrop;
-          if( this.data.entrada == 1 && this.data.tipoFactura == 0) data.precio = item.precioOtras;
-          if( this.data.entrada == 0 ) data.precio = item.precioCompra;
-          return data
-        }),
-        ...this.data
+      try {
+        let data:any = {
+          listArticulo: _.map(this.tablet.row, ( item:any )=>{
+            let data:any = {
+              estado: 3,
+              articulo: item.id,
+              articuloTalla: item.selectTalla,
+              articuloColor: item.selectColor,
+              cantidad: item.cantidadSelect,
+              ...item
+            };
+            if( this.data.entrada == 1 && this.data.tipoFactura == 4) data.precio = item.precioArley;
+            if( this.data.entrada == 1 && this.data.tipoFactura == 3) data.precio = item.precioLokompro;
+            if( this.data.entrada == 1 && this.data.tipoFactura == 2) data.precio = item.precioShipping;
+            if( this.data.entrada == 1 && this.data.tipoFactura == 1) data.precio = item.precioClienteDrop;
+            if( this.data.entrada == 1 && this.data.tipoFactura == 0) data.precio = item.precioOtras;
+            if( this.data.entrada == 0 ) data.precio = item.precioCompra;
+            return data
+          }),
+          ...this.data
+        }
+        this._factura.update( data ).subscribe(( res:any )=>{
+          this._tools.basic("Actualizado exitoso");
+          resolve( true );
+        },( )=> { resolve( false ); } );
+      } catch (error) {
+        resolve( false );
       }
-      this._factura.update( data ).subscribe(( res:any )=>{
-        this._tools.basic("Actualizado exitoso");
-        resolve( true );
-      },( )=> { resolve( false ); } );
     });
   }
   crearFun(){
     return new Promise( resolve =>{
-      this.data.user = this.dataUser.id;
-      let data:any = {
-        factura: this.data,
-        listArticulo: _.map(this.tablet.row, ( item:any )=>{
-          let data:any = {
-            estado: 3,
-            articulo: item.id,
-            articuloTalla: item.selectTalla,
-            articuloColor: item.selectColor,
-            cantidad: item.cantidadSelect,
-            ...item
-          };
-          if( this.data.entrada == 1 && this.data.tipoFactura == 4) data.precio = item.precioArley;
-          if( this.data.entrada == 1 && this.data.tipoFactura == 3) data.precio = item.precioLokompro;
-          if( this.data.entrada == 1 && this.data.tipoFactura == 2) data.precio = item.precioShipping;
-          if( this.data.entrada == 1 && this.data.tipoFactura == 1) data.precio = item.precioClienteDrop;
-          if( this.data.entrada == 1 && this.data.tipoFactura == 0) data.precio = item.precioOtras;
-          if( this.data.entrada == 0 ) data.precio = item.precioCompra;
-          return data
-        }),
+      try {
+        this.data.user = this.dataUser.id;
+        let data:any = {
+          factura: this.data,
+          listArticulo: _.map(this.tablet.row, ( item:any )=>{
+            let data:any = {
+              estado: 3,
+              articulo: item.id,
+              articuloTalla: item.selectTalla,
+              articuloColor: item.selectColor,
+              cantidad: item.cantidadSelect,
+              ...item
+            };
+            if( this.data.entrada == 1 && this.data.tipoFactura == 4) data.precio = item.precioArley;
+            if( this.data.entrada == 1 && this.data.tipoFactura == 3) data.precio = item.precioLokompro;
+            if( this.data.entrada == 1 && this.data.tipoFactura == 2) data.precio = item.precioShipping;
+            if( this.data.entrada == 1 && this.data.tipoFactura == 1) data.precio = item.precioClienteDrop;
+            if( this.data.entrada == 1 && this.data.tipoFactura == 0) data.precio = item.precioOtras;
+            if( this.data.entrada == 0 ) data.precio = item.precioCompra;
+            return data
+          }),
+        }
+        this._factura.create( data ).subscribe(( res:any )=>{
+          console.log("*****", res)
+          if( res.status == 400 ) { resolve( false ); return this._tools.basic("Problemas!! Volver a intentar");}
+          res = res.data || {};
+          this.id = res.id;
+          this.data.id = this.id;
+          this._tools.basic("Creado exitoso");
+          this.titleBTN= "Actualizar";
+          this._router.navigate(['/formfactura', this.id ] );
+          resolve( true );
+        },( )=>resolve( false ) ); 
+      } catch (error) {
+        resolve( false );
       }
-      this._factura.create( data ).subscribe(( res:any )=>{
-        console.log("*****", res)
-        if( res.status == 400 ) { resolve( false ); return this._tools.basic("Problemas!! Volver a intentar");}
-        res = res.data || {};
-        this.id = res.id;
-        this.data.id = this.id;
-        this._tools.basic("Creado exitoso");
-        this.titleBTN= "Actualizar";
-        this._router.navigate(['/formfactura', this.id ] );
-        resolve( true );
-      },( )=>resolve( false ) );
     })
   }
 
@@ -247,9 +257,11 @@ export class FormFacturaComponent implements OnInit {
   }
 
   async acentarFactura(){
+    if( this.btnDisabled ) return false;
     if( !this.id ) return false;
+    this.btnDisabled = true;
     let result:any = await this.updateFun();
-    if( !result ) return this._tools.basic("Tenemos problemas !Volver a intentarlo");
+    if( !result ) { this.btnDisabled = false; return this._tools.basic("Tenemos problemas !Volver a intentarlo");}
 
     let data:any = {
       id: this.id,
@@ -268,8 +280,9 @@ export class FormFacturaComponent implements OnInit {
       }
       this.data.asentado = true;
       this._tools.basic( res.data );
+      this.btnDisabled = false;
       //this.print();
-    });
+    },()=>this.btnDisabled = false);
   }
 
   openArticulo(obj:any){

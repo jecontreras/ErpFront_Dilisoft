@@ -7,6 +7,7 @@ import { ArchivosComponent } from './archivos/archivos.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { MyOwnCustomMaterialModule } from '../app.material.module';
 import { FormsModule } from '@angular/forms';
+import { NgbAlertModule, NgbDatepickerModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { FormsModule } from '@angular/forms';
   ],
   imports: [
     CommonModule,
+    NgbPaginationModule, NgbAlertModule, NgbDatepickerModule,
     InfiniteScrollModule,
     NgxDropzoneModule,
     NgxSpinnerModule,

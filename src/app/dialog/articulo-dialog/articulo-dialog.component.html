@@ -30,7 +30,7 @@
                             <th scope="row" *ngFor="let keys of tablet.keys">
                                 <img [src]="item[keys]" *ngIf="keys == 'foto'">
                                 <span *ngIf="( keys != 'color' ) && ( keys != 'talla' ) && ( keys != 'cantidad' )">{{ item[keys] }} </span>
-                                <div *ngIf="keys == 'color'">
+                                <!--<div *ngIf="keys == 'color'">
                                     <select class="form-control"  [(ngModel)]="item.selectColor" (change)="selectColor( item )" disabled>
                                         <option *ngFor="let row of item.listColor" [value]="row.id">{{ row.color }}</option>
                                     </select>
@@ -39,17 +39,17 @@
                                     <select class="form-control"  [(ngModel)]="item.selectTalla" disabled>
                                         <option [value]="row.id" *ngFor="let row of item.listTalla">{{ row.talla }}</option>
                                     </select>
-                                </div>
+                                </div>-->
                                 <div *ngIf="keys == 'cantidad' && item.selectTalla">
                                     <input type="number" [(ngModel)]="item.cantidadSelect" (change)="handleAmount( item )"
                                             class="form-control form-control-alternative" autocomplete="off" >
                                 </div>
                             </th>
-                            <!--<th>
+                            <th>
                                 <button class="btn btn-success me-md-2" type="button" (click)="checkseleccionado( item )">
                                     <i class="ni ni-fat-add"></i>
                                 </button>
-                            </th>-->
+                            </th>
                         </tr>
                     </tbody>
                 </table>
@@ -62,7 +62,6 @@
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col" *ngFor="let item of tablet.headers">{{ item }}</th>
-                                <th>Opciones</th>
                                 <!--<th scope="col">Acciónes</th>-->
                             </tr>
                         </thead>
@@ -71,7 +70,7 @@
                                 <th scope="row" *ngFor="let keys of tablet.keys">
                                     <img [src]="item[keys]" *ngIf="keys == 'foto'">
                                     <span *ngIf="( keys != 'color' ) && ( keys != 'talla' ) && ( keys != 'cantidad' )">{{ item[keys] }} </span>
-                                    <div *ngIf="keys == 'color'">
+                                    <!--<div *ngIf="keys == 'color'">
                                         <select class="form-control"  [(ngModel)]="item.selectColor" (change)="selectColor( item )" disabled>
                                             <option *ngFor="let row of item.listColor" [value]="row.id">{{ row.color }}</option>
                                         </select>
@@ -80,7 +79,7 @@
                                         <select class="form-control"  [(ngModel)]="item.selectTalla" disabled>
                                             <option [value]="row.id" *ngFor="let row of item.listTalla">{{ row.talla }}</option>
                                         </select>
-                                    </div>
+                                    </div>-->
                                     <div *ngIf="keys == 'cantidad' && item.selectTalla">
                                         <input type="number" [(ngModel)]="item.cantidadSelect" (change)="handleAmount( item )"
                                                 class="form-control form-control-alternative" autocomplete="off" >

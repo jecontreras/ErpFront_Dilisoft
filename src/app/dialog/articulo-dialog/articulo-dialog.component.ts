@@ -12,9 +12,9 @@ import * as _ from 'lodash';
 export class ArticuloDialogComponent implements OnInit {
 
   tablet:any = {
-    headers:["Codigo", "Color", "Talla","Existencia", "Cantidad"],
+    headers:["Codigo", "Color", "Talla","Existencia", "Cantidad", "Opciones"],
     row:[],
-    keys:["codigo","color","talla","existencia","cantidad"]
+    keys:["codigo","nameColor","nameTalla","existencia","cantidad"]
   };
   querys:any = {
     where:{
@@ -69,9 +69,10 @@ export class ArticuloDialogComponent implements OnInit {
         row.nameColor = ids.listColor.color;
         row.existencia = ids.cantidad;
         this.selectColor( row );
-        this.checkseleccionado( row );
         const result: { value?:string; } = await this._tools.alertInput( { title: "Cantidad Seleccionar" } );
         row.cantidadSelect = Number( result.value || 1 );
+        console.log("****", result)
+        if( result.value ) this.checkseleccionado( row );
         //console.log("****RESULT", row, "74",ids );
         this.handleAmount( row );
       }
@@ -90,9 +91,9 @@ export class ArticuloDialogComponent implements OnInit {
     } catch (error) { item.listTalla = []; }
   }
   checkseleccionado( item ){
-     console.log( item );
+     if( !item.cantidadSelect ) return this._tools.basic("Alerta!! Por favor ingresar cantidad a desear..");
      item.check = !item.check;
-     this.listSelecciono.push( item );
+     this.listSelecciono.push( { ..._.clone( item ), idl: this._tools.codigo()} );
      //this.listSelecciono = _.unionBy(this.listSelecciono || [], this.listSelecciono, 'id');
   }
 
@@ -102,8 +103,7 @@ export class ArticuloDialogComponent implements OnInit {
   async handleDrop( item ){
     let confirm = await this._tools.confirm( {title:"Eliminar", detalle:"Deseas Eliminar Dato", confir:"Si Eliminar"} );
     if(!confirm.value) return false;
-    this.listSelecciono = this.listSelecciono.filter( row => row.id !== item.id );
-    console.log("****106",this.seleccionado, "11111", item)
+    this.listSelecciono = this.listSelecciono.filter( row => row.idl !== item.idl );
   }
 
   close(){

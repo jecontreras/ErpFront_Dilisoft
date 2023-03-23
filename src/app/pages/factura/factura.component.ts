@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FacturaService } from 'src/app/servicesComponent/factura.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-factura',
@@ -16,7 +17,8 @@ export class FacturaComponent implements OnInit {
     model: "",
     querys:{
       where:{
-        estado: 0
+        estado: 0,
+        fecha: moment().format("YYYY-MM-DD")
       },
       limit: 10
     },

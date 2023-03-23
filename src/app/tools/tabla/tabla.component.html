@@ -51,6 +51,41 @@
                 </div>
               </div>
               <div class="col-12">
+                <div class="form-group mat-elevation-z8 p-3" *ngIf="_dataConfig.returnHTML === 'formfactura/'">
+                  <div class="d-flex justify-content-between">
+                    <div (click)="handleActivateMenu()">
+                      <p>Buscar entre Fechas</p>
+                    </div>
+                    <div></div>
+                    <div>
+                      <button mat-button color="primary" (click)="handleActivateMenu()">
+                        <i *ngIf="!viewDisabled" class="ni ni-bold-down"></i>
+                        <i *ngIf="viewDisabled" class="ni ni-bold-up"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <span *ngIf="viewDisabled">
+                    <ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden">
+                    </ngb-datepicker>
+  
+                    <ng-template #t let-date let-focused="focused">
+                      <span
+                        class="custom-day"
+                        [class.focused]="focused"
+                        [class.range]="isRange(date)"
+                        [class.faded]="isHovered(date) || isInside(date)"
+                        (mouseenter)="hoveredDate = date"
+                        (mouseleave)="hoveredDate = null"
+                      >
+                        {{ date.day }}
+                      </span>
+                    </ng-template><br>
+                    <button mat-raised-button color="primary" (click)="filterTxt()">Buscar Por Fechas</button>
+                  </span>
+                </div>
+              </div>
+              <div class="col-12">
                 <div class="example-loading-shade"
                       *ngIf="isLoadingResults || isRateLimitReached">
                   <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
@@ -91,7 +126,8 @@
                     'medium': element.warning == true,
                     'full': element.full == true
                   }
-                ">
+                " [style.background]="element.colorP"
+                >
                   <span *ngIf="( column !='expireDate' ) &&( column !='createdAt' ) && ( column !='updatedAt' ) && ( column !='asentado' ) &&  ( column !='categoria' ) && ( column !='subcategoria' ) && ( column !='provedor' ) && ( column !='entrada' ) && ( column !='monto' )">{{ element[column] }}</span>
                   <span *ngIf="column ==='expireDate'">
                     {{ element.expireDate }}&nbsp; Dias
@@ -158,11 +194,11 @@
                   <div class="example-element-detail p-3" style="width: 100%;"
                     [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'" *ngIf="_dataConfig.returnHTML === 'formfactura/'">
                     <div class="row" style="width: 100%;">
-                      <div class="col-sm-3 col-6">
+                      <div class="col-sm-3 col-6" *ngIf="element.codigo">
                         <label for="">Codigo:&nbsp;</label>
                         <span>{{ element.codigo }} </span>
                       </div>
-                      <div class="col-sm-3 col-6">
+                      <div class="col-sm-3 col-6" *ngIf="element.nombreCliente">
                         <label for="">Nombre Cliente:&nbsp;</label>
                         <span>{{ element.nombreCliente }} </span>
                       </div>
@@ -170,37 +206,41 @@
                         <label for="">Fecha:&nbsp;</label>
                         <span>{{ element?.fecha }} </span>
                       </div>
-                      <div class="col-sm-3 col-6">
+                      <div class="col-sm-3 col-6" *ngIf="element.monto">
                         <label for="">Monto:&nbsp;</label>
                         <span>{{ _tools.monedaChange( 3,2, element.monto ) }} </span>
                       </div>
-                      <div class="col-sm-3 col-6">
+                      <div class="col-sm-3 col-6" *ngIf="element.passMoney">
                         <label for="">Abonos ala factura:&nbsp;</label>
                         <span>{{ _tools.monedaChange( 3,2, element.passMoney ) }} </span>
                       </div>
-                      <div class="col-sm-3 col-6">
+                      <div class="col-sm-3 col-6" *ngIf="element.entrada">
                         <label for="">Tipo Factura:&nbsp;</label>
                         <span>{{ element.entrada == 0 ? 'Entrada' : 'salida' }} </span>
                       </div>
-                      <div class="col-sm-3 col-6">
+                      <div class="col-sm-3 col-6" *ngIf="element.provedor">
                         <label for="">Provedor:&nbsp;</label>
                         <span>{{ element.provedor?.titulo }} </span>
                       </div>
-                      <div class="col-sm-3 col-6">
+                      <div class="col-sm-3 col-6" *ngIf="element.estado">
                         <label for="">Estado:&nbsp;</label>
                         <span>{{ element.estado == 0 ? 'Activo' : 'Asentado' }} </span>
                       </div>
-                      <div class="col-sm-3 col-6">
+                      <div class="col-sm-3 col-6" *ngIf="element.tipoFactura">
                         <label for="">Tipo cobro:&nbsp;</label>
                         <span>{{ element.tipoFactura == 0 ? 'permitido': 'normal' }} </span>
                       </div>
-                      <div class="col-sm-3 col-6">
+                      <div class="col-sm-3 col-6" *ngIf="element.fechaasentado">
                         <label for="">Fecha Asentado:&nbsp;</label>
                         <span>{{ element.fechaasentado }} </span>
                       </div>
-                      <div class="col-sm-3 col-6">
+                      <div class="col-sm-3 col-6" *ngIf="element.expiration">
                         <label for="">Fecha vencimiento:&nbsp;</label>
                         <span>{{ element.expiration }} </span>
+                      </div>
+                      <div class="col-12" *ngIf="element.descripcion">
+                        <label for="">Descripcion:&nbsp;</label>
+                        <span>{{ element.descripcion }} </span>
                       </div>
                     </div>
                   </div>
@@ -216,7 +256,7 @@
               <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
               </table>
           </div>
-          <mat-paginator [length]="resultsLength" [pageSize]="10"  (page)="pageEvent($event)"></mat-paginator>
+          <mat-paginator [length]="resultsLength" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" (page)="pageEvent($event)"></mat-paginator>
         </div>
       </div>
     </div>
