@@ -42,7 +42,7 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ row.titulo }} </h5>
                             <p class="card-text">
-                                <ngx-barcode [bc-height]="10" [bc-width]="1" [bc-value]="row.codigo" [bc-display-value]="true"></ngx-barcode>
+                                <ngx-barcode [bc-height]="20" [bc-width]="1" [bc-value]="row.codigo" [bc-display-value]="true"></ngx-barcode>
                             </p>
                             <div class="form-group form-check">
                                 <input type="checkbox" class="form-check-input" [(ngModel)]="row.check">
@@ -62,7 +62,7 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ row['articulo']?.titulo }} </h5>
                             <p class="card-text">
-                                <ngx-barcode [bc-height]="10" [bc-width]="1" [bc-value]="row.codigo" [bc-display-value]="true"></ngx-barcode>
+                                <ngx-barcode [bc-height]="20" [bc-width]="1" [bc-value]="row.codigo" [bc-display-value]="true"></ngx-barcode>
                             </p>
                             <input type="checkbox" class="form-check-input" [(ngModel)]="row.check">
                             <!--<a href="javascript:void(0)" class="btn btn-primary"
@@ -80,9 +80,9 @@
                     <div class="card" style="width: 18rem;">
                         <div class="card-body">
                             <p class="card-text">
-                                <span>provedor: {{ row.vendor }}</span>
-                                <ngx-barcode [bc-height]="10" [bc-width]="1" [bc-value]="row.codigo" [bc-display-value]="true">
-                                </ngx-barcode>
+                              <ngx-barcode [bc-height]="130" [bc-width]="2" [bc-value]="row.codigo" [bc-display-value]="false"> </ngx-barcode>
+                              <span>{{ row.codigo }}</span> <br>
+                              <span>provedor: {{ row.vendor }}</span>
                             </p>
                         </div>
                     </div>

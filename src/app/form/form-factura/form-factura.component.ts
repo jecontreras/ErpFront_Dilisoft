@@ -123,6 +123,7 @@ export class FormFacturaComponent implements OnInit {
           precioLokompro: row.precio,
           precioArley: row.precioArley,
           precioCompra: row.precio,
+          existencia: row.articuloTalla.cantidad || 0,
           eliminado: false,
           ...row
         };
@@ -288,11 +289,11 @@ export class FormFacturaComponent implements OnInit {
     },()=>this.btnDisabled = false);
   }
 
-  openArticulo(obj:any){
+  openArticulo(){
     const dialogRef = this.dialog.open(ArticuloDialogComponent,{
       width: "50%",
       height: "800px",
-      data: {datos: obj || {}}
+      data: {datos: this.data }
     });
 
     dialogRef.afterClosed().subscribe( async ( result ) => {
@@ -335,7 +336,7 @@ export class FormFacturaComponent implements OnInit {
   for( let row of this.tablet.row ){
     //console.log("***334", row)
     if( row.eliminado == false ){
-      this.data.cantidadPares+= row.cantidadSelect
+      this.data.cantidadPares+= Number( row.cantidadSelect );
       if( ( !row.precioTotal ) || ( this.data.entrada != 3 ) ) row.precioTotal = 0;
       if( this.data.entrada == 0  ) row.precioTotal= row.precioCompra * ( Number( row.cantidadSelect ) || 0 ) ;
 
@@ -347,15 +348,37 @@ export class FormFacturaComponent implements OnInit {
       if( ( this.data.entrada == 1 || this.data.entrada == 2 ) && this.data.tipoFactura == 4) row.precioTotal= row.precioArley * ( Number( row.cantidadSelect ) || 0 ) ;
 
       if( ( this.data.entrada != 2 ) || ( this.data.entrada != 3 ) ) this.data.monto+= row.precioTotal;
-
-      let index = _.findIndex( dataFinix, ['codigo', row.articuloTalla.codigo] );
-      if( index >= 0 ) dataFinix[ index ] = dataFinix[ index ].cantidad = row.cantidadSelect;
-      else dataFinix.push( { codigo: row.articuloTalla.codigo, cantidad: row.cantidadSelect, color: row.articuloColor.color });
+      //console.log("****350", row)
+      try {
+        let index = _.findIndex( dataFinix, ['codigo', row.articuloTalla.codigo] );
+        if( index >= 0 ) dataFinix[ index ].cantidad+= row.cantidadSelect;
+        else dataFinix.push( { codigo: row.articuloTalla.codigo, cantidad: row.cantidadSelect, color: row.articuloColor.color });
+      } catch (error) { console.log("*****355", error )}
     }
 
   }
   this.listSummary = dataFinix;
   //console.log("*****357", this.listSummary)
+ }
+
+ async handleAmount( item:any ){
+  if( this.data.entrada === 1 ){
+    const result:any = await this.getAmountArticle( item );
+    if( result ){
+      if( result.cantidad >= item.cantidadSelect ) this.suma();
+      else { item.cantidadSelect = result.cantidad; return this._tools.basic("Alerta!! cantidad requerida no disponible.."); }
+    }
+  }else this.suma();
+ }
+
+ getAmountArticle( item:any ){
+  return new Promise( ( resolve )=>{
+    this._articulos.getTalla( ( {where: { id: item.selectTalla } } ) ).subscribe( res=>{
+      res = res.data[0];
+      if( res ) resolve( res );
+      else resolve( false );
+    });
+  });
  }
 
  handleActivateMenu(){

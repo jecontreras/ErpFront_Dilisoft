@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  url: "http://localhost:1337",
-  //url: "https://1337-jecontreras-apiinventar-ydw58z1hvwx.ws-us90.gitpod.io"
+  //url: "http://localhost:1337",
+  url: "https://1337-jecontreras-apiinventar-fukmzsl081r.ws-us92.gitpod.io"
 };
 
 /*

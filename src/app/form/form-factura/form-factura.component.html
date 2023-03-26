@@ -85,7 +85,7 @@
                             <div class="col-lg-4" *ngIf="data.entrada == 1">
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-username">Tipo de cobro</label>
-                                    <select class="form-control" [(ngModel)]="data.tipoFactura" [disabled]="data.asentado" (change)="suma()">
+                                    <select class="form-control" [(ngModel)]="data.tipoFactura" (change)="suma()">
                                         <option value="0">Permitido</option>
                                         <option value="1">Normal</option>
                                         <option value="2">Drop Shipping</option>
@@ -164,7 +164,7 @@
                                               class="form-control form-control-sm" [options]="opcionCurrencys" />
                                       </div>
                                         <div class="col-4 text-right">
-                                            <button type="button" class="btn btn-primary" *ngIf="( data.entrada != 0 || !id ) || !this.data.asentado " (click)="openArticulo({})">Abrir articulos</button>
+                                            <button type="button" class="btn btn-primary" *ngIf="( data.entrada != 0 || !id ) || !this.data.asentado " (click)="openArticulo()">Abrir articulos</button>
                                         </div>
                                     </div>
                                 </div>
@@ -265,7 +265,7 @@
                                                     </div>
                                                     <div *ngIf="keys == 'cantidad' && item.selectTalla">
                                                         <input type="text" [(ngModel)]="item.cantidadSelect" [disabled]="data.entrada == 0 && data.asentado" *ngIf="!disabledPrint"
-                                                                class="form-control form-control-alternative" autofocus="autofocus" autocomplete="off"(change)="suma()">
+                                                                class="form-control form-control-alternative" autofocus="autofocus" autocomplete="off"(change)="handleAmount( item )">
                                                         <span *ngIf="disabledPrint">&nbsp; {{ item.cantidadSelect }}</span>
                                                     </div>
                                                 </th>

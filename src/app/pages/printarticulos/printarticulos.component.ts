@@ -14,6 +14,7 @@ export class PrintarticulosComponent implements OnInit {
   listInventario:any = [];
   searchCodigo!:string;
   listXls:any = [];
+  txtDesplege:boolean = false;
 
   constructor(
     private _inventario: InventarioService,
@@ -31,21 +32,29 @@ export class PrintarticulosComponent implements OnInit {
     this._inventario.detalle({ codigo: this.searchCodigo }).subscribe( ( res:any )=>{
       console.log("***,", res)
       this.listInventario = res.listArticulo || [];
-      for( const item of this.listInventario ){
-        for( const keys of item.listColor ){
-          for( const pro of keys.listTalla ){
-            this.listXls.push( {
-              id: pro.id,
-              codigo: pro.codigo,
-              talla: pro.talla,
-              cantidad: pro.cantidad,
-              estado: pro.estado == 0 ? 'Activo' : 'inactivo',
-              cantidadReal: pro.cantidadReal
-            } );
-          }
+      this.populateData();
+    });
+  }
+
+  populateData(){
+    this.listXls = [];
+    for( const item of this.listInventario ){
+      item.disabledView = this.txtDesplege;
+      item.cantidad = 0;
+      for( const keys of item.listColor ){
+        for( const pro of keys.listTalla ){
+          item.cantidad+=pro.cantidad;
+          this.listXls.push( {
+            id: pro.id,
+            codigo: pro.codigo,
+            talla: pro.talla,
+            cantidad: pro.cantidad,
+            estado: pro.estado == 0 ? 'Activo' : 'inactivo',
+            cantidadReal: pro.cantidadReal
+          } );
         }
       }
-    });
+    }
   }
 
   volverVista(){

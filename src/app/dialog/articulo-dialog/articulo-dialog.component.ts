@@ -25,7 +25,7 @@ export class ArticuloDialogComponent implements OnInit {
   };
   datoBusqueda:string;
   listSelecciono:any = [];
-
+  dataSource:any = {};
   constructor(
     private _tools: ToolsService,
     private _articulos: ArticuloService,
@@ -35,6 +35,7 @@ export class ArticuloDialogComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.dataSource = this.datas.datos || [];
     console.log( this.datas.datos )
   }
 
@@ -68,19 +69,20 @@ export class ArticuloDialogComponent implements OnInit {
         row.nameTalla = ids.talla;
         row.nameColor = ids.listColor.color;
         row.existencia = ids.cantidad;
+        row.articuloTalla = ids;
+        row.articuloColor = ids.listColor;
         this.selectColor( row );
         const result: { value?:string; } = await this._tools.alertInput( { title: "Cantidad Seleccionar" } );
         row.cantidadSelect = Number( result.value || 1 );
-        console.log("****", result)
         if( result.value ) this.checkseleccionado( row );
-        //console.log("****RESULT", row, "74",ids );
+        console.log("****RESULT", row, "74",ids );
         this.handleAmount( row );
       }
     });
   }
 
   handleAmount( item ){
-    if( item.cantidadSelect > item.existencia ) return this._tools.basic("Alerta!! cantidad requerida no disponible..");
+    if( this.dataSource.entrada == 1 ) if( item.cantidadSelect > item.existencia ) return this._tools.basic("Alerta!! cantidad requerida no disponible..");
   }
 
   selectColor( item ){

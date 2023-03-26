@@ -27,6 +27,7 @@ import { NgxBarcodeModule } from 'ngx-barcode';
 import { PrintarticulosComponent } from 'src/app/pages/printarticulos/printarticulos.component';
 import { NotificationsComponent } from 'src/app/pages/notifications/notifications.component';
 import { MoneyPaymentComponent } from 'src/app/pages/money-payment/money-payment.component';
+import { MyOwnCustomMaterialModule } from 'src/app/app.material.module';
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -40,6 +41,7 @@ import { MoneyPaymentComponent } from 'src/app/pages/money-payment/money-payment
     ClipboardModule,
     ToolsModule,
     FormModule,
+    MyOwnCustomMaterialModule
   ],
   declarations: [
     DashboardComponent,
