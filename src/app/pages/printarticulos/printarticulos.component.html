@@ -57,7 +57,7 @@
                   </div>
                 </div>
                 <div class="p-2 bd-highlight">
-                  <button mat-button color="primary" (click)="item.disabledView = !item.disabledView">
+                  <button mat-raised-button color="primary" color="primary" (click)="item.disabledView = !item.disabledView">
                     <i *ngIf="!item.disabledView" class="ni ni-bold-down"></i>
                     <i *ngIf="item.disabledView" class="ni ni-bold-up"></i>
                   </button>
@@ -68,7 +68,9 @@
                       <li class="list-group-item" *ngFor="let key of item.listColor; index as i">
                           <div class="row">
                               <div class="col-lg-4">
-                                  <span>{{ i + 1 }} </span>
+                                <button mat-raised-button color="primary" color="primary" (click)="openMovementArticle( key )">
+                                  <i class="ni ni-check-bold"></i>
+                                </button>
                               </div>
                               <div class="col-lg-4">
                                  Color: <span>{{ key.color }} </span>

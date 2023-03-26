@@ -4,21 +4,25 @@ import { ArticuloDialogComponent } from './articulo-dialog/articulo-dialog.compo
 import { FormsModule } from '@angular/forms';
 import { CheckCodePrintComponent } from './check-code-print/check-code-print.component';
 import { MyOwnCustomMaterialModule } from '../app.material.module';
+import { MovementItemComponent } from './movement-item/movement-item.component';
 
 
 
 @NgModule({
   entryComponents:[
     ArticuloDialogComponent,
-    CheckCodePrintComponent
+    CheckCodePrintComponent,
+    MovementItemComponent
   ],
   declarations: [
     ArticuloDialogComponent,
     CheckCodePrintComponent,
+    MovementItemComponent,
   ],
   exports:[
     ArticuloDialogComponent,
-    CheckCodePrintComponent
+    CheckCodePrintComponent,
+    MovementItemComponent
   ],
   imports: [
     CommonModule,

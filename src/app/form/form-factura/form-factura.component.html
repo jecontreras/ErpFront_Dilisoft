@@ -265,7 +265,7 @@
                                                     </div>
                                                     <div *ngIf="keys == 'cantidad' && item.selectTalla">
                                                         <input type="text" [(ngModel)]="item.cantidadSelect" [disabled]="data.entrada == 0 && data.asentado" *ngIf="!disabledPrint"
-                                                                class="form-control form-control-alternative" autofocus="autofocus" autocomplete="off"(change)="handleAmount( item )">
+                                                                class="form-control form-control-alternative" autocomplete="off"(change)="handleAmount( item )">
                                                         <span *ngIf="disabledPrint">&nbsp; {{ item.cantidadSelect }}</span>
                                                     </div>
                                                 </th>

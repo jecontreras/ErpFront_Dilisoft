@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { MovementItemComponent } from 'src/app/dialog/movement-item/movement-item.component';
 import { ToolsService } from 'src/app/services/tools.service';
 import { InventarioService } from 'src/app/servicesComponent/inventario.service';
 import { XlsService } from 'src/app/servicesComponent/xls.service';
@@ -20,6 +22,7 @@ export class PrintarticulosComponent implements OnInit {
     private _inventario: InventarioService,
     private _tools: ToolsService,
     private _router: Router,
+    public dialog: MatDialog,
     private _xls: XlsService
   ) { }
 
@@ -42,7 +45,9 @@ export class PrintarticulosComponent implements OnInit {
       item.disabledView = this.txtDesplege;
       item.cantidad = 0;
       for( const keys of item.listColor ){
+        keys.cantidad = 0;
         for( const pro of keys.listTalla ){
+          keys.cantidad+= pro.cantidad;
           item.cantidad+=pro.cantidad;
           this.listXls.push( {
             id: pro.id,
@@ -55,6 +60,20 @@ export class PrintarticulosComponent implements OnInit {
         }
       }
     }
+    console.log("*****58", this.listInventario)
+  }
+
+  openMovementArticle( item ){
+    const dialogRef = this.dialog.open(MovementItemComponent,{
+      width: "100%",
+      height: "800px",
+      data: item
+    });
+
+    dialogRef.afterClosed().subscribe( async ( result ) => {
+      console.log(`Dialog result:`, result);
+    });
+
   }
 
   volverVista(){
