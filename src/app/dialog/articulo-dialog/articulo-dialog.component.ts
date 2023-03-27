@@ -40,14 +40,10 @@ export class ArticuloDialogComponent implements OnInit {
   }
 
   filtroGet(){
-    this.querys.where.codigo = this.datoBusqueda;
-    /*this.querys.where.or = [
-      {
-        codigo: {
-          contains: this.datoBusqueda|| ''
-        }
-      }
-    ];*/
+    let rs = _.words( this.datoBusqueda );
+    if(rs.length === 4 ) rs = rs[0]+rs[1]+rs[2]+"-"+rs[3];
+    else rs = rs[0]+rs[1]+"-"+rs[2];
+    this.querys.where.codigo = rs;
     this.getArticulosTalla();
   }
   getArticulosTalla(){

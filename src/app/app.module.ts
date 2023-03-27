@@ -38,7 +38,7 @@ import { MyOwnCustomMaterialModule } from './app.material.module';
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    AuthLayoutComponent
+    AuthLayoutComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]

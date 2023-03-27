@@ -76,6 +76,7 @@ export class TablaComponent implements OnInit {
 	fromDate: NgbDate;
 	toDate: NgbDate | null = null;
   viewDisabled:boolean = false;
+  urlFront:string = window.location.origin;
 
   constructor(
     private _router: Router,
@@ -255,7 +256,8 @@ export class TablaComponent implements OnInit {
   }
 
   openVer( item ){
-    this._router.navigate([ this._dataConfig.returnHTML, item.id]);
+    window.open( `${ this.urlFront }/#/${ this._dataConfig.returnHTML }${ item.id }`, "Detalles", "width=2000, height=900");
+    //this._router.navigate([ this._dataConfig.returnHTML, item.id]);
   }
 
   async deleteItem( item:any ){

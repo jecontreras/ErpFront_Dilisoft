@@ -28,6 +28,7 @@ import { PrintarticulosComponent } from 'src/app/pages/printarticulos/printartic
 import { NotificationsComponent } from 'src/app/pages/notifications/notifications.component';
 import { MoneyPaymentComponent } from 'src/app/pages/money-payment/money-payment.component';
 import { MyOwnCustomMaterialModule } from 'src/app/app.material.module';
+import { ReturnArticleComponent } from 'src/app/pages/return-article/return-article.component';
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -60,7 +61,8 @@ import { MyOwnCustomMaterialModule } from 'src/app/app.material.module';
     CodigoPrintComponent,
     PrintarticulosComponent,
     NotificationsComponent,
-    MoneyPaymentComponent
+    MoneyPaymentComponent,
+    ReturnArticleComponent
   ]
 })
 
