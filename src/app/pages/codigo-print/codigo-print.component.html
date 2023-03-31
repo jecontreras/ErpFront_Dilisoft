@@ -76,15 +76,11 @@
     <div class="col-12" *ngIf="vista == 'detalle'">
         <div class="container">
             <div class="row">
-                <div class="col-43" *ngFor="let row of listSeleccionado">
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                            <p class="card-text">
-                              <ngx-barcode [bc-height]="50" [bc-width]="2" [bc-value]="row.codigo" [bc-display-value]="true"> </ngx-barcode>
-                              <span>{{ row.vendor }}</span>
-                            </p>
-                        </div>
-                    </div>
+                <div class="col-3" *ngFor="let row of listSeleccionado" style="padding: 2px; margin: 20px;">
+                  <p>
+                    <ngx-barcode [bc-height]="50" [bc-width]="2" [bc-value]="row.codigo" [bc-display-value]="true"> </ngx-barcode>
+                    &nbsp; &nbsp;<span>{{ row.vendor }}</span>
+                  </p>
                 </div>
             </div>
         </div>

@@ -133,13 +133,20 @@ export class FormArticuloComponent implements OnInit {
   newColor( obj, i ){
     //console.log(obj)
     obj.check = !obj.check;
+    let titleCode = this._tools.uppercaseFirstLetter( obj.color );
     if( obj.check == true ) this.listcolor.push({
-      listTalla:[{ talla: 0, cantidad: 1 }],
+      listTalla:[{
+        codigo: `${ titleCode }${ this.data.codigo }-`,
+        talla: 0,
+        cantidad: 0
+       }],
       codigo: this._tools.codigo()
     });
 
   }
   async dropColor( item:any ){
+    let confirm = await this._tools.confirm( {title:"Eliminar", detalle:"Deseas Eliminar Dato", confir:"Si Eliminar"} );
+    if(!confirm.value) return false;
     item.estado = 1;
     item.check = false;
     if( item.id ) await this.updateFun();
@@ -147,15 +154,19 @@ export class FormArticuloComponent implements OnInit {
     //this.listcolor.splice( idx, 1);
   }
   newTalla( item:any ){
-    this.processCode();
-    /*
-    item.check = !item.check;
-    if( item.check == true ) item.listTalla.push({
-      talla: 0,
-      cantidad: 1
-    });*/
+    if( !this.id ) this.processCode();
+    else{
+      let titleCode = this._tools.uppercaseFirstLetter( item.color );
+      item.listTalla.push({
+        codigo: `${ titleCode }${ this.data.codigo }-`,
+        talla: 0,
+        cantidad: 0
+      });
+    }
   }
   async dropTalla( item:any, idx  ){
+    let confirm = await this._tools.confirm( {title:"Eliminar", detalle:"Deseas Eliminar Dato", confir:"Si Eliminar"} );
+    if(!confirm.value) return false;
     console.log("****157", item, idx)
     item.check = false;
     item.listTalla[idx].check = false;
