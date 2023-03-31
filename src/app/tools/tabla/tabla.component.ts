@@ -55,7 +55,7 @@ export class TablaComponent implements OnInit {
   header2 = ["codigo","Talla","Cantidad"];
   keys2=["codigo","talla","cantidad"];
   txtFilter:string;
-  txtTipeFill:string = '2';
+  txtTipeFill:string = '1';
 
   expandedElement: PeriodicElement | null;
   @ViewChild(MatPaginator) paginator: MatPaginator;

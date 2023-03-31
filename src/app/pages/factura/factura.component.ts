@@ -18,6 +18,7 @@ export class FacturaComponent implements OnInit {
     querys:{
       where:{
         estado: 0,
+        entrada: 1,
         fecha: moment().format("YYYY-MM-DD")
       },
       limit: 10

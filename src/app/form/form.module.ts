@@ -18,6 +18,7 @@ import { MyOwnCustomMaterialModule } from '../app.material.module';
 import { ToolsModule } from '../tools/tools.module';
 import { FormMoneyPaymentComponent } from './form-money-payment/form-money-payment.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormReturnArticleComponent } from './form-return-article/form-return-article.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     FormLogsComponent,
     FormPerfilComponent,
     FormProvedorComponent,
-    FormMoneyPaymentComponent
+    FormMoneyPaymentComponent,
+    FormReturnArticleComponent
   ],
   exports:[
     FormArticuloComponent,

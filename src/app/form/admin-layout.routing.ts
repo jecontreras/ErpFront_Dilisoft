@@ -8,6 +8,7 @@ import { FormLogsComponent } from './form-logs/form-logs.component';
 import { FormMoneyPaymentComponent } from './form-money-payment/form-money-payment.component';
 import { FormPerfilComponent } from './form-perfil/form-perfil.component';
 import { FormProvedorComponent } from './form-provedor/form-provedor.component';
+import { FormReturnArticleComponent } from './form-return-article/form-return-article.component';
 
 export const FormRoutes: Routes = [
     { path: 'formarticulo',           component: FormArticuloComponent },
@@ -29,4 +30,6 @@ export const FormRoutes: Routes = [
     { path: 'formprovedor/:id',           component: FormProvedorComponent },
     { path: 'formmoneypayment',           component: FormMoneyPaymentComponent },
     { path: 'formmoneypayment/:id',           component: FormMoneyPaymentComponent },
+    { path: 'formreturnarticle',           component: FormReturnArticleComponent },
+    { path: 'formreturnarticle/:id',           component: FormReturnArticleComponent },
 ];

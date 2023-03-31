@@ -17,7 +17,7 @@ export class PrintarticulosComponent implements OnInit {
   searchCodigo!:string;
   listXls:any = [];
   txtDesplege:boolean = false;
-
+  contTotal:number = 0;
   constructor(
     private _inventario: InventarioService,
     private _tools: ToolsService,
@@ -34,6 +34,7 @@ export class PrintarticulosComponent implements OnInit {
     console.log( this.searchCodigo )
     this._inventario.detalle({ codigo: this.searchCodigo }).subscribe( ( res:any )=>{
       console.log("***,", res)
+      this.contTotal = res.cantidadTotal;
       this.listInventario = res.listArticulo || [];
       this.populateData();
     });

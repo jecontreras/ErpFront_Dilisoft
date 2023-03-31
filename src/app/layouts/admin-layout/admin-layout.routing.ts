@@ -16,6 +16,7 @@ import { ProvedorComponent } from 'src/app/pages/provedor/provedor.component';
 import { CodigoPrintComponent } from 'src/app/pages/codigo-print/codigo-print.component';
 import { PrintarticulosComponent } from 'src/app/pages/printarticulos/printarticulos.component';
 import { MoneyPaymentComponent } from 'src/app/pages/money-payment/money-payment.component';
+import { ReturnArticleComponent } from 'src/app/pages/return-article/return-article.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -34,4 +35,5 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'provedor',           component: ProvedorComponent },
     { path: 'printarticulos',           component: PrintarticulosComponent },
     { path: 'moneypayment',           component: MoneyPaymentComponent },
+    { path: 'actionsreturns',           component: ReturnArticleComponent },
 ];
