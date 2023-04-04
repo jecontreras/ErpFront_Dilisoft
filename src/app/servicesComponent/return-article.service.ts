@@ -22,4 +22,7 @@ export class ReturnArticleService {
   delete(query:any){
     return this._model.querys('returnActions/'+query.id, query, 'delete');
   }
+  settlingFct(query:any){
+    return this._model.querys('returnActions/handleSettling',query, 'post');
+  }
 }

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ReturnArticleService } from 'src/app/servicesComponent/return-article.service';
 
 @Component({
   selector: 'app-return-article',
@@ -31,14 +33,17 @@ export class ReturnArticleComponent implements OnInit {
   };
 
   constructor(
-
-  ) { }
+    private _returnArticle: ReturnArticleService,
+    private _router: Router,
+  ) {
+    this._dataConfig.model =  _returnArticle;
+  }
 
   ngOnInit(): void {
   }
 
   handleActions(){
-
+    this._router.navigate(['/formreturnarticle']);
   }
 
 }

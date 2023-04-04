@@ -89,7 +89,8 @@ export class FormFacturaComponent implements OnInit {
         codigo: this._tools.codigo(),
         fecha: moment().format("YYYY-MM-DD"),
         entrada: 1,
-        tipoFactura: 1
+        tipoFactura: 1,
+        devolucion: 0
       };
     }
     console.log(this.data, window.location.href)

@@ -169,7 +169,7 @@ export class TablaComponent implements OnInit {
     if( this.txtFilter ){
       this.querys.where.codigo = this.txtFilter;
     }
-    if( this.txtTipeFill ){
+    if( this.txtTipeFill && ( this._dataConfig.returnHTML === 'formfactura/' ) ){
       if( this.txtTipeFill != '2' ) this.querys.where.entrada = Number( this.txtTipeFill );
       else delete this.querys.where.entrada;
     }
