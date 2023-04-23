@@ -30,9 +30,9 @@ export class FacturaComponent implements OnInit {
       }
     },
     tablet:{
-      headers:["Select","Codigo","Fecha","Dias de vencimiento","Monto","Entrada","Provedor","Acentada","Actualizado"],
+      headers:["Select","Fecha","Dias de vencimiento","Monto","Entrada","Provedor","Acentada","Cantidad de pares"],
       row:[],
-      keys: ["select","codigo","fecha",'expireDate', "monto", "entrada","provedor","asentado","updatedAt"]
+      keys: ["select","fecha",'expiration', "monto", "entrada","provedor","asentado", "itemPeers"]
     }
   };
   constructor(
