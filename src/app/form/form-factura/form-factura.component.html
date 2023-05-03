@@ -67,8 +67,21 @@
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-username">Nombre del cliente</label>
                                     <span *ngIf="disabledPrint">&nbsp; {{ data.nombreCliente }}</span>
-                                    <input *ngIf="!disabledPrint" type="text" [(ngModel)]="data.nombreCliente"
-                                        class="form-control form-control-alternative" placeholder="" [disabled]="data.asentado">
+                                    <ng-autocomplete *ngIf="!disabledPrint" [(ngModel)]="data.nombreCliente" [data]="listClientes" [searchKeyword]="keyword" placeHolder="Buscar Clientes" autocomplete="off"
+                                        historyIdentifier="listClientes" [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate">
+                                    </ng-autocomplete>
+                                    <ng-template #itemTemplate let-item>
+                                      <div class="item">
+                                          <!-- <img src="{{item.flag}}" height="25"> -->
+                                          <span [innerHTML]="item.nombre"></span> &nbsp;
+                                      </div>
+                                  </ng-template>
+
+                                  <ng-template #notFoundTemplate let-notFound>
+                                      <div [innerHTML]="notFound"></div>
+                                  </ng-template>
+                                    <!--<input *ngIf="!disabledPrint" type="text" [(ngModel)]="data.nombreCliente"
+                                        class="form-control form-control-alternative" placeholder="" [disabled]="data.asentado">-->
                                 </div>
                             </div>
                             <div class="col-lg-4">

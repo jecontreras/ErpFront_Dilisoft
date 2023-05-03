@@ -10,6 +10,7 @@ import * as _ from 'lodash';
 import { ProvedorService } from 'src/app/servicesComponent/provedor.service';
 import { USER } from 'src/app/interfaces/sotarage';
 import { Store } from '@ngrx/store';
+import { ClientesService } from 'src/app/servicesComponent/clientes.service';
 
 @Component({
   selector: 'app-form-factura',
@@ -44,6 +45,8 @@ export class FormFacturaComponent implements OnInit {
   btnDisabled:boolean = false;
   listSummary:{ codigo:string; color:string; cantidad: number; }[] = [];
   viewDisabled:boolean = true;
+  listClientes: any = [];
+  keyword = 'nombre';
 
   constructor(
     private activate: ActivatedRoute,
@@ -54,6 +57,7 @@ export class FormFacturaComponent implements OnInit {
     private _provedor: ProvedorService,
     private _store: Store<USER>,
     private _router: Router,
+    private _cliente: ClientesService
   ) {
 
     this._store.subscribe((store: any) => {
@@ -95,6 +99,15 @@ export class FormFacturaComponent implements OnInit {
     }
     console.log(this.data, window.location.href)
     this.getProvedor();
+    this.getCliente();
+  }
+
+  getCliente(){
+    this._cliente.get( { where: { estado: 0 }, limit: 1000000 } ).subscribe(( res )=>{
+      res = res.data;
+      this.listClientes = res;
+    });
+
   }
 
   getData( id:string, opt:string ){
@@ -165,6 +178,8 @@ export class FormFacturaComponent implements OnInit {
   }
 
   async submit(){
+    if( this.data.nombreCliente )
+    if( this.data.nombreCliente.nombre ) this.data.nombreCliente = this.data.nombreCliente.nombre;
     if( this.btnDisabled ) return true;
     this.btnDisabled = true;
     if( this.id ) await this.updateFun();

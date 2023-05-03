@@ -68,7 +68,7 @@
                   <span *ngIf="viewDisabled">
                     <ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden">
                     </ngb-datepicker>
-  
+
                     <ng-template #t let-date let-focused="focused">
                       <span
                         class="custom-day"
@@ -118,7 +118,8 @@
                   (matSortChange)="resetPaging()">
               <ng-container matColumnDef="{{column}}" *ngFor="let column of _dataConfig.tablet.keys">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
-                  <span *ngIf="column !== 'expireDate'">{{column}}</span>
+                  <span *ngIf="( column !== 'expireDate' ) && ( column !== 'itemPeers' )">{{column}}</span>
+                  <span *ngIf="column === 'itemPeers'">Cantidad de pares</span>
                   <span *ngIf="column === 'expireDate'">Dias de vencimiento</span>
                 </th>
                 <td mat-cell *matCellDef="let element" [ngClass]="
@@ -135,10 +136,10 @@
                   <div *ngIf="column === 'select' " ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
 
                     <span *ngIf="_dataConfig.returnHTML !== 'check'">
-                      <button type="button" class="btn btn-primary" (click)="openVer( element )">
+                      <button type="button" mat-mini-fab color="primary" aria-label="Example icon button with a menu icon" (click)="openVer( element )">
                         <i class="ni ni-check-bold"></i>
                       </button>
-                      <button type="button" class="btn btn-danger" (click)="deleteItem( element )" *ngIf="( _dataConfig.returnHTML !== 'formlogs/' ) || _dataConfig.returnHTML !== 'formmoneypayment/'">
+                      <button type="button" mat-mini-fab color="danger" aria-label="Example icon button with a menu icon" (click)="deleteItem( element )" *ngIf="( _dataConfig.returnHTML !== 'formlogs/' ) || _dataConfig.returnHTML !== 'formmoneypayment/'">
                         <i class="ni ni-fat-remove"></i>
                       </button>
                     </span>
