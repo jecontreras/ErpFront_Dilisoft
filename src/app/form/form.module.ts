@@ -19,6 +19,7 @@ import { ToolsModule } from '../tools/tools.module';
 import { FormMoneyPaymentComponent } from './form-money-payment/form-money-payment.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { FormReturnArticleComponent } from './form-return-article/form-return-article.component';
+import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { FormReturnArticleComponent } from './form-return-article/form-return-ar
     ToolsModule,
     MyOwnCustomMaterialModule,
     ReactiveFormsModule,
+    AutocompleteLibModule,
     RouterModule.forChild(FormRoutes),
   ]
 })

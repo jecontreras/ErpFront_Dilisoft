@@ -131,17 +131,21 @@ export class FormArticuloComponent implements OnInit {
     });
   }
   newColor( obj, i ){
-    //console.log(obj)
+    console.log(obj)
     obj.check = !obj.check;
-    let titleCode = this._tools.uppercaseFirstLetter( obj.color );
-    if( obj.check == true ) this.listcolor.push({
-      listTalla:[{
-        codigo: `${ titleCode }${ this.data.codigo }-`,
-        talla: 0,
-        cantidad: 0
-       }],
-      codigo: this._tools.codigo()
-    });
+    if( obj.color ){
+      let titleCode = this._tools.uppercaseFirstLetter( obj.color );
+      if( obj.check == true ) this.listcolor.push({
+        listTalla:[{
+          codigo: `${ titleCode }${ this.data.codigo }-`,
+          talla: 0,
+          cantidad: 0
+        }],
+        codigo: this._tools.codigo()
+      });
+    }else{
+      if( obj.check == true ) this.listcolor.push({ codigo: this._tools.codigo() });
+    }
 
   }
   async dropColor( item:any ){
@@ -156,6 +160,7 @@ export class FormArticuloComponent implements OnInit {
   newTalla( item:any ){
     if( !this.id ) this.processCode();
     else{
+      console.log("***159", item)
       let titleCode = this._tools.uppercaseFirstLetter( item.color );
       item.listTalla.push({
         codigo: `${ titleCode }${ this.data.codigo }-`,
@@ -255,7 +260,7 @@ export class FormArticuloComponent implements OnInit {
       if( row.color ){
         for( let item of this.listTallas ){
           let titleCode = this._tools.uppercaseFirstLetter( row.color );
-          if( item ) row.listTalla.push( { codigo: `${ titleCode }${ this.data.codigo } ${item}`, talla: item, cantidad: 1 } );
+          if( item ) row.listTalla.push( { codigo: `${ titleCode }${ this.data.codigo }-${item}`, talla: item, cantidad: 1 } );
         }
       }
       row.listTalla = _.orderBy( row.listTalla, 'talla');

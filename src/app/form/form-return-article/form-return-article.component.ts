@@ -142,6 +142,7 @@ export class FormReturnArticleComponent implements OnInit {
       this._tools.basic( "Asentado Devolucion completado !!!" );
       this.btnDisabled = false;
       this.data.asentado = true;
+      setTimeout(()=>location.reload(), 200);
     }, ( )=> { this._tools.basic( "Error en el servidor"); this.btnDisabled = false; } );
   }
 
