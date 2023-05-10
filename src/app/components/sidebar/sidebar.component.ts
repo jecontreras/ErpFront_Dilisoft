@@ -16,15 +16,15 @@ export const ROUTES: RouteInfo[] = [
     //{ path: '/login', title: 'Login',  icon:'ni-key-25 text-info', class: '' },
     //{ path: '/register', title: 'Register',  icon:'ni-circle-08 text-pink', class: '' },
     { path: '/articulo', title: 'Articulo',  icon:'ni-briefcase-24 text-pink', class: '' },
-    { path: '/categoria', title: 'Categoria',  icon:'ni-building text-pink', class: '' },
     { path: '/empresa', title: 'Empresa',  icon:'ni-istanbul text-pink', class: '' },
     { path: '/factura', title: 'Factura',  icon:'ni-credit-card text-pink', class: '' },
     { path: '/actionsreturns', title: 'Devoluciones / Cambios',  icon:'ni-world text-pink', class: '' },
-    { path: '/moneypayment', title: 'Abonos dinero',  icon:'ni-world text-pink', class: '' },
+    { path: '/moneypayment', title: 'Abonos dinero',  icon:'ni-credit-card text-pink', class: '' },
     { path: '/inventario', title: 'Inventario',  icon:'ni-books text-pink', class: '' },
-    { path: '/logs', title: 'Logs',  icon:'ni-ui-04 text-pink', class: '' },
-    { path: '/perfil', title: 'Roles',  icon:'ni-vector text-pink', class: '' },
+    { path: '/categoria', title: 'Categoria',  icon:'ni-building text-pink', class: '' },
     { path: '/provedor', title: 'Provedor',  icon:'ni-world text-pink', class: '' },
+    { path: '/perfil', title: 'Roles',  icon:'ni-vector text-pink', class: '' },
+    { path: '/logs', title: 'Logs',  icon:'ni-ui-04 text-pink', class: '' },
 ];
 
 @Component({

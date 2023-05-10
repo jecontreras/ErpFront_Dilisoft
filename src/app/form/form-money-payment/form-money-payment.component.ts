@@ -103,9 +103,10 @@ export class FormMoneyPaymentComponent implements OnInit {
         return {
           ...row,
           passMoney2: row.passMoney,
+          remaining:  Number( row.monto ) - Number( row.passMoney )
         }
       })
-      //this.addition2();
+      //this.addition();
       this.dataSource = new MatTableDataSource<billDto>(this.listBill);
     } );
   }
@@ -170,6 +171,7 @@ export class FormMoneyPaymentComponent implements OnInit {
     for( const item of this.selection.selected ){
       item.passMoney = ( item.passMoney2 || 0 );
       item.remaining = Number( ( item.monto - ( item.passMoney || 0 ) ) );
+      //console.log("****173", item.amountPass, item.remaining )
       if( ( item.remaining - Number( item.amountPass ) ) <=- 0 ) item.remaining = 0;
       else item.remaining = ( item.remaining - Number( item.amountPass ) )
       cointReaminig+=item.amountPass;
