@@ -216,6 +216,14 @@ export class FormFacturaComponent implements OnInit {
         }
         this._factura.update( data ).subscribe(( res:any )=>{
           this._tools.basic("Actualizado exitoso");
+          try {
+            for( let row of res.data.listArticulo ){
+              let index = _.findIndex( this.tablet.row, ['idl', row.idl ] );
+              if( index >-0 ) {
+                this.tablet.row[index].id = row.id;
+              }
+            }
+          } catch (error) {}
           resolve( true );
         },( )=> { resolve( false ); } );
       } catch (error) {
