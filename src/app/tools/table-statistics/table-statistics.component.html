@@ -1,0 +1,21 @@
+<table mat-table [dataSource]="dataTable" class="mat-elevation-z8">
+
+  <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+  <!-- Position Column -->
+  <ng-container *ngFor="let column of dataLayout" [matColumnDef]="column">
+    <th mat-header-cell *matHeaderCellDef> {{ column }} </th>
+    <td mat-cell *matCellDef="let element">
+      <span *ngIf="( column !== 'Codigo' ) && ( column !== 'Cantidad' ) && ( column !== 'Valor' ) && ( column !== 'Position' )">{{ element[column] }} </span>
+      <span *ngIf="column === 'Codigo'">{{ element['articuloTalla']?.codigo }} </span>
+      <span *ngIf="column === 'Cantidad'">{{ element.cantidad }} </span>
+      <span *ngIf="column === 'Valor'">{{ _tools.monedaChange(3,2, ( element.precio || 0 ) ) }} </span>
+      <span *ngIf="column === 'Position'">{{ element.index }} </span>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="dataLayout"></tr>
+  <tr mat-row *matRowDef="let row; columns: dataLayout;"></tr>
+</table>
+

@@ -1,0 +1,106 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <!-- Table -->
+  <div class="row" id="print">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <div class="d-flex justify-content-between">
+            <div>
+              <h3 class="mb-0">Estadisticas</h3>
+            </div>
+            <div>
+              <span>
+                <ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden">
+                </ngb-datepicker>
+
+                <ng-template #t let-date let-focused="focused">
+                  <span
+                    class="custom-day"
+                    [class.focused]="focused"
+                    [class.range]="isRange(date)"
+                    [class.faded]="isHovered(date) || isInside(date)"
+                    (mouseenter)="hoveredDate = date"
+                    (mouseleave)="hoveredDate = null"
+                  >
+                    {{ date.day }}
+                  </span>
+                </ng-template><br>
+                <button mat-raised-button color="primary" (click)="filterTxt()">Buscar Por Fechas</button>
+              </span>
+            </div>
+            <div>
+              <button type="button" class="btn btn-primary" (click)="hnadlePrint()">Imprimir Estadisticas</button>
+            </div>
+          </div>
+        </div>
+        <div class="table-responsive p-3">
+          <div class="row">
+            <div class="col-12 col-sm-6">
+              <div class="row">
+                <div class="col-12">
+                  <div class="header-body">
+
+                    <div class="row card-header border-0">
+                        <div class="col-10">
+                            <div class="">
+                                <h3 class="mb-0">Articulo Mas Vendido {{ filter.date1 }} Entre {{ filter.date2 }} </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <div class="col-12">
+                  <app-table-statistics [dataTable]="dataTable" [dataLayout]="dataLayout"></app-table-statistics>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6">
+              <div class="row">
+                <div class="col-12">
+                  <div class="header-body">
+
+                    <div class="row card-header border-0">
+                        <div class="col-10">
+                            <div class="">
+                                <h3 class="mb-0">Articulo Menos Vendido {{ filter.date1 | date }} Entre {{ filter.date2 | date }} </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <div class="col-12">
+                  <app-table-statistics [dataTable]="dataTable2" [dataLayout]="dataLayout"></app-table-statistics>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6">
+              <div class="row">
+                <div class="col-12">
+                  <div class="header-body">
+
+                    <div class="row card-header border-0">
+                        <div class="col-10">
+                            <div class="">
+                                <h3 class="mb-0">La Plataforma Que Mas Vende {{ filter.date1 | date }} Entre {{ filter.date2 | date }} </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <div class="col-12">
+                  <app-table-statistics [dataTable]="dataTable3" [dataLayout]="dataLayout3"></app-table-statistics>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -8,14 +8,17 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { MyOwnCustomMaterialModule } from '../app.material.module';
 import { FormsModule } from '@angular/forms';
 import { NgbAlertModule, NgbDatepickerModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { TableStatisticsComponent } from './table-statistics/table-statistics.component';
 
 @NgModule({
   declarations: [
     TablaComponent,
     ArchivosComponent,
+    TableStatisticsComponent,
   ],
   exports:[
     TablaComponent,
+    TableStatisticsComponent,
     ArchivosComponent,
   ],
   imports: [

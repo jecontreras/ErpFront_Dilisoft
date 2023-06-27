@@ -29,6 +29,7 @@ import { NotificationsComponent } from 'src/app/pages/notifications/notification
 import { MoneyPaymentComponent } from 'src/app/pages/money-payment/money-payment.component';
 import { MyOwnCustomMaterialModule } from 'src/app/app.material.module';
 import { ReturnArticleComponent } from 'src/app/pages/return-article/return-article.component';
+import { EstadisticaComponent } from 'src/app/pages/estadistica/estadistica.component';
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -62,7 +63,8 @@ import { ReturnArticleComponent } from 'src/app/pages/return-article/return-arti
     PrintarticulosComponent,
     NotificationsComponent,
     MoneyPaymentComponent,
-    ReturnArticleComponent
+    ReturnArticleComponent,
+    EstadisticaComponent
   ]
 })
 

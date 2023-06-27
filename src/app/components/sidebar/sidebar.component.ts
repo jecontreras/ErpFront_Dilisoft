@@ -18,6 +18,7 @@ export const ROUTES: RouteInfo[] = [
     { path: '/articulo', title: 'Articulo',  icon:'ni-briefcase-24 text-pink', class: '' },
     { path: '/empresa', title: 'Empresa',  icon:'ni-istanbul text-pink', class: '' },
     { path: '/factura', title: 'Factura',  icon:'ni-credit-card text-pink', class: '' },
+    { path: '/estadisticas', title: 'Estadisticas',  icon:'ni-credit-card text-pink', class: '' },
     { path: '/actionsreturns', title: 'Devoluciones / Cambios',  icon:'ni-world text-pink', class: '' },
     { path: '/moneypayment', title: 'Abonos dinero',  icon:'ni-credit-card text-pink', class: '' },
     { path: '/inventario', title: 'Inventario',  icon:'ni-books text-pink', class: '' },

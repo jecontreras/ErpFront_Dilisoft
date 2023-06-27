@@ -31,4 +31,10 @@ export class FacturaService {
   acentandoFct(query:any){
     return this._model.querys('factura/asentarFactura',query, 'post');
   }
+  getStatistics(query:any){
+    return this._model.querys('factura/statisticsBill',query, 'post');
+  }
+  getstatisticsBillPlatform(query:any){
+    return this._model.querys('factura/statisticsBillPlatform',query, 'post');
+  }
 }

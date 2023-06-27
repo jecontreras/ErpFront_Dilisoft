@@ -17,6 +17,7 @@ import { CodigoPrintComponent } from 'src/app/pages/codigo-print/codigo-print.co
 import { PrintarticulosComponent } from 'src/app/pages/printarticulos/printarticulos.component';
 import { MoneyPaymentComponent } from 'src/app/pages/money-payment/money-payment.component';
 import { ReturnArticleComponent } from 'src/app/pages/return-article/return-article.component';
+import { EstadisticaComponent } from 'src/app/pages/estadistica/estadistica.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -36,4 +37,5 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'printarticulos',           component: PrintarticulosComponent },
     { path: 'moneypayment',           component: MoneyPaymentComponent },
     { path: 'actionsreturns',           component: ReturnArticleComponent },
+    { path: 'estadisticas',           component: EstadisticaComponent },
 ];
