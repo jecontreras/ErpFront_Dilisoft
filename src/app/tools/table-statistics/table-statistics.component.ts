@@ -29,6 +29,7 @@ export class TableStatisticsComponent implements OnInit {
 
   @Input() dataTable: StatisticElement[];
   @Input() dataLayout: string[];
+  @Input() countSum:number = 0;
 
   constructor(
     public _tools: ToolsService

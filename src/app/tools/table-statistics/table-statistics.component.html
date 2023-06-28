@@ -18,4 +18,5 @@
   <tr mat-header-row *matHeaderRowDef="dataLayout"></tr>
   <tr mat-row *matRowDef="let row; columns: dataLayout;"></tr>
 </table>
+<h1>Valor Total {{ _tools.monedaChange(3,2, ( countSum || 0 ))  }} </h1>
 
