@@ -18,9 +18,17 @@ export class EstadisticaComponent implements OnInit {
   dataTable:StatisticElement[] = [];
   dataTable2:StatisticElement[] = [];
   dataTable3:StatisticElement[] = [];
+  dataTable4:StatisticElement[] = [];
+  dataTable5:StatisticElement[] = [];
+  dataTable6:{position:number; codigo:string; talla:string; cantidad:number;}[] = [];
+  dataTable7:{position:number; codigo:string; talla:string; cantidad:number;}[] = [];
 
   dataLayout:string[] = ['Position', 'Codigo', 'Cantidad', 'Valor'];
   dataLayout3:string[] = ['Position', 'nombreCliente', 'precio'];
+  dataLayout4:string[] = ['Position', 'Codigo', 'Cantidad', 'Valor'];
+  dataLayout5:string[] = ['Position', 'Codigo', 'Cantidad', 'Valor'];
+  dataLayout6:string[] = ['Position', 'Codigo', 'Talla', 'Cantidad'];
+  dataLayout7:string[] = ['Position', 'Codigo', 'Talla', 'Cantidad'];
   filter:any = {
     date1: moment().add(-1,'days').format("YYYY-MM-DD"),
     date2: moment().format("YYYY-MM-DD")
@@ -39,6 +47,8 @@ export class EstadisticaComponent implements OnInit {
   countSum1:number = 0;
   countSum2:number = 0;
   countSum3:number = 0;
+  countSum4:number = 0;
+  countSum5:number = 0;
 
   constructor(
     private _factura: FacturaService,
@@ -57,6 +67,11 @@ export class EstadisticaComponent implements OnInit {
     this.selectToday();
     await this.getStatistic();
     await this.getPlatform();
+    await this.getPlatformReturn();
+    await this.getStatisticsBillPlatformWarranty();
+    await this.getArticleNextExpire();
+    await this.getArticleNextFurther();
+
   }
 
   onDateSelection(date: NgbDate) {
@@ -137,6 +152,51 @@ export class EstadisticaComponent implements OnInit {
         let count = 0;
         for( let row of res.data ) { count++; row.index = count; this.countSum3+=row.precio;}
         this.dataTable3 = res.data;
+        resolve( true );
+      },( )=> resolve( false ) );
+    });
+  }
+
+  getPlatformReturn(){
+    return new Promise( resolve => {
+      this.querys.user = this.dataUser.id;
+      this._factura.statisticsBillPlatformReturn( this.querys ).subscribe( res => {
+        let count = 0;
+        for( let row of res.data ) { count++; row.index = count; this.countSum4+=row.precio;}
+        this.dataTable4 = res.data;
+        resolve( true );
+      },( )=> resolve( false ) );
+    });
+  }
+  getStatisticsBillPlatformWarranty(){
+    return new Promise( resolve => {
+      this.querys.user = this.dataUser.id;
+      this._factura.statisticsBillPlatformReturn( this.querys ).subscribe( res => {
+        let count = 0;
+        for( let row of res.data ) { count++; row.index = count; this.countSum5+=row.precio;}
+        this.dataTable5 = res.data;
+        resolve( true );
+      },( )=> resolve( false ) );
+    });
+  }
+  getArticleNextExpire(){
+    return new Promise( resolve => {
+      this.querys.user = this.dataUser.id;
+      this._factura.articleNextExpire( this.querys ).subscribe( res => {
+        let count = 0;
+        for( let row of res.data ) { count++; row.index = count;}
+        this.dataTable6 = res.data;
+        resolve( true );
+      },( )=> resolve( false ) );
+    });
+  }
+  getArticleNextFurther(){
+    return new Promise( resolve => {
+      this.querys.user = this.dataUser.id;
+      this._factura.articleNextFurther( this.querys ).subscribe( res => {
+        let count = 0;
+        for( let row of res.data ) { count++; row.index = count;}
+        this.dataTable7 = res.data;
         resolve( true );
       },( )=> resolve( false ) );
     });

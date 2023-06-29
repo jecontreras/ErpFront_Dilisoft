@@ -37,4 +37,16 @@ export class FacturaService {
   getstatisticsBillPlatform(query:any){
     return this._model.querys('factura/statisticsBillPlatform',query, 'post');
   }
+  statisticsBillPlatformReturn(query:any){
+    return this._model.querys('factura/statisticsBillPlatformReturn',query, 'post');
+  }
+  statisticsBillPlatformWarranty(query:any){
+    return this._model.querys('factura/statisticsBillPlatformWarranty',query, 'post');
+  }
+  articleNextExpire(query:any){
+    return this._model.querys('factura/articleNextExpire',query, 'post');
+  }
+  articleNextFurther(query:any){
+    return this._model.querys('factura/articleNextFurther',query, 'post');
+  }
 }
