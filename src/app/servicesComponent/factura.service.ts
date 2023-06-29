@@ -49,4 +49,7 @@ export class FacturaService {
   articleNextFurther(query:any){
     return this._model.querys('factura/articleNextFurther',query, 'post');
   }
+  articleAmounts(query:any){
+    return this._model.querys('factura/articleAmounts',query, 'post');
+  }
 }

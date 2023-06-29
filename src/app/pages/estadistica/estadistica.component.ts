@@ -22,6 +22,7 @@ export class EstadisticaComponent implements OnInit {
   dataTable5:StatisticElement[] = [];
   dataTable6:{position:number; codigo:string; talla:string; cantidad:number;}[] = [];
   dataTable7:{position:number; codigo:string; talla:string; cantidad:number;}[] = [];
+  dataTable8:{position:number; codigo:string; talla:string; cantidad:number;}[] = [];
 
   dataLayout:string[] = ['Position', 'Codigo', 'Cantidad', 'Valor'];
   dataLayout3:string[] = ['Position', 'nombreCliente', 'precio'];
@@ -29,6 +30,7 @@ export class EstadisticaComponent implements OnInit {
   dataLayout5:string[] = ['Position', 'Codigo', 'Cantidad', 'Valor'];
   dataLayout6:string[] = ['Position', 'Codigo', 'Talla', 'Cantidad'];
   dataLayout7:string[] = ['Position', 'Codigo', 'Talla', 'Cantidad'];
+  dataLayout8:string[] = ['Position', 'Titulo','Codigo', 'Cantidades'];
   filter:any = {
     date1: moment().add(-1,'days').format("YYYY-MM-DD"),
     date2: moment().format("YYYY-MM-DD")
@@ -71,6 +73,7 @@ export class EstadisticaComponent implements OnInit {
     await this.getStatisticsBillPlatformWarranty();
     await this.getArticleNextExpire();
     await this.getArticleNextFurther();
+    await this.getarticleAmounts();
 
   }
 
@@ -197,6 +200,17 @@ export class EstadisticaComponent implements OnInit {
         let count = 0;
         for( let row of res.data ) { count++; row.index = count;}
         this.dataTable7 = res.data;
+        resolve( true );
+      },( )=> resolve( false ) );
+    });
+  }
+  getarticleAmounts(){
+    return new Promise( resolve => {
+      this.querys.user = this.dataUser.id;
+      this._factura.articleAmounts( this.querys ).subscribe( res => {
+        let count = 0;
+        for( let row of res.data ) { count++; row.index = count;}
+        this.dataTable8 = res.data;
         resolve( true );
       },( )=> resolve( false ) );
     });
