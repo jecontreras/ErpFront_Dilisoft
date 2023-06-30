@@ -51,17 +51,49 @@
            [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
         <div class="example-element-diagram">
           <div class="row">
-            <div class="col-3">
-              Posicion: {{ element.position }}
-            </div>
-            <div class="col-3">
+            <div class="col-6 col-sm-3">
               Nombre: {{ element.titulo }}
             </div>
-            <div class="col-3">
+            <div class="col-6 col-sm-3">
               Codigo: {{ element.codigo }}
             </div>
-            <div class="col-3">
+            <div class="col-6 col-sm-3">
               Cantidades: {{ element.cantidades }}
+            </div>
+            <div class="col-12" *ngIf="element.listTallas">
+              <ul class="list-group">
+                <li class="list-group-item">
+                  <table class="table align-items-center table-flush">
+                    <thead class="thead-light">
+                      <tr>
+                        <th scope="col">
+                          Codigo
+                        </th>
+                        <th scope="col">
+                          Talla
+                        </th>
+                        <th scope="col">
+                          Cantidad
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of element.listTallas" [ngClass]="{'full': item.cantidad >= 10, 'medium': item.cantidad <= 10, 'danger': item.cantidad <= 5}">
+                        <th scope="row">
+                          <span>{{ item.codigo }}</span>
+                        </th>
+                        <th scope="row">
+                          <span>{{ item.talla }}</span>
+                        </th>
+                        <th scope="row">
+                          <span>{{ item.cantidad }}</span>
+                        </th>
+                      </tr>
+                    </tbody>
+                  </table>
+                </li>
+              </ul>
+
             </div>
           </div>
         </div>

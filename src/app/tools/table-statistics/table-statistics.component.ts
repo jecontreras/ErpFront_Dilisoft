@@ -30,8 +30,6 @@ const ELEMENT_DATA: StatisticElement[] = [];
   ],
 })
 export class TableStatisticsComponent implements OnInit {
-
-  displayedColumns: string[] = [];
   dataSource = ELEMENT_DATA;
 
 
@@ -43,14 +41,17 @@ export class TableStatisticsComponent implements OnInit {
   columnsToDisplayWithExpand = []
   expandedElement: StatisticElement | null;
 
+  displayedColumns: string[] = ['codigo', 'talla', 'cantidad'];
+
   constructor(
     public _tools: ToolsService
   ) {
   }
 
   ngOnInit(): void {
-    console.log("***31", this.dataTable, "#######", this.dataLayout)
     this.columnsToDisplayWithExpand = [...this.dataLayout, 'expand'];
+    this.displayedColumns = ['codigo', 'talla', 'cantidad'];
+    console.log("***31", this.dataTable, "#######", this.dataLayout, this.displayedColumns)
   }
 
 }

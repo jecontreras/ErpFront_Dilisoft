@@ -30,7 +30,7 @@ export class EstadisticaComponent implements OnInit {
   dataLayout5:string[] = ['Position', 'Codigo', 'Cantidad', 'Valor'];
   dataLayout6:string[] = ['Position', 'Codigo', 'Talla', 'Cantidad'];
   dataLayout7:string[] = ['Position', 'Codigo', 'Talla', 'Cantidad'];
-  dataLayout8:string[] = ['Position', 'Titulo','Codigo', 'Cantidades'];
+  dataLayout8:string[] = ['Titulo','Codigo', 'Cantidades'];
   filter:any = {
     date1: moment().add(-1,'days').format("YYYY-MM-DD"),
     date2: moment().format("YYYY-MM-DD")
