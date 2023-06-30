@@ -103,6 +103,11 @@ export class EstadisticaComponent implements OnInit {
     this.dataTable6 = [];
     this.dataTable7 = [];
     this.dataTable8 = [];
+    this.countSum1= 0;
+    this.countSum2 = 0;
+    this.countSum3 = 0;
+    this.countSum4 = 0;
+    this.countSum5 = 0;
     await this.getStatistic();
     await this.getPlatform();
     await this.getPlatformReturn();
@@ -123,6 +128,11 @@ export class EstadisticaComponent implements OnInit {
     this.dataTable6 = [];
     this.dataTable7 = [];
     this.dataTable8 = [];
+    this.countSum1= 0;
+    this.countSum2 = 0;
+    this.countSum3 = 0;
+    this.countSum4 = 0;
+    this.countSum5 = 0;
     await this.getStatistic();
     await this.getPlatform();
     await this.getPlatformReturn();
