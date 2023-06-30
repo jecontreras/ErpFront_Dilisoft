@@ -98,8 +98,18 @@ export class EstadisticaComponent implements OnInit {
     this.dataTable = [];
     this.dataTable2 = [];
     this.dataTable3 = [];
+    this.dataTable4 = [];
+    this.dataTable5 = [];
+    this.dataTable6 = [];
+    this.dataTable7 = [];
+    this.dataTable8 = [];
     await this.getStatistic();
     await this.getPlatform();
+    await this.getPlatformReturn();
+    await this.getStatisticsBillPlatformWarranty();
+    await this.getArticleNextExpire();
+    await this.getArticleNextFurther();
+    await this.getarticleAmounts();
   }
 
   async filterTxtDateOne(){
@@ -108,8 +118,18 @@ export class EstadisticaComponent implements OnInit {
     this.dataTable = [];
     this.dataTable2 = [];
     this.dataTable3 = [];
+    this.dataTable4 = [];
+    this.dataTable5 = [];
+    this.dataTable6 = [];
+    this.dataTable7 = [];
+    this.dataTable8 = [];
     await this.getStatistic();
     await this.getPlatform();
+    await this.getPlatformReturn();
+    await this.getStatisticsBillPlatformWarranty();
+    await this.getArticleNextExpire();
+    await this.getArticleNextFurther();
+    await this.getarticleAmounts();
   }
 
   isRange(date: NgbDate) {
