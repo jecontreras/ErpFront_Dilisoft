@@ -148,7 +148,7 @@
                                 <div class="form-group">
                                   <label class="form-control-label" for="input-username">Tipo de Cambio</label>
                                   <select class="form-control" [(ngModel)]="data.devolucion" [disabled]="data.asentado">
-                                    <option value="0">no</option>
+                                    <option value="0">No</option>
                                     <option value="1">Cambio</option>
                                     <option value="2">Garantia</option>
                                 </select>
@@ -266,27 +266,27 @@
                                                     <span *ngIf="( keys != 'color' ) && ( keys != 'talla' ) && ( keys != 'cantidad' ) && ( keys != 'precioClienteDrop' ) && ( keys != 'precioTotal' )">{{ item[keys] }} </span>
                                                     <div *ngIf="keys == 'precioClienteDrop'">
                                                         <span *ngIf="data.entrada == 0">
-                                                          <input *ngIf="!disabledPrint" currencyMask [(ngModel)]="item.precioCompra" [disabled]="data.entrada == 0 && data.asentado" class="form-control form-control-sm" [options]="opcionCurrencys" (change)="suma()" />
+                                                          <input *ngIf="!disabledPrint" currencyMask [(ngModel)]="item.precioCompra" [disabled]="data.entrada == 0 && data.asentado" class="form-control form-control-sm" [options]="opcionCurrencys" (change)="suma(); handleModified( item );" />
                                                           <span *ngIf="disabledPrint">&nbsp; {{ item.precioCompra }}</span>
                                                         </span>
                                                         <span *ngIf="( data.entrada == 1 || data.entrada == 2 ) && data.tipoFactura == 0">
-                                                          <input *ngIf="!disabledPrint" [disabled]="data.entrada == 0 && data.asentado" currencyMask [(ngModel)]="item.precioOtras" class="form-control form-control-sm" [options]="opcionCurrencys" (change)="suma()" />
+                                                          <input *ngIf="!disabledPrint" [disabled]="data.entrada == 0 && data.asentado" currencyMask [(ngModel)]="item.precioOtras" class="form-control form-control-sm" [options]="opcionCurrencys" (change)="suma(); handleModified( item );" />
                                                           <span *ngIf="disabledPrint">&nbsp; {{ item.precioOtras }}</span>
                                                         </span>
                                                         <span *ngIf="( data.entrada == 1 || data.entrada == 2 ) && data.tipoFactura == 1">
-                                                            <input *ngIf="!disabledPrint" [disabled]="data.entrada == 0 && data.asentado" currencyMask [(ngModel)]="item.precioClienteDrop" class="form-control form-control-sm" [options]="opcionCurrencys" (change)="suma()" />
+                                                            <input *ngIf="!disabledPrint" [disabled]="data.entrada == 0 && data.asentado" currencyMask [(ngModel)]="item.precioClienteDrop" class="form-control form-control-sm" [options]="opcionCurrencys" (change)="suma(); handleModified( item );" />
                                                             <span *ngIf="disabledPrint">&nbsp; {{ item.precioClienteDrop }}</span>
                                                         </span>
                                                         <span *ngIf="( data.entrada == 1 || data.entrada == 2 ) && data.tipoFactura == 2">
-                                                            <input *ngIf="!disabledPrint" [disabled]="data.entrada == 0 && data.asentado" currencyMask [(ngModel)]="item.precioShipping" class="form-control form-control-sm" [options]="opcionCurrencys" (change)="suma()" />
+                                                            <input *ngIf="!disabledPrint" [disabled]="data.entrada == 0 && data.asentado" currencyMask [(ngModel)]="item.precioShipping" class="form-control form-control-sm" [options]="opcionCurrencys" (change)="suma(); handleModified( item );" />
                                                             <span *ngIf="disabledPrint">&nbsp; {{ item.precioShipping }}</span>
                                                         </span>
                                                         <span *ngIf="( data.entrada == 1 || data.entrada == 2 ) && data.tipoFactura == 3">
-                                                            <input *ngIf="!disabledPrint" [disabled]="data.entrada == 0 && data.asentado" currencyMask [(ngModel)]="item.precioLokompro" class="form-control form-control-sm" [options]="opcionCurrencys" (change)="suma()" />
+                                                            <input *ngIf="!disabledPrint" [disabled]="data.entrada == 0 && data.asentado" currencyMask [(ngModel)]="item.precioLokompro" class="form-control form-control-sm" [options]="opcionCurrencys" (change)="suma(); handleModified( item );" />
                                                             <span *ngIf="disabledPrint">&nbsp; {{ item.precioLokompro }}</span>
                                                         </span>
                                                         <span *ngIf="( data.entrada == 1 || data.entrada == 2 ) && data.tipoFactura == 4">
-                                                            <input *ngIf="!disabledPrint" [disabled]="data.entrada == 0 && data.asentado" currencyMask [(ngModel)]="item.precioArley" class="form-control form-control-sm" [options]="opcionCurrencys" (change)="suma()" />
+                                                            <input *ngIf="!disabledPrint" [disabled]="data.entrada == 0 && data.asentado" currencyMask [(ngModel)]="item.precioArley" class="form-control form-control-sm" [options]="opcionCurrencys" (change)="suma(); handleModified( item );" />
                                                             <span *ngIf="disabledPrint">&nbsp; {{ item.precioArley }}</span>
                                                         </span>
                                                     </div>

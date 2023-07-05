@@ -214,6 +214,9 @@ export class FormFacturaComponent implements OnInit {
           }),
           ...this.data
         }
+        data.listArticulo = data.listArticulo.filter( item => item.modified == true || item.eliminado == true || !item.id )
+        data = _.omit( data, ['listFacturaArticulo'])
+        console.log("***217", data)
         this._factura.update( data ).subscribe(( res:any )=>{
           this._tools.basic("Actualizado exitoso");
           try {
@@ -227,9 +230,13 @@ export class FormFacturaComponent implements OnInit {
           resolve( true );
         },( )=> { resolve( false ); } );
       } catch (error) {
+        console.log("***234", error);
         resolve( false );
       }
     });
+  }
+  handleModified( item ){
+    item.modified = true;
   }
   crearFun(){
     return new Promise( resolve =>{
@@ -333,6 +340,12 @@ export class FormFacturaComponent implements OnInit {
       }
       this.tablet.row.push( ...( format || [] ) );
       this.suma();
+      if( this.id ) {
+        setTimeout(()=> {
+          this.submit()
+          setTimeout(()=>window.close(), 2000);
+        },2000 )
+      }
     });
   }
 
