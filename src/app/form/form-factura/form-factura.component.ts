@@ -188,6 +188,7 @@ export class FormFacturaComponent implements OnInit {
       if( validate ) await this.crearFun();
     }
     this.btnDisabled = false;
+    return true;
     //setTimeout( ()=> location.reload(), 3000 );
   }
 
@@ -341,10 +342,9 @@ export class FormFacturaComponent implements OnInit {
       this.tablet.row.push( ...( format || [] ) );
       this.suma();
       if( this.id ) {
-        setTimeout(()=> {
-          this.submit()
-          setTimeout(()=>window.close(), 2000);
-        },2000 )
+        await this.submit()
+        this._tools.tooast( { title: "Actualizado factura",icon:"success" } );
+        window.close();
       }
     });
   }
