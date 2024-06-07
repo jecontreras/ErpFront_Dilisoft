@@ -1,0 +1,131 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+      <div class="header-body">
+
+          <div class="row card-header border-0">
+              <div class="col-10">
+                  <div class="">
+                      <h3 class="mb-0">{{ titleBTN }} Provedor</h3>
+                  </div>
+              </div>
+              <div class="col-2 text-end">
+                  <div class="">
+                      <button type="button" class="btn btn-success" (click)="submit()" [disabled]="btnDisabled">{{ titleBTN }} </button>
+                      <button type="button" class="btn btn-warning" (click)="settlingModule()" *ngIf="id && !data.asentado" [disabled]="btnDisabled">Asentar Devolucion</button>
+                      <a class="dropdown-item" href="javascript:void(0)" routerLink="/actionsreturns">Volver</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12 order-xl-1">
+      <div class="card bg-secondary shadow">
+          <div class="card-header bg-white border-0">
+              <div class="row align-items-center">
+                  <div class="col-8">
+                      <h3 class="mb-0">{{ titleBTN }} Provedor</h3>
+                  </div>
+                  <div class="col-4 text-right">
+                      <a href="#!" class="btn btn-sm btn-primary">Configuración</a>
+                  </div>
+              </div>
+          </div>
+          <div class="card-body">
+              <div>
+                  <h6 class="heading-small text-muted mb-4">Información Inicial</h6>
+                  <div class="pl-lg-4">
+                      <div class="row">
+                          <div class="col-lg-6">
+                              <div class="form-group">
+                                  <label class="form-control-label" for="input-username">Titulo</label>
+                                  <input type="text" [(ngModel)]="data.titulo" class="form-control form-control-alternative"
+                                      placeholder="" [disabled]="data.asentado">
+                              </div>
+                          </div>
+                          <div class="col-lg-12">
+                              <div class="form-group">
+                                  <label class="form-control-label" for="input-username">Descripcion</label>
+                                  <textarea rows="4" class="form-control form-control-alternative" [disabled]="data.asentado"
+                                        [(ngModel)]="data.descripcion"></textarea>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-12" *ngIf="!id">
+                    <div class="d-flex bd-highlight">
+                      <div class="p-2 flex-grow-1 bd-highlight">Lista de Articulos de devolucion</div>
+                      <div class="p-2 bd-highlight">
+                        <button type="button" class="btn btn-primary" (click)="openArticulo()">Abrir articulos</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="table-responsive">
+                      <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Acciónes</th>
+                                <th scope="col" *ngFor="let item of tablet.headers">{{ item }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of tablet.row; index as i">
+                                <th>
+                                    <button class="btn btn-danger me-md-2" type="button" (click)="checkseleccionado( item, i )" *ngIf="item.eliminado == false " [disabled]="data.entrada == 0 && data.asentado">
+                                        <i class="ni ni-fat-remove"></i>
+                                    </button>
+                                    <h6 *ngIf="item.eliminado == true ">Eliminado</h6>
+                                </th>
+                                <th scope="row" *ngFor="let keys of tablet.keys">
+                                    <img [src]="item[keys]" *ngIf="keys == 'foto'">
+                                    <span *ngIf="( keys != 'decisions' ) && ( keys != 'precioCompra' ) &&( keys != 'platform' ) &&( keys != 'color' ) && ( keys != 'talla' ) && ( keys != 'cantidad' ) && ( keys != 'precioClienteDrop' ) && ( keys != 'precioTotal' )">{{ item[keys] }} </span>
+                                    <div *ngIf="keys == 'precioCompra'">
+                                        <span>
+                                          <input *ngIf="!disabledPrint" currencyMask [(ngModel)]="item.precioCompra" class="form-control form-control-sm" [options]="opcionCurrencys" (change)="suma()" />
+                                          <span *ngIf="disabledPrint">&nbsp; {{ item.precioCompra }}</span>
+                                        </span>
+                                    </div>
+                                    <div *ngIf="keys == 'precioTotal'">
+                                        <input *ngIf="!disabledPrint" currencyMask [(ngModel)]="item.precioTotal" class="form-control form-control-sm" [options]="opcionCurrencys" (change)="suma()" disabled/>
+                                        <span *ngIf="disabledPrint">&nbsp; {{ item.precioTotal }}</span>
+                                    </div>
+                                    <div *ngIf="keys == 'platform'">
+                                      <select class="form-control" [(ngModel)]="item.platform" (change)="suma()">
+                                        <option value="dropshipping">Dropshipping</option>
+                                        <option value="arley">Arley</option>
+                                        <option value="yurylocal">YURY LOCAL</option>
+                                        <option value="yurypermitido">YURY PERMITIDOS</option>
+                                        <option value="lokomproaqui">Lokomproaqui</option>
+                                      </select>
+                                    </div>
+                                    <div *ngIf="keys == 'decisions'">
+                                      <select class="form-control" [(ngModel)]="item.decisions">
+                                        <option value="0">Devolver cantidad</option>
+                                        <option value="1">Destruir cantidad</option>
+                                      </select>
+                                    </div>
+                                    <div *ngIf="keys == 'color'">
+                                        {{ item.nameColor }}
+                                    </div>
+                                    <div *ngIf="keys == 'talla' && item.selectColor">
+                                        {{ item.nameTalla }}
+                                    </div>
+                                    <div *ngIf="keys == 'cantidad' && item.selectTalla">
+                                        <input type="text" [(ngModel)]="item.cantidadSelect" [disabled]="data.entrada == 0 && data.asentado" *ngIf="!disabledPrint"
+                                                class="form-control form-control-alternative" autocomplete="off"(change)="suma()">
+                                        <span *ngIf="disabledPrint">&nbsp; {{ item.cantidadSelect }}</span>
+                                    </div>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

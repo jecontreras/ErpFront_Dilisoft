@@ -1,0 +1,105 @@
+<h2 mat-dialog-title>
+    Lista de Articulos
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button class="btn btn-danger me-md-2" type="button" (click)="close()">
+            <i class="ni ni-fat-remove"></i>
+        </button>
+        <button class="btn btn-success me-md-2" type="button" (click)="seleccionado()">
+            Seleccionado
+        </button>
+    </div>
+</h2>
+<div class="row">
+    <div class="col">
+        <div class="card shadow">
+            <div class="card-header border-0">
+                <h3 class="mb-0">Lista de Articulos</h3>
+            </div>
+            <div class="table-responsive">
+                <input type="text" [(ngModel)]="datoBusqueda"
+                    class="form-control form-control-alternative" autofocus autofocus="autofocus" placeholder="Buscar Productos" id="codigo" (change)="filtroGet()" autocomplete="off" >
+                <table class="table align-items-center table-flush">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col" *ngFor="let item of tablet.headers">{{ item }}</th>
+                            <!--<th scope="col">Acciónes</th>-->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of tablet.row">
+                            <th scope="row" *ngFor="let keys of tablet.keys">
+                                <img [src]="item[keys]" *ngIf="keys == 'foto'">
+                                <span *ngIf="( keys != 'color' ) && ( keys != 'talla' ) && ( keys != 'cantidad' )">{{ item[keys] }} </span>
+                                <!--<div *ngIf="keys == 'color'">
+                                    <select class="form-control"  [(ngModel)]="item.selectColor" (change)="selectColor( item )" disabled>
+                                        <option *ngFor="let row of item.listColor" [value]="row.id">{{ row.color }}</option>
+                                    </select>
+                                </div>
+                                <div *ngIf="keys == 'talla' && item.selectColor">
+                                    <select class="form-control"  [(ngModel)]="item.selectTalla" disabled>
+                                        <option [value]="row.id" *ngFor="let row of item.listTalla">{{ row.talla }}</option>
+                                    </select>
+                                </div>-->
+                                <div *ngIf="keys == 'cantidad' && item.selectTalla">
+                                    <input type="number" [(ngModel)]="item.cantidadSelect" (change)="handleAmount( item )"
+                                            class="form-control form-control-alternative" autocomplete="off" >
+                                </div>
+                            </th>
+                            <th>
+                                <button class="btn btn-success me-md-2" type="button" (click)="checkseleccionado( item )">
+                                    <i class="ni ni-fat-add"></i>
+                                </button>
+                            </th>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <div class="col-12">
+                    <h3>Articulos seleccionados</h3>
+                </div>
+                <div class="col-12">
+                    <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col" *ngFor="let item of tablet.headers">{{ item }}</th>
+                                <!--<th scope="col">Acciónes</th>-->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of listSelecciono">
+                                <th scope="row" *ngFor="let keys of tablet.keys">
+                                    <img [src]="item[keys]" *ngIf="keys == 'foto'">
+                                    <span *ngIf="( keys != 'color' ) && ( keys != 'talla' ) && ( keys != 'cantidad' )">{{ item[keys] }} </span>
+                                    <!--<div *ngIf="keys == 'color'">
+                                        <select class="form-control"  [(ngModel)]="item.selectColor" (change)="selectColor( item )" disabled>
+                                            <option *ngFor="let row of item.listColor" [value]="row.id">{{ row.color }}</option>
+                                        </select>
+                                    </div>
+                                    <div *ngIf="keys == 'talla' && item.selectColor">
+                                        <select class="form-control"  [(ngModel)]="item.selectTalla" disabled>
+                                            <option [value]="row.id" *ngFor="let row of item.listTalla">{{ row.talla }}</option>
+                                        </select>
+                                    </div>-->
+                                    <div *ngIf="keys == 'cantidad' && item.selectTalla">
+                                        <input type="number" [(ngModel)]="item.cantidadSelect" (change)="handleAmount( item )"
+                                                class="form-control form-control-alternative" autocomplete="off" >
+                                    </div>
+                                </th>
+                                <th>
+                                    <button class="btn btn-danger me-md-2" type="button" (click)="handleDrop( item )">
+                                        <i class="ni ni-fat-remove"></i>
+                                    </button>
+                                </th>
+                                <!--<th>
+                                    <button class="btn btn-success me-md-2" type="button" (click)="checkseleccionado( item )">
+                                        <i class="ni ni-fat-add"></i>
+                                    </button>
+                                </th>-->
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

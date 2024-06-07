@@ -1,0 +1,305 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+        <div class="header-body">
+
+            <div class="row card-header border-0">
+                <div class="col-10">
+                    <div class="">
+                        <h3 class="mb-0">{{ titleBTN }} Articulo</h3>
+                    </div>
+                </div>
+                <div class="col-2 text-end">
+                    <div class="">
+                        <button type="button" class="btn btn-success" (click)="submit()">{{ titleBTN }} </button>
+                        <a class="dropdown-item" href="javascript:void(0)" routerLink="/articulo">Volver</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 order-xl-1">
+        <div class="card bg-secondary shadow">
+            <div class="card-header bg-white border-0">
+                <div class="row align-items-center">
+                    <div class="col-8">
+                        <h3 class="mb-0">{{ titleBTN }} Articulo</h3>
+                    </div>
+                    <div class="col-4 text-right">
+                        <a href="#!" class="btn btn-sm btn-primary">Configuración</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div>
+                    <h6 class="heading-small text-muted mb-4">Información Inicial</h6>
+                    <div class="pl-lg-4">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <app-archivos [_dataConfig]="_dataConfig"></app-archivos>
+                            </div>
+                            <div class="col-lg-6" *ngIf="data.codigo">
+                                <div class="form-group">
+                                    <ngx-barcode [bc-value]="data.codigo" [bc-display-value]="true"></ngx-barcode>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-username">Codigo</label>
+                                    <input type="text" [(ngModel)]="data.codigo" class="form-control form-control-alternative"
+                                        placeholder="codigo del producto">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-email">titulo</label>
+                                    <input type="text" [(ngModel)]="data.titulo" class="form-control form-control-alternative"
+                                        placeholder="Titulo">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-email">Categoria</label>
+                                    <select class="form-control" [(ngModel)]="data.categoria">
+                                        <option [value]="item.id" *ngFor="let item of listCategoria">{{ item.titulo }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-email">Subcategoria</label>
+                                    <select class="form-control" [(ngModel)]="data.subcategoria" (change)="handleSelectCategory()">
+                                        <option [value]="item.id" *ngFor="let item of listSubCategoria">{{ item.titulo }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-email">Precio Compra</label>
+                                    <input currencyMask [(ngModel)]="data.precioCompra"
+                                        class="form-control form-control-sm" [options]="opcionCurrencys" />
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-email">Precio Venta ( local )</label>
+                                    <input currencyMask [(ngModel)]="data.precioClienteDrop"
+                                        class="form-control form-control-sm" [options]="opcionCurrencys" />
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-email">Precio de Permitidos</label>
+                                    <input currencyMask [(ngModel)]="data.precioOtras"
+                                        class="form-control form-control-sm" [options]="opcionCurrencys" />
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-email">Precio de Drop Shipping</label>
+                                    <input currencyMask [(ngModel)]="data.precioShipping"
+                                        class="form-control form-control-sm" [options]="opcionCurrencys" />
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-email">Precio de Lokomproaqui</label>
+                                    <input currencyMask [(ngModel)]="data.precioLokompro"
+                                        class="form-control form-control-sm" [options]="opcionCurrencys" />
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-email">Precio de Arley</label>
+                                    <input currencyMask [(ngModel)]="data.precioArley"
+                                        class="form-control form-control-sm" [options]="opcionCurrencys" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <mat-tab-group mat-align-tabs="center">
+                    <mat-tab label="Informacion detallado">
+                        <div>
+                            <h6 class="heading-small text-muted mb-4">Información Cantidad Colores</h6>
+                            <div class="pl-lg-4">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <table class="table table-striped">
+                                            <thead>
+                                            <tr>
+                                              <th scope="col">#</th>
+                                              <!--<th scope="col">Codigo</th>-->
+                                              <th scope="col">Color</th>
+                                              <th> <button type="button" class="btn btn-primary" (click)="newColor( { check:false }, 0 );"><i class="ni ni-fat-add"></i></button> </th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr *ngFor="let item of listcolor; index as i">
+                                              <th scope="row">{{ i + 1 }}</th>
+                                              <!--<td>
+                                                <ngx-barcode [bc-value]="item.codigo" [bc-display-value]="true"></ngx-barcode>
+                                                <input type="text" [(ngModel)]="item.codigo" class="form-control form-control-alternative">
+                                              </td> -->
+                                              <td>
+                                                <input type="text" [(ngModel)]="item.color" class="form-control form-control-alternative" (change)="processCode(); newColor( item, i )">
+                                              </td>
+                                            <td>
+                                                <button type="button" class="btn btn-danger" (click)="dropColor(item)"><i class="ni ni-fat-remove"></i></button>
+                                            </td>
+                                            </tr>
+                                            </tbody>
+                                          </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="!id">
+                            <h6 class="heading-small text-muted mb-4">Información Tallas</h6>
+                            <div class="pl-lg-4">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <mat-form-field class="example-chip-list">
+                                            <mat-label>Tallas disponibles</mat-label>
+                                            <mat-chip-list #chipList aria-label="Talla selection">
+                                              <mat-chip
+                                                *ngFor="let item of listTallas"
+                                                [selectable]="selectable"
+                                                [removable]="removable"
+                                                (removed)="remove(item)">
+                                                {{item}}
+                                                <i class="ni ni-fat-remove" matChipRemove ></i>
+                                              </mat-chip>
+                                              <input
+                                                placeholder="Nuevas Tallas..."
+                                                #fruitInput
+                                                [formControl]="fruitCtrl"
+                                                [matAutocomplete]="auto"
+                                                [matChipInputFor]="chipList"
+                                                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                (matChipInputTokenEnd)="add($event)">
+                                            </mat-chip-list>
+                                            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                                              <mat-option *ngFor="let item of filteredTallas | async" [value]="fruit">
+                                                {{item}}
+                                              </mat-option>
+                                            </mat-autocomplete>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h6 class="heading-small text-muted mb-4">Información Cantidad Tallas</h6>
+                            <div class="pl-lg-4">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <ul class="list-group">
+                                            <li class="list-group-item" *ngFor="let item of listcolor; index as i">
+                                                {{ item.color }}
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <table class="table table-striped">
+                                                            <thead>
+                                                            <tr>
+                                                              <th scope="col">#</th>
+                                                              <th scope="col">Codigo</th>
+                                                              <th scope="col">Tallas</th>
+                                                              <th scope="col">Cantidad</th>
+                                                              <th> <button type="button" class="btn btn-primary" (click)="newTalla(item)"><i class="ni ni-fat-add"></i></button> </th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <tr *ngFor="let keys of item.listTalla; index as im">
+                                                              <th scope="row">{{ i + 1 }}</th>
+                                                              <td>
+                                                                <ngx-barcode [bc-value]="keys.codigo" [bc-display-value]="true"></ngx-barcode>
+                                                                <input type="text" [(ngModel)]="keys.codigo" class="form-control form-control-alternative">
+                                                              </td>
+                                                              <td>
+                                                                <input type="text" [(ngModel)]="keys.talla" class="form-control form-control-alternative" (blur)="newTalla(item, im)">
+                                                              </td>
+                                                              <td>
+                                                                <input type="text" [(ngModel)]="keys.cantidad" [disabled]="id" class="form-control form-control-alternative">
+                                                              </td>
+                                                              <td>
+                                                                <button type="button" class="btn btn-danger" (click)="dropTalla(item, im)"><i class="ni ni-fat-remove"></i></button>
+                                                              </td>
+                                                            </tr>
+                                                            </tbody>
+                                                          </table>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Movimientos">
+                        <ul class="list-group">
+                            <li class="list-group-item" *ngFor="let row of listcolor">
+                                <h4>{{ row.color }} </h4>
+                                <ul class="list-group">
+                                    <li class="list-group-item" *ngFor="let item of row.listTalla">
+                                        <h4>Talla: {{ item.talla }} </h4>
+                                        <table class="table align-items-center table-flush">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col" *ngFor="let items of tablet.headers">{{ items }}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of item.listLogEntrada">
+                                                <th scope="row" *ngFor="let keys of tablet.keys">
+                                                    <span *ngIf="( keys !='createdAt' ) && (keys !='tipoEntrada') ">{{ item[keys] }} </span>
+                                                    <span *ngIf="keys =='tipoEntrada'">
+                                                        <p *ngIf="item[keys] == 0" class="btnEntrada">Entrada</p>
+                                                        <p *ngIf="item[keys] == 1" class="btnSalida">Salida</p>
+
+                                                    </span>
+                                                    <span *ngIf="keys =='createdAt'"> {{ item[keys] | date:'medium'}} </span>
+                                                </th>
+                                            </tr>
+                                        </tbody>
+                                        </table>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </mat-tab>
+                    <!--<mat-tab label="Movimiento de salida">
+                        <ul class="list-group">
+                            <li class="list-group-item" *ngFor="let row of listcolor">
+                                <h4>{{ row.color }} </h4>
+                                <ul class="list-group">
+                                    <li class="list-group-item" *ngFor="let item of row.listTalla">
+                                        <h4>{{ item.talla }} </h4>
+                                        <table class="table align-items-center table-flush">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col" *ngFor="let items of tablet.headers">{{ items }}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of item.listLogSalida">
+                                                <th scope="row" *ngFor="let keys of tablet.keys">
+                                                    <span *ngIf="keys !='createdAt'">{{ item[keys] }} </span>
+                                                    <span *ngIf="keys =='createdAt'"> {{ item[keys] | date:'medium'}} </span>
+                                                </th>
+                                            </tr>
+                                        </tbody>
+                                        </table>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </mat-tab>-->
+                  </mat-tab-group>
+            </div>
+        </div>
+    </div>
+</div>

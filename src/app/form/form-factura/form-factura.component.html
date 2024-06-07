@@ -1,0 +1,318 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+        <div class="header-body">
+
+            <div class="row card-header border-0">
+                <div class="col-10">
+                    <div class="">
+                        <h3 class="mb-0">{{ titleBTN }} Facturas</h3>
+                    </div>
+                </div>
+                <div class="col-2 text-end">
+                    <div class="">
+                        <button type="button" class="btn btn-success" [disabled]="btnDisabled" (click)="submit()" *ngIf="( data.entrada != 0 || !id ) || !this.data.asentado ">{{ titleBTN }} </button>
+                        <button type="button" class="btn btn-warning" [disabled]="btnDisabled" (click)="acentarFactura()" *ngIf="!this.data.asentado && id"> Asentar</button>
+                        <button type="button" class="btn btn-primary" (click)="openPrint()" *ngIf="id"> Imprimir</button>
+                        <a class="dropdown-item" href="javascript:void(0)" routerLink="/factura">Volver</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" id="print">
+    <div class="col-12 order-xl-1">
+        <div class="card bg-secondary shadow">
+            <div class="card-header bg-white border-0">
+                <div class="row align-items-center">
+                    <div class="col-8">
+                        <h3 class="mb-0">{{ titleBTN }} Facturas</h3>
+                    </div>
+                    <div class="col-4 text-right">
+                        <a href="#!" class="btn btn-sm btn-primary">Configuración</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div>
+                    <h6 class="heading-small text-muted mb-4">Información Inicial</h6>
+                    <div class="pl-lg-4">
+                        <div class="row mat-elevation-z8 p-3">
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-username">Codigo</label>
+                                    <ngx-barcode [bc-value]="data.codigo" [bc-display-value]="true"></ngx-barcode>
+                                    <input type="text" *ngIf="!disabledPrint" [(ngModel)]="data.codigo"
+                                        class="form-control form-control-alternative" placeholder="" [disabled]="data.asentado">
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-username">Fecha</label>
+                                    <span *ngIf="disabledPrint">&nbsp; {{ data.fecha }}</span>
+                                    <input type="date" [(ngModel)]="data.fecha" *ngIf="!disabledPrint"
+                                        class="form-control form-control-alternative" placeholder="" [disabled]="data.asentado">
+                                </div>
+                            </div>
+                            <div class="col-lg-4" *ngIf="data.entrada == 0 ">
+                              <div class="form-group">
+                                  <label class="form-control-label" for="input-username">Fecha de Vencimiento</label>
+                                  <span *ngIf="disabledPrint">&nbsp; {{ data.expiration }}</span>
+                                  <input type="date" [(ngModel)]="data.expiration" *ngIf="!disabledPrint"
+                                      class="form-control form-control-alternative" placeholder="" [disabled]="data.asentado">
+                              </div>
+                          </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-username">Nombre del cliente</label>
+                                    <span *ngIf="disabledPrint">&nbsp; {{ data.nombreCliente }}</span>
+                                    <ng-autocomplete *ngIf="!disabledPrint" [(ngModel)]="data.nombreCliente" [data]="listClientes" [searchKeyword]="keyword" placeHolder="Buscar Clientes" autocomplete="off"
+                                        historyIdentifier="listClientes" [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate">
+                                    </ng-autocomplete>
+                                    <ng-template #itemTemplate let-item>
+                                      <div class="item">
+                                          <!-- <img src="{{item.flag}}" height="25"> -->
+                                          <span [innerHTML]="item.nombre"></span> &nbsp;
+                                      </div>
+                                  </ng-template>
+
+                                  <ng-template #notFoundTemplate let-notFound>
+                                      <div [innerHTML]="notFound"></div>
+                                  </ng-template>
+                                    <!--<input *ngIf="!disabledPrint" type="text" [(ngModel)]="data.nombreCliente"
+                                        class="form-control form-control-alternative" placeholder="" [disabled]="data.asentado">-->
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-username">Tipo de Entrada</label>
+                                    <select class="form-control" [(ngModel)]="data.entrada" [disabled]="data.asentado" (change)="reloadValidacion(); suma();">
+                                        <option value="0">Entrada</option>
+                                        <option value="1">Salida</option>
+                                        <!--<option value="2">Devolucion</option>
+                                        <option value="3">Cambio</option>-->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-4" *ngIf="data.entrada == 1">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-username">Tipo de cobro</label>
+                                    <select class="form-control" [(ngModel)]="data.tipoFactura" (change)="suma()">
+                                        <option value="0">Permitido</option>
+                                        <option value="1">Normal</option>
+                                        <option value="2">Drop Shipping</option>
+                                        <option value="3">Drop LokomproAqui</option>
+                                        <option value="4">Drop Arley</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-4" *ngIf="data.entrada == 0">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-username">Provedores</label>
+                                    <select class="form-control" [(ngModel)]="data.provedor" [disabled]="data.asentado">
+                                        <option [value]="row.id" *ngFor="let row of listProvedor">{{ row.titulo}} </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-4" *ngIf="data.asentado=== true">
+                              <div class="form-group">
+                                  <label class="form-control-label" for="input-username">Fecha asentada</label>
+                                  <span *ngIf="disabledPrint">&nbsp; {{ data.fechaasentado }}</span>
+                                  <input *ngIf="!disabledPrint" type="datetime" [(ngModel)]="data.fechaasentado"
+                                        class="form-control form-control-alternative" placeholder="" [disabled]="data.asentado">
+                              </div>
+                            </div>
+                            <div class="col-lg-4" *ngIf="data.coinFinix">
+                              <div class="form-group">
+                                  <input type="checkbox" class="form-check-input" [(ngModel)]="data.coinFinix" *ngIf="!disabledPrint">
+                                  <span *ngIf="disabledPrint">&nbsp; {{ data.coinFinix }}</span>
+                                    <label  class="form-check-label" for="exampleCheck1">Factura cancela en su totalida</label>
+                              </div>
+                            </div>
+                            <div class="col-lg-4" *ngIf="data.entrada == 0 && this.data.asentado">
+                              <div class="form-group">
+                                <label class="form-control-label" for="input-username">Abono a la factura</label>
+                                <span *ngIf="disabledPrint">&nbsp; {{ data.passMoney }}</span>
+                                <input *ngIf="!disabledPrint" disabled currencyMask [(ngModel)]="data.passMoney" class="form-control form-control-sm" [options]="opcionCurrencys"/>
+                              </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                  <label class="form-control-label" for="input-username">Color</label>
+                                  <input *ngIf="!disabledPrint" type="color" [(ngModel)]="data.colorP"
+                                        class="form-control form-control-alternative" placeholder="">
+                                </div>
+                              </div>
+                              <div class="col-lg-4">
+                                <div class="form-group">
+                                  <label class="form-control-label" for="input-username">Tipo de Cambio</label>
+                                  <select class="form-control" [(ngModel)]="data.devolucion" [disabled]="data.asentado">
+                                    <option value="0">No</option>
+                                    <option value="1">Cambio</option>
+                                    <option value="2">Garantia</option>
+                                </select>
+                                </div>
+                              </div>
+                              <div class="col-lg-4" *ngIf="data.devolucion == 2">
+                                <div class="form-group">
+                                  <label class="form-control-label" for="input-username">Precio Flete Entrada</label>
+                                  <input *ngIf="!disabledPrint" type="text" [(ngModel)]="data.priceFleteEntrada"
+                                              class="form-control form-control-alternative" placeholder="" [disabled]="data.asentado">
+                                </div>
+                              </div>
+                              <div class="col-lg-4" *ngIf="data.devolucion == 2">
+                                <div class="form-group">
+                                  <label class="form-control-label" for="input-username">Precio Flete Salida</label>
+                                  <input *ngIf="!disabledPrint" type="text" [(ngModel)]="data.priceFleteSalida"
+                                  class="form-control form-control-alternative" placeholder="" [disabled]="data.asentado">
+                                </div>
+                              </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-username">Descripcion</label>
+                                    <span *ngIf="disabledPrint">&nbsp; {{ data.descripcion }}</span>
+                                    <textarea *ngIf="!disabledPrint" rows="4" class="form-control form-control-alternative" [disabled]="data.asentado"
+                                        [(ngModel)]="data.descripcion"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card shadow">
+                                <div class="card-header border-0">
+                                    <div class="row align-items-center">
+                                        <div class="col-8">
+                                            <h3 class="mb-0">Información Factura</h3>
+                                        </div>
+                                        <div>
+                                            <label class="form-control-label" for="input-username">Cantidad de pares</label>
+                                            <span *ngIf="disabledPrint">&nbsp; {{ data.cantidadPares }}</span>
+                                            <input *ngIf="!disabledPrint" type="text" [(ngModel)]="data.cantidadPares"
+                                              class="form-control form-control-alternative" placeholder="" [disabled]="data.asentado">
+                                        </div>
+                                        <div>
+                                          <label class="form-control-label" for="input-username">Precio Total</label>
+                                          <span *ngIf="disabledPrint">&nbsp; {{ data.monto }}</span>
+                                          <input *ngIf="!disabledPrint" currencyMask [(ngModel)]="data.monto"
+                                              class="form-control form-control-sm" [options]="opcionCurrencys" />
+                                      </div>
+                                        <div class="col-4 text-right">
+                                            <button type="button" class="btn btn-primary" *ngIf="( data.entrada != 0 || !id ) || !this.data.asentado " (click)="openArticulo()">Abrir articulos</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                  <div class="d-flex justify-content-between">
+                                    <div>
+                                      <h3>Resumen</h3>
+                                    </div>
+                                    <div></div>
+                                    <div>
+                                      <button mat-button color="primary" (click)="handleActivateMenu()">
+                                        <i *ngIf="!viewDisabled" class="ni ni-bold-down"></i>
+                                        <i *ngIf="viewDisabled" class="ni ni-bold-up"></i>
+                                      </button>
+                                    </div>
+                                  </div>
+                                  <div class="col-12" *ngIf="viewDisabled">
+                                    <table class="table align-items-center table-flush">
+                                      <thead class="thead-light">
+                                          <tr>
+                                              <th scope="col">Codigo</th>
+                                              <th scope="col">Color</th>
+                                              <th scope="col">Cantidad</th>
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                          <tr *ngFor="let item of listSummary; index as i">
+                                              <th>
+                                                {{ item.codigo }}
+                                              </th>
+                                              <th>
+                                                {{ item.color }}
+                                              </th>
+                                              <th>
+                                                {{ item.cantidad }}
+                                              </th>
+                                          </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <!--<input type="text" [(ngModel)]="datoBusqueda"
+                                        class="form-control form-control-alternative" autofocus="autofocus" placeholder="Buscar Productos" id="codigo" (change)="filtroGet()" autocomplete="off" >-->
+                                    <table class="table align-items-center table-flush">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col">Acciónes</th>
+                                                <th scope="col" *ngFor="let item of tablet.headers">{{ item }}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of tablet.row; index as i">
+                                                <th>
+                                                    <button class="btn btn-danger me-md-2" type="button" (click)="checkseleccionado( item, i )" *ngIf="item.eliminado == false " [disabled]="data.entrada == 0 && data.asentado">
+                                                        <i class="ni ni-fat-remove"></i>
+                                                    </button>
+                                                    <h6 *ngIf="item.eliminado == true ">Eliminado</h6>
+                                                </th>
+                                                <th scope="row" *ngFor="let keys of tablet.keys">
+                                                    <img [src]="item[keys]" *ngIf="keys == 'foto'">
+                                                    <span *ngIf="( keys != 'color' ) && ( keys != 'talla' ) && ( keys != 'cantidad' ) && ( keys != 'precioClienteDrop' ) && ( keys != 'precioTotal' )">{{ item[keys] }} </span>
+                                                    <div *ngIf="keys == 'precioClienteDrop'">
+                                                        <span *ngIf="data.entrada == 0">
+                                                          <input *ngIf="!disabledPrint" currencyMask [(ngModel)]="item.precioCompra" [disabled]="data.entrada == 0 && data.asentado" class="form-control form-control-sm" [options]="opcionCurrencys" (change)="suma(); handleModified( item );" />
+                                                          <span *ngIf="disabledPrint">&nbsp; {{ item.precioCompra }}</span>
+                                                        </span>
+                                                        <span *ngIf="( data.entrada == 1 || data.entrada == 2 ) && data.tipoFactura == 0">
+                                                          <input *ngIf="!disabledPrint" [disabled]="data.entrada == 0 && data.asentado" currencyMask [(ngModel)]="item.precioOtras" class="form-control form-control-sm" [options]="opcionCurrencys" (change)="suma(); handleModified( item );" />
+                                                          <span *ngIf="disabledPrint">&nbsp; {{ item.precioOtras }}</span>
+                                                        </span>
+                                                        <span *ngIf="( data.entrada == 1 || data.entrada == 2 ) && data.tipoFactura == 1">
+                                                            <input *ngIf="!disabledPrint" [disabled]="data.entrada == 0 && data.asentado" currencyMask [(ngModel)]="item.precioClienteDrop" class="form-control form-control-sm" [options]="opcionCurrencys" (change)="suma(); handleModified( item );" />
+                                                            <span *ngIf="disabledPrint">&nbsp; {{ item.precioClienteDrop }}</span>
+                                                        </span>
+                                                        <span *ngIf="( data.entrada == 1 || data.entrada == 2 ) && data.tipoFactura == 2">
+                                                            <input *ngIf="!disabledPrint" [disabled]="data.entrada == 0 && data.asentado" currencyMask [(ngModel)]="item.precioShipping" class="form-control form-control-sm" [options]="opcionCurrencys" (change)="suma(); handleModified( item );" />
+                                                            <span *ngIf="disabledPrint">&nbsp; {{ item.precioShipping }}</span>
+                                                        </span>
+                                                        <span *ngIf="( data.entrada == 1 || data.entrada == 2 ) && data.tipoFactura == 3">
+                                                            <input *ngIf="!disabledPrint" [disabled]="data.entrada == 0 && data.asentado" currencyMask [(ngModel)]="item.precioLokompro" class="form-control form-control-sm" [options]="opcionCurrencys" (change)="suma(); handleModified( item );" />
+                                                            <span *ngIf="disabledPrint">&nbsp; {{ item.precioLokompro }}</span>
+                                                        </span>
+                                                        <span *ngIf="( data.entrada == 1 || data.entrada == 2 ) && data.tipoFactura == 4">
+                                                            <input *ngIf="!disabledPrint" [disabled]="data.entrada == 0 && data.asentado" currencyMask [(ngModel)]="item.precioArley" class="form-control form-control-sm" [options]="opcionCurrencys" (change)="suma(); handleModified( item );" />
+                                                            <span *ngIf="disabledPrint">&nbsp; {{ item.precioArley }}</span>
+                                                        </span>
+                                                    </div>
+                                                    <div *ngIf="keys == 'precioTotal'">
+                                                        <input *ngIf="!disabledPrint" currencyMask [(ngModel)]="item.precioTotal" class="form-control form-control-sm" [options]="opcionCurrencys" (change)="suma()" disabled/>
+                                                        <span *ngIf="disabledPrint">&nbsp; {{ item.precioTotal }}</span>
+                                                    </div>
+                                                    <div *ngIf="keys == 'color'">
+                                                        {{ item.nameColor }}
+                                                    </div>
+                                                    <div *ngIf="keys == 'talla' && item.selectColor">
+                                                        {{ item.nameTalla }}
+                                                    </div>
+                                                    <div *ngIf="keys == 'cantidad' && item.selectTalla">
+                                                        <input type="text" [(ngModel)]="item.cantidadSelect" [disabled]="data.entrada == 0 && data.asentado" *ngIf="!disabledPrint"
+                                                                class="form-control form-control-alternative" autocomplete="off"(change)="handleAmount( item )">
+                                                        <span *ngIf="disabledPrint">&nbsp; {{ item.cantidadSelect }}</span>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>

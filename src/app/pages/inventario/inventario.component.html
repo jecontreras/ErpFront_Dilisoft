@@ -1,0 +1,16 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+      <div class="header-body">
+        <!-- Card stats -->
+        <div class="row">
+            <div class="col text-end">
+                <div ngbDropdown placement="top-end" class="d-inline-block">
+                  <button type="button" class="btn btn-primary" (click)="Crearinventario()">Crear Inventario</button>
+                  <button type="button" class="btn btn-primary" (click)="printInventario()">Imprimir Inventario</button>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<app-tabla [_dataConfig]="_dataConfig"></app-tabla>

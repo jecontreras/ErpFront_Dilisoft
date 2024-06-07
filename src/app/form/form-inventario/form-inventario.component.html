@@ -1,0 +1,172 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+        <div class="header-body">
+
+            <div class="row card-header border-0">
+                <div class="col-10">
+                    <div class="">
+                        <h3 class="mb-0">{{ titleBTN }} Inventario</h3>
+                    </div>
+                </div>
+                <div class="col-2 text-end">
+                    <div class="">
+                        <button type="button" class="btn btn-success" (click)="submit()" *ngIf="!this.asentado">{{ titleBTN }} </button>
+                        <button type="button" class="btn btn-success" (click)="asentarBtn()" *ngIf="this.id && !this.asentado">Asentar </button>
+                        <a class="dropdown-item" href="javascript:void(0)" routerLink="/inventario">Volver</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" id="contenido" #contenido>
+    <div class="col-12 order-xl-1">
+        <div class="card bg-secondary shadow">
+            <div class="card-header bg-white border-0">
+                <div class="row align-items-center">
+                    <div class="col-8">
+                        <h3 class="mb-0">{{ titleBTN }} Inventario</h3>
+                    </div>
+                    <div class="col-4 text-right">
+                        <button type="button" class="btn btn-success" (click)="print()">Imprimir </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div>
+                    <h6 class="heading-small text-muted mb-4">Información Inicial</h6>
+                    <div class="pl-lg-4">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-username">Fecha</label>
+                                    <input type="date" [(ngModel)]="data.fecha"
+                                        class="form-control form-control-alternative" placeholder="">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-username">Titulo</label>
+                                    <input type="text" [(ngModel)]="data.titulo"
+                                        class="form-control form-control-alternative" placeholder="">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-username">Diferencial</label>
+                                    <input type="number" [(ngModel)]="data.totalQuantityDes"
+                                        class="form-control form-control-alternative" placeholder="">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-username">Valor Total</label>
+                                    <input currencyMask [(ngModel)]="data.totalDes"
+                                                class="form-control form-control-sm" [options]="opcionCurrencys" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h6 class="heading-small text-muted mb-4">Información Inventario</h6>
+                    <div class="pl-lg-4">
+                        <div class="row">
+                          <div class="col-12" *ngIf="!this.id">
+                            <label class="form-control-label" for="input-username">Buscar por codigo global</label>
+                            <input type="text" [(ngModel)]="filtreTxt" class="form-control form-control-alternative"
+                                placeholder="Buscar item por codigo" (change)="txtFilter()">
+                          </div>
+                            <ul class="list-group col-12">
+                                <li class="list-group-item" *ngFor="let item of listInventario; index as im">
+                                    <div class="row" style="background: #bbbbbb;
+                                    padding-top: 23px;
+                                    border: 2px solid red;">
+                                        <div class="col-lg-2">
+                                            <div class="form-group">
+                                                <input type="text" [(ngModel)]="item.codigo"
+                                                    class="form-control form-control-alternative" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <div class="form-group">
+                                                <input type="text" [(ngModel)]="item.cantidad"
+                                                    class="form-control form-control-alternative" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <input type="text" [(ngModel)]="item.titulo"
+                                                    class="form-control form-control-alternative" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <input type="date" [(ngModel)]="item.createdAt"
+                                                    class="form-control form-control-alternative" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="item.listColor">
+                                        <ul class="list-group col-12">
+                                            <li class="list-group-item" *ngFor="let key of item.listColor; index as i">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <span>{{ i + 1 }} </span>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                       Color: <span>{{ key.color }} </span>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <table class="table table-striped">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th scope="col">#</th>
+                                                                    <th>Codigo</th>
+                                                                    <th scope="col">Talla</th>
+                                                                    <th scope="col">Cantidad Existente</th>
+                                                                    <th scope="col">Cantidad Reales</th>
+                                                                    <th scope="col">Diferencia</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr *ngFor="let ml of key.listTalla; index as l">
+                                                                    <th scope="row">{{ l + 1 }}</th>
+                                                                    <td>
+                                                                        <ngx-barcode [bc-height]="20" [bc-width]="1" [bc-value]="ml.codigo" [bc-display-value]="true"></ngx-barcode>
+                                                                    </td>
+                                                                    <td>
+                                                                        {{ ml.talla }}
+                                                                    </td>
+                                                                    <td>
+                                                                        {{ ml.cantidad }}
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" [(ngModel)]="ml.cantidadReal" class="form-control form-control-alternative" (change)="suma()">
+                                                                    </td>
+                                                                    <td>
+                                                                        {{ ml.diferencia }}
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="row" *ngIf="!item.listColor">
+
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

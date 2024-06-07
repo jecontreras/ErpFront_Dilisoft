@@ -1,0 +1,44 @@
+<h2 mat-dialog-title>
+  Informacion detallada de movimientos
+</h2>
+<mat-dialog-content class="mat-typography" id="print">
+  <div class="row">
+    <div class="col-12">
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let row of listcolor">
+            <h4>{{ row.color }} </h4>
+            <ul class="list-group">
+                <li class="list-group-item" *ngFor="let item of row.listTalla">
+                    <h4>Talla: {{ item.talla }} </h4>
+                    <table class="table align-items-center table-flush">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col" *ngFor="let items of tablet.headers">{{ items }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of item.listLogEntrada">
+                            <th scope="row" *ngFor="let keys of tablet.keys">
+                                <span *ngIf="( keys !='createdAt' ) && (keys !='tipoEntrada') ">{{ item[keys] }} </span>
+                                <span *ngIf="keys =='tipoEntrada'">
+                                    <p *ngIf="item[keys] == 0" class="btnEntrada">Entrada</p>
+                                    <p *ngIf="item[keys] == 1" class="btnSalida">Salida</p>
+
+                                </span>
+                                <span *ngIf="keys =='createdAt'"> {{ item[keys] | date:'medium'}} </span>
+                            </th>
+                        </tr>
+                    </tbody>
+                    </table>
+                </li>
+            </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="warn" mat-dialog-close><i class="ni ni-fat-remove"></i></button>
+  <button mat-button (click)="printArticulo()" cdkFocusInitial>Imprimir</button>
+</mat-dialog-actions>

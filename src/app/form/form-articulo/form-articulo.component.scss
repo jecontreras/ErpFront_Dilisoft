@@ -1,0 +1,29 @@
+.btnEntrada{
+    background: rgb(2, 214, 38);
+    padding: 5px;
+    color: white;
+}
+
+.btnSalida{
+    background: red;
+    padding: 5px;
+    color: white;
+}
+
+.example-chip-list {
+    width: 100%;
+  }
+  input[type=number]::-webkit-inner-spin-button,
+      input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none !important;
+        margin: 0 !important;
+      }
+      input[type=number] { -moz-appearance:textfield !important;  }
+
+
+       input[type=date]::-webkit-inner-spin-button,
+      input[type=date]::-webkit-outer-spin-button {
+        -webkit-appearance: none !important;
+        margin: 0 !important;
+      }
+      input[type=date] { -moz-appearance:textfield !important; }

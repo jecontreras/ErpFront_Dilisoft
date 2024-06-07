@@ -1,0 +1,116 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+        <div class="header-body">
+
+            <div class="row card-header border-0">
+                <div class="col-10">
+                    <div class="">
+                        <h3 class="mb-0">Lista de Articulos</h3>
+                    </div>
+                    <div>
+                         <label class="form-control-label" for="input-username">Buscar por codigo (Global)</label>
+                        <input style="    background: #cbcbcb; color: white;" type="text" [(ngModel)]="searchCodigo" class="form-control form-control-alternative" (change)="getDetalle()">
+                    </div>
+                </div>
+                <div class="col-2 text-end">
+                    <a class="btn btn-primary" href="javascript:void(0)" (click)="print()">Imprimir</a>
+                    <a class="btn btn-danger" href="javascript:void(0)" (click)="volverVista()">Volver</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="pl-lg-4">
+        <div class="row">
+            <div class="col-12">
+              <div class="d-flex bd-highlight mb-3">
+                <div class="p-2 flex-grow-1 bd-highlight"><h1>Inventario total de articulos <span class="text-success">( Disponibles {{ contTotal || 0 }} )</span></h1></div>
+                <div class="p-2 bd-highlight">
+                  <mat-checkbox class="example-margin" [(ngModel)]="txtDesplege" (ngModelChange)="populateData()">Desplegar Todo</mat-checkbox>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4 col-xs-3 col-12" *ngFor="let item of listInventario; index as im">
+              <div class="d-flex bd-highlight" style="background: #c3c3c3; padding: 10px; border-radius: 16px;">
+                <div class="p-2 flex-grow-1 bd-highlight">
+                  <div class="row">
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                          <label for="">Codigo: &nbsp;</label>
+                          <span>{{ item.codigo }} </span>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                          <label for="">Cantidad: &nbsp;</label>
+                          <span>{{ item.cantidad }} </span>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                          <label for="">Nombre: &nbsp;</label>
+                          <span>{{ item.titulo }} </span>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="p-2 bd-highlight">
+                  <button mat-raised-button color="primary" color="primary" (click)="item.disabledView = !item.disabledView">
+                    <i *ngIf="!item.disabledView" class="ni ni-bold-down"></i>
+                    <i *ngIf="item.disabledView" class="ni ni-bold-up"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="row" *ngIf="item.disabledView">
+                  <ul class="list-group col-12">
+                      <li class="list-group-item" *ngFor="let key of item.listColor; index as i">
+                          <div class="row">
+                              <div class="col-lg-4">
+                                <button mat-raised-button color="primary" color="primary" (click)="openMovementArticle( key )">
+                                  <i class="ni ni-check-bold"></i>
+                                </button>
+                              </div>
+                              <div class="col-lg-4">
+                                 Color: <span>{{ key.color }} </span>
+                              </div>
+                              <div class="col-lg-4">
+                                Cantidad: <span>{{ key.cantidad }} </span>
+                             </div>
+                          </div>
+                          <div class="row">
+                              <div class="col-12">
+                                  <table class="table table-striped">
+                                      <thead>
+                                          <tr>
+                                              <th scope="col">#</th>
+                                              <th>Codigo</th>
+                                              <th scope="col">Talla</th>
+                                              <th scope="col">Cantidad</th>
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                          <tr *ngFor="let ml of key.listTalla; index as l">
+                                              <th scope="row">{{ l + 1 }}</th>
+                                              <td>
+                                                  <ngx-barcode [bc-height]="20" [bc-width]="1" [bc-value]="ml.codigo" [bc-display-value]="true"></ngx-barcode>
+                                              </td>
+                                              <td>
+                                                  {{ ml.talla }}
+                                              </td>
+                                              <td>
+                                                  {{ ml.cantidad }}
+                                              </td>
+                                          </tr>
+                                      </tbody>
+                                  </table>
+                              </div>
+                          </div>
+                      </li>
+                  </ul>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
