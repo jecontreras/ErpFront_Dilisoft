@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ArticuloDialogComponent } from './guia-pedidosweb.component';
+import { GuiaPedidoswebComponent } from './guia-pedidosweb.component';
 
-describe('ArticuloDialogComponent', () => {
-  let component: ArticuloDialogComponent;
-  let fixture: ComponentFixture<ArticuloDialogComponent>;
+describe('GuiaPedidoswebComponent', () => {
+  let component: GuiaPedidoswebComponent;
+  let fixture: ComponentFixture<GuiaPedidoswebComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ArticuloDialogComponent ]
+      declarations: [ GuiaPedidoswebComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ArticuloDialogComponent);
+    fixture = TestBed.createComponent(GuiaPedidoswebComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

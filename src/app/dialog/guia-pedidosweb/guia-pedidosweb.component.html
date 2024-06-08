@@ -1,11 +1,11 @@
 <h2 mat-dialog-title>
-    Lista de Articulos
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    Capturar datos de Pedidosweb 
+   <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <button class="btn btn-danger me-md-2" type="button" (click)="close()">
             <i class="ni ni-fat-remove"></i>
         </button>
         <button class="btn btn-success me-md-2" type="button" (click)="seleccionado()">
-            Seleccionado
+            Guardar
         </button>
     </div>
 </h2>
@@ -16,8 +16,9 @@
                 <h3 class="mb-0">Lista de Articulos</h3>
             </div>
             <div class="table-responsive">
-                <input type="text" [(ngModel)]="datoBusqueda"
-                    class="form-control form-control-alternative" autofocus autofocus="autofocus" placeholder="Buscar Productos" id="codigo" (change)="filtroGet()" autocomplete="off" >
+                <!-- [(ngModel)]="datoBusqueda1" -->
+                <input type="text" 
+                    class="form-control form-control-alternative" autofocus autofocus="autofocus" placeholder="Número de Guía" id="codigo" (change)="filtroGet()" autocomplete="off" >
                 <table class="table align-items-center table-flush">
                     <thead class="thead-light">
                         <tr>

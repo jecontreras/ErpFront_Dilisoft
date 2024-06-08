@@ -5,11 +5,11 @@ import { ArticuloService } from 'src/app/servicesComponent/articulo.service';
 import * as _ from 'lodash';
 
 @Component({
-  selector: 'app-articulo-dialog',
-  templateUrl: './articulo-dialog.component.html',
-  styleUrls: ['./articulo-dialog.component.scss']
+  selector: 'app-guia-pedidosweb',
+  templateUrl: './guia-pedidosweb.component.html',
+  styleUrls: ['./guia-pedidosweb.component.scss']
 })
-export class ArticuloDialogComponent implements OnInit {
+export class GuiaPedidoswebComponent implements OnInit {
 
   tablet:any = {
     headers:["Codigo", "Color", "Talla","Existencia", "Cantidad", "Opciones"],
@@ -23,14 +23,14 @@ export class ArticuloDialogComponent implements OnInit {
     page:0,
     limit: 10000
   };
-  datoBusqueda:string;
+  datoBusqueda1:string;
   listSelecciono:any = [];
   dataSource:any = {};
   constructor(
     private _tools: ToolsService,
     private _articulos: ArticuloService,
     public dialog: MatDialog,
-    public dialogRef: MatDialogRef<ArticuloDialogComponent>,
+    public dialogRef: MatDialogRef<GuiaPedidoswebComponent>,
     @Inject(MAT_DIALOG_DATA) public datas: any,
   ) { }
 
@@ -40,7 +40,7 @@ export class ArticuloDialogComponent implements OnInit {
   }
 
   filtroGet(){
-    let rs = _.words( this.datoBusqueda );
+    let rs = _.words( this.datoBusqueda1 );
     if(rs.length === 4 ) rs = rs[0]+rs[1]+rs[2]+"-"+rs[3];
     else rs = rs[0]+rs[1]+"-"+rs[2];
     this.querys.where.codigo = rs;
@@ -49,7 +49,7 @@ export class ArticuloDialogComponent implements OnInit {
   getArticulosTalla(){
     this._articulos.getTalla( this.querys ).subscribe(( res:any )=>{
       res = res.data[0];
-      if( !res ) { this.datoBusqueda = ""; return this._tools.basic("No se encontro producto!!!") }
+      if( !res ) { this.datoBusqueda1 = ""; return this._tools.basic("No se encontro producto!!!") }
       this.getArticulos( res );
     });
   }
@@ -58,7 +58,7 @@ export class ArticuloDialogComponent implements OnInit {
     this._articulos.get( { where: { id: ids.articulo.id } } ).subscribe( async ( res:any )=>{
       res = res.data;
       this.tablet.row = res;
-      this.datoBusqueda = "";
+      this.datoBusqueda1 = "";
       for( let row of this.tablet.row ) {
         row.selectColor = ids.listColor.id;
         row.selectTalla = ids.id;
