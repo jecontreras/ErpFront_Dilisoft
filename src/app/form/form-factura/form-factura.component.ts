@@ -6,6 +6,7 @@ import { FacturaService } from 'src/app/servicesComponent/factura.service';
 import * as moment from 'moment';
 import { MatDialog } from '@angular/material/dialog';
 import { ArticuloDialogComponent } from 'src/app/dialog/articulo-dialog/articulo-dialog.component';
+import { GuiaPedidoswebComponent } from 'src/app/dialog/guia-pedidosweb/guia-pedidosweb.component';
 import * as _ from 'lodash';
 import { ProvedorService } from 'src/app/servicesComponent/provedor.service';
 import { USER } from 'src/app/interfaces/sotarage';
@@ -345,6 +346,34 @@ export class FormFacturaComponent implements OnInit {
         await this.submit()
         this._tools.tooast( { title: "Actualizado factura",icon:"success" } );
         window.close();
+      }
+    });
+  }
+
+  openGuiaPedidos(){
+    const dialogRef = this.dialog.open(GuiaPedidoswebComponent,{
+      width: "50%",
+      height: "800px",
+      data: {datos: this.data }
+    });
+
+    dialogRef.afterClosed().subscribe( async ( result ) => {
+      console.log(`Dialog result:`, result);
+      const format= [];
+      for( const item of result ) {
+        format.push( {
+          ... item,
+          eliminado: false,
+          articulo: item.id,
+          id: ""
+         })
+      }
+      this.tablet.row.push( ...( format || [] ) );
+      this.suma();
+      if( this.id ) {
+        await this.submit()
+        this._tools.tooast( { title: "Actualizado factura",icon:"success" } );
+        // window.close();
       }
     });
   }

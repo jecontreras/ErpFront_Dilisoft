@@ -13,7 +13,7 @@ export class MovementItemComponent implements OnInit {
   listcolor:any= [];
   data:any = {};
   tablet:any = {
-    headers:["Movimiento","Cantidad anterior","Cantidad","Cantidad Total","Fecha MV","Descipcion"],
+    headers:["Movimiento","Cantidad anterior","Cantidad","Cantidad Total","Fecha MV","Descripcion"],
     row:[],
     keys: ["tipoEntrada","valorAnterior","valor","valorTotal","createdAt", "descripcion"]
   }

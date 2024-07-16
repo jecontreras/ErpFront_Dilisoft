@@ -13,7 +13,7 @@ export class FacturaService {
   get(query:any){
     return this._model.querys('factura/getSimple',query, 'post');
   }
-  getDetallado(query:any){
+  getDetallado(query:any){ console.log("get detallado", query)
     return this._model.querys('factura/querys',query, 'post');
   }
   getDetail(query:any){
