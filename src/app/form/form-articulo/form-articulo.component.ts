@@ -176,8 +176,8 @@ export class FormArticuloComponent implements OnInit {
     item.check = false;
     item.listTalla[idx].check = false;
     item.listTalla[idx].estado = 1;
-    if( item.id ) await this.updateFun();
     item.listTalla =  _.filter( item.listTalla, ( row:any ) => row.talla != item.listTalla[idx].talla );
+    if( item.id ) await this.updateFun();
   }
   submit(){
     this.data.user = this.dataUser.id;

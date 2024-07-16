@@ -27,7 +27,9 @@ export class FormReturnArticleComponent implements OnInit {
     row:[],
     keys:["codigo","color","talla",'platform', 'decisions', "cantidad", "precioCompra", "precioTotal"]
   };
-
+  dataFilter:any = {
+    platform: ""
+  }
   constructor(
     private activate: ActivatedRoute,
     private _tools: ToolsService,
@@ -160,6 +162,13 @@ export class FormReturnArticleComponent implements OnInit {
       if( row.platform == 'lokomproaqui') { row.coin = row.precioLokompro; row.precioTotal= row.precioLokompro * ( Number( row.cantidadSelect ) || 0 ) ;}
 
       this.data.monto+= row.precioTotal;
+    }
+   }
+   handleProcessOption( opt: string ){
+    console.log("*******166", opt, this.dataFilter )
+    for( let row of this.tablet.row ){
+      row.platform = this.dataFilter.platform || '';
+      row.decisions = this.dataFilter.decisions || '';
     }
    }
 

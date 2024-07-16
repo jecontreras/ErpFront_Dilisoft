@@ -68,7 +68,27 @@
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col">Acciónes</th>
-                                <th scope="col" *ngFor="let item of tablet.headers">{{ item }}</th>
+                                <th scope="col" *ngFor="let item of tablet.headers">
+                                  <span>
+                                    {{ item }}
+                                  </span>
+                                  <select class="form-control"
+                                    [(ngModel)]="dataFilter.platform"
+                                    (change)="handleProcessOption('platform')"
+                                    *ngIf=" item === 'Plataforma' " placeholder=" Plataforma Seleccionar"
+                                  >
+                                    <option value="dropshipping">Dropshipping</option>
+                                    <option value="arley">Arley</option>
+                                    <option value="yurylocal">YURY LOCAL</option>
+                                    <option value="yurypermitido">YURY PERMITIDOS</option>
+                                    <option value="lokomproaqui">Lokomproaqui</option>
+                                  </select>
+                                  <select class="form-control" [(ngModel)]="dataFilter.decisions" (change)="handleProcessOption('decisions')"
+                                  *ngIf=" item === 'Decisions' " placeholder=" Decision Seleccionar">
+                                    <option value="0">Devolver cantidad</option>
+                                    <option value="1">Destruir cantidad</option>
+                                  </select>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>

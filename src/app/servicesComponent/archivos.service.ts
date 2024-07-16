@@ -9,10 +9,10 @@ export class ArchivosService {
   constructor(
     private _model: ServiciosService
   ) { }
-  
+
   create(query:any){
     //this.FileFirebase( query );
-    return this._model.querys('archivos/file',query, 'post');
+    return this._model.querys2('archivos/file',query, 'post');
   }
 
   getBase64(file) {
@@ -23,5 +23,5 @@ export class ArchivosService {
       reader.onerror = error => reject(error);
     });
   }
-  
+
 }
