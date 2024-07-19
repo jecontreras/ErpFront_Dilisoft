@@ -51,6 +51,7 @@ export class SidebarComponent implements OnInit {
       { path: '/articulo', title: 'Articulo',  icon:'ni-briefcase-24 text-pink', class: '', disabled: ( this.viewProfile === 'admin' ) },
       { path: '/empresa', title: 'Empresa',  icon:'ni-istanbul text-pink', class: '', disabled: ( this.viewProfile === 'admin' ) },
       { path: '/factura', title: 'Factura',  icon:'ni-credit-card text-pink', class: '', disabled: ( this.viewProfile === 'admin' ) },
+      { path: '/orderWeb', title: 'Pedidos Web',  icon:'ni-credit-card text-pink', class: '', disabled: ( this.viewProfile === 'admin' ) },
       { path: '/estadisticas', title: 'Estadisticas',  icon:'ni-credit-card text-pink', class: '', disabled: ( this.viewProfile === 'visitante' ) || ( this.viewProfile === 'admin' ) },
       { path: '/actionsreturns', title: 'Devoluciones / Cambios',  icon:'ni-world text-pink', class: '' , disabled: ( this.viewProfile === 'admin' )},
       { path: '/moneypayment', title: 'Abonos dinero',  icon:'ni-credit-card text-pink', class: '' , disabled:  ( this.viewProfile === 'admin' )},

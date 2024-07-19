@@ -18,6 +18,7 @@ import { PrintarticulosComponent } from 'src/app/pages/printarticulos/printartic
 import { MoneyPaymentComponent } from 'src/app/pages/money-payment/money-payment.component';
 import { ReturnArticleComponent } from 'src/app/pages/return-article/return-article.component';
 import { EstadisticaComponent } from 'src/app/pages/estadistica/estadistica.component';
+import { OrdersWebComponent } from 'src/app/pages/orders-web/orders-web.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -38,4 +39,5 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'moneypayment',           component: MoneyPaymentComponent },
     { path: 'actionsreturns',           component: ReturnArticleComponent },
     { path: 'estadisticas',           component: EstadisticaComponent },
+    { path: 'orderWeb',           component: OrdersWebComponent },
 ];
