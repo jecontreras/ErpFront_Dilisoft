@@ -428,6 +428,7 @@ export class FormFacturaComponent implements OnInit {
  }
 
  async handleAmount( item:any ){
+  this.handleModified( item )
   if( this.data.entrada === 1 ){
     const result:any = await this.getAmountArticle( item );
     if( result ){
