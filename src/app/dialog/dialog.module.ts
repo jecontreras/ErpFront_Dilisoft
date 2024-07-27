@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { CheckCodePrintComponent } from './check-code-print/check-code-print.component';
 import { MyOwnCustomMaterialModule } from '../app.material.module';
 import { MovementItemComponent } from './movement-item/movement-item.component';
+import { OpenSummaryWebComponent } from './open-summary-web/open-summary-web.component';
 
 
 
@@ -12,17 +13,20 @@ import { MovementItemComponent } from './movement-item/movement-item.component';
   entryComponents:[
     ArticuloDialogComponent,
     CheckCodePrintComponent,
-    MovementItemComponent
+    MovementItemComponent,
+    OpenSummaryWebComponent
   ],
   declarations: [
     ArticuloDialogComponent,
     CheckCodePrintComponent,
     MovementItemComponent,
+    OpenSummaryWebComponent,
   ],
   exports:[
     ArticuloDialogComponent,
     CheckCodePrintComponent,
-    MovementItemComponent
+    MovementItemComponent,
+    OpenSummaryWebComponent
   ],
   imports: [
     CommonModule,

@@ -1,15 +1,90 @@
-<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
-  <div class="container-fluid">
-    <div class="header-body">
-      <!-- Card stats -->
-      <div class="row">
-          <div class="col text-end">
-              <div ngbDropdown placement="top-end" class="d-inline-block">
-                  <!--<button type="button" class="btn btn-primary" (click)="CrearFactura()">Crear Factura</button>-->
-              </div>
-          </div>
+<div class="header bg-gradient-danger pb-6 pt-2 pt-md-3">
+</div>
+<div class="container-fluid ">
+  <div class="row">
+    <div class="col-12">
+      <mat-form-field class="example-form-field" appearance="fill">
+        <mat-label>Buscar Factura / Numero Guia / Numero Telefeno</mat-label>
+        <input matInput type="text" [(ngModel)]="dataFind.txt">
+        <button *ngIf="dataFind.txt" matSuffix mat-icon-button aria-label="Clear" (click)="dataFind.txt=''">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+    <div class="col-12">
+      <div class="d-flex flex-row-reverse bd-highlight">
+        <div class="p-2 bd-highlight" >
+          <button mat-raised-button color="primary" (click)="handlePrintSummary()">Imprimir Resumen</button>
+        </div>
       </div>
+    </div>
+    <div class="col-12">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? masterToggle() : null"
+                          [checked]="selection.hasValue() && isAllSelected()"
+                          [indeterminate]="selection.hasValue() && !isAllSelected()"
+                          [aria-label]="checkboxLabel()">
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? selection.toggle(row) : null"
+                          [checked]="selection.isSelected(row)"
+                          [aria-label]="checkboxLabel(row)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="ref">
+          <th mat-header-cell *matHeaderCellDef> Referencia </th>
+          <td mat-cell *matCellDef="let element"> {{ element.id }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="peers">
+          <th mat-header-cell *matHeaderCellDef> Pares </th>
+          <td mat-cell *matCellDef="let element"> {{ element.pares }} </td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Nombre Cliente </th>
+          <td mat-cell *matCellDef="let element"> {{element.c_nombre}} </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="numberCel">
+          <th mat-header-cell *matHeaderCellDef> Numero de Celular </th>
+          <td mat-cell *matCellDef="let element" style="width: 150px;">
+            <span> {{element.celular}} - {{element.celular2}} </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="address">
+          <th mat-header-cell *matHeaderCellDef> Direccion </th>
+          <td mat-cell *matCellDef="let element" style="width: 200px;">
+            <span>
+              {{element.p_pais}} - {{element.m_municipio}} - {{element.barrio}} - {{element.direccion}}
+            </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="urlGuide">
+          <th mat-header-cell *matHeaderCellDef> Url Guia </th>
+          <td mat-cell *matCellDef="let element">
+            <a *ngIf="element.guia_url" [href]="element.guia_url" target="_blank" rel="noopener noreferrer">Ver Guia</a>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+            (click)="selection.toggle(row)">
+        </tr>
+      </table>
     </div>
   </div>
 </div>
-<!--<app-tabla [_dataConfig]="_dataConfig"></app-tabla>-->

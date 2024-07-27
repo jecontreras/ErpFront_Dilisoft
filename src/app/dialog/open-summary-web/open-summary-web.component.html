@@ -1,0 +1,51 @@
+<section id="print">
+  <h2 mat-dialog-title>
+    <div class="d-flex justify-content-between">
+      <div>
+        Detalles de Salidas Seleccionadas
+      </div>
+      <div></div>
+      <div>
+        Cantidad de pares {{ sumCantidad }}
+      </div>
+    </div>
+  </h2>
+  <mat-dialog-content class="mat-typography" >
+    <div class="row">
+      <div class="col-12">
+        <table mat-table [dataSource]="transactions" class="mat-elevation-z8">
+          <!-- Item Column -->
+          <ng-container matColumnDef="nameRef">
+            <th mat-header-cell *matHeaderCellDef> Referencia </th>
+            <td mat-cell *matCellDef="let item"> {{item.nameRef}} </td>
+            <td mat-footer-cell *matFooterCellDef> Total </td>
+          </ng-container>
+
+          <ng-container matColumnDef="nameColor">
+            <th mat-header-cell *matHeaderCellDef> Color </th>
+            <td mat-cell *matCellDef="let item"> {{item.nameColor}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="pd_tallas">
+            <th mat-header-cell *matHeaderCellDef> Talla </th>
+            <td mat-cell *matCellDef="let item"> {{item.pd_tallas}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="cantidadT">
+            <th mat-header-cell *matHeaderCellDef> Cantidad </th>
+            <td mat-cell *matCellDef="let item"> {{item.cantidadT}} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-raised-button color="warn" mat-dialog-close><i class="ni ni-fat-remove"></i></button>
+    <button mat-button (click)="printArticulo()" cdkFocusInitial>Imprimir</button>
+  </mat-dialog-actions>
+
+</section>
