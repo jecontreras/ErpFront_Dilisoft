@@ -35,3 +35,23 @@ export interface Fruit {
     passMoney?:number;
     passMoney2?:number;
   }
+
+  export interface PeriodicElement {
+    id:string;
+    select: boolean;
+    c_nombre: string;
+    celular: string;
+    celular2: string;
+    p_pais: string;
+    m_municipio: string;
+    barrio: string;
+    direccion: string;
+    pares: number;
+    guia_url: string;
+  };
+
+  export interface webOrdersDto {
+    id:string;
+    data: any;
+    orders: string;
+  }

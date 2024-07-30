@@ -2,7 +2,7 @@
 </div>
 <div class="container-fluid ">
   <div class="row">
-    <div class="col-12">
+    <!--<div class="col-12">
       <mat-form-field class="example-form-field" appearance="fill">
         <mat-label>Buscar Factura / Numero Guia / Numero Telefeno</mat-label>
         <input matInput type="text" [(ngModel)]="dataFind.txt">
@@ -21,7 +21,6 @@
     <div class="col-12">
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-        <!-- Checkbox Column -->
         <ng-container matColumnDef="select">
           <th mat-header-cell *matHeaderCellDef>
             <mat-checkbox (change)="$event ? masterToggle() : null"
@@ -39,7 +38,6 @@
           </td>
         </ng-container>
 
-        <!-- Name Column -->
         <ng-container matColumnDef="ref">
           <th mat-header-cell *matHeaderCellDef> Referencia </th>
           <td mat-cell *matCellDef="let element"> {{ element.id }} </td>
@@ -50,13 +48,11 @@
           <td mat-cell *matCellDef="let element"> {{ element.pares }} </td>
         </ng-container>
 
-        <!-- Weight Column -->
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef> Nombre Cliente </th>
           <td mat-cell *matCellDef="let element"> {{element.c_nombre}} </td>
         </ng-container>
 
-        <!-- Symbol Column -->
         <ng-container matColumnDef="numberCel">
           <th mat-header-cell *matHeaderCellDef> Numero de Celular </th>
           <td mat-cell *matCellDef="let element" style="width: 150px;">
@@ -85,6 +81,62 @@
             (click)="selection.toggle(row)">
         </tr>
       </table>
+    </div>-->
+    <div class="col-12">
+      <div class="d-flex flex-row-reverse bd-highlight">
+        <div class="p-2 bd-highlight" >
+          <button mat-raised-button color="primary" (click)="handleGenerateF()">Generar Factura</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <table mat-table [dataSource]="dataWebOrdersList" class="mat-elevation-z8">
+
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? masterToggle() : null"
+                          [checked]="selection2.hasValue() && isAllSelected()"
+                          [indeterminate]="selection2.hasValue() && !isAllSelected()"
+                          [aria-label]="checkboxLabel()">
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? selection2.toggle(row) : null"
+                          [checked]="selection2.isSelected(row)"
+                          [aria-label]="checkboxLabel(row)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="ref">
+          <th mat-header-cell *matHeaderCellDef> Referencia </th>
+          <td mat-cell *matCellDef="let element"> {{ element.orders }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="peers">
+          <th mat-header-cell *matHeaderCellDef> Pares </th>
+          <td mat-cell *matCellDef="let element"> {{ element.pares }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef> Precio </th>
+          <td mat-cell *matCellDef="let element"> {{ _tools.monedaChange( 3,2, element.priceT ) }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="create">
+          <th mat-header-cell *matHeaderCellDef> Creado </th>
+          <td mat-cell *matCellDef="let element"> {{ element.createdAt | date:'medium' }} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns2;"
+            (click)="selection.toggle(row)">
+        </tr>
+      </table>
+    </div>
+    <div class="col-12">
+      <mat-paginator [length]="resultsLength" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" (page)="pageEvent($event)"></mat-paginator>
     </div>
   </div>
 </div>

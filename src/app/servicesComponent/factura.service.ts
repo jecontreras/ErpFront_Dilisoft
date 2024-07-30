@@ -52,4 +52,7 @@ export class FacturaService {
   articleAmounts(query:any){
     return this._model.querys('factura/articleAmounts',query, 'post');
   }
+  createOrdenAutomatico(query:any){
+    return this._model.querys('factura/createPedidosWeb',query, 'post');
+  }
 }

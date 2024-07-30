@@ -3,23 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { OpenSummaryWebComponent } from 'src/app/dialog/open-summary-web/open-summary-web.component';
+import { PeriodicElement, webOrdersDto } from 'src/app/interfaces/interfaces';
+import { ToolsService } from 'src/app/services/tools.service';
 import { OrdersWebService } from 'src/app/servicesComponent/orders-web.service';
-export interface PeriodicElement {
-  id:string;
-  select: boolean;
-  c_nombre: string;
-  celular: string;
-  celular2: string;
-  p_pais: string;
-  m_municipio: string;
-  barrio: string;
-  direccion: string;
-  pares: number;
-  guia_url: string;
-}
+
 
 const ELEMENT_DATA: PeriodicElement[] = [];
-
 
 @Component({
   selector: 'app-orders-web',
@@ -29,19 +18,48 @@ const ELEMENT_DATA: PeriodicElement[] = [];
 export class OrdersWebComponent implements OnInit {
 
   displayedColumns: string[] = ['select', 'ref', 'peers', 'name', 'numberCel', 'address', 'urlGuide'];
+  displayedColumns2: string[] = ['select', 'ref', 'peers', 'price', "create"];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   selection = new SelectionModel<PeriodicElement>(true, []);
   dataFind:any = { txt: "" }
+  querys:any = {
+    page: 0,
+    limit: 30,
+    where:{
+    }
+  };
+  isLoadingResults = true;
+  isRateLimitReached = false;
+  dataWebOrdersList = new MatTableDataSource<webOrdersDto>();
+  selection2 = new SelectionModel<webOrdersDto>(true, []);
+  resultsLength:number = 0;
+
   constructor(
     private _orders: OrdersWebService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public _tools: ToolsService
   ) { }
 
   async ngOnInit() {
-    let list:any = await this.getOrders();
-    console.log("*******38", list )
-    this.dataSource.data = list;
-    console.log("***", this.dataSource.data)
+    /*let list:any = await this.getOrders();
+    this.dataSource.data = list;*/
+    let list:any = await this.getWebOrders();
+    this.dataWebOrdersList.data = list.data;
+    this.resultsLength = list.count;
+  }
+
+  getWebOrders(){
+    return new Promise( resolve =>{
+      this._orders.getWebOrders( this.querys ).subscribe( res => resolve( res ), error => resolve( {} ) );
+    })
+  }
+
+  pageEvent(ev: any) {
+    this.querys.page = ev.pageIndex;
+    this.querys.limit = ev.pageSize;
+    this.isLoadingResults = true;
+    this.isRateLimitReached = true;
+    this.getWebOrders();
   }
 
   getOrders(){
@@ -52,32 +70,32 @@ export class OrdersWebComponent implements OnInit {
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
+    const numSelected = this.selection2.selected.length;
+    const numRows = this.dataWebOrdersList.data.length;
     return numSelected === numRows;
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
     if (this.isAllSelected()) {
-      this.selection.clear();
+      this.selection2.clear();
       return;
     }
 
-    this.selection.select(...this.dataSource.data);
+    this.selection2.select(...this.dataWebOrdersList.data);
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: PeriodicElement): string {
+  checkboxLabel(row?: webOrdersDto): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
+    return `${this.selection2.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
   }
 
   handlePrintSummary( ){
     let data = Array();
-    data = this.selection.selected;
+    data = this.selection2.selected;
     const dialogRef = this.dialog.open(OpenSummaryWebComponent,{
       width: "100%",
       height: "800px",
@@ -88,6 +106,10 @@ export class OrdersWebComponent implements OnInit {
       console.log(`Dialog result:`, result);
 
     });
+  }
+
+  handleGenerateF(){
+    this.handlePrintSummary();
   }
 
 }

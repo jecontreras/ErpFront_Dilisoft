@@ -13,4 +13,7 @@ export class OrdersWebService {
   get(query:any){
     return this._model.querys('factura/listPedidosWeb',query, 'post');
   }
+  getWebOrders(query:any){
+    return this._model.querys('weborders/querys',query, 'post');
+  }
 }
