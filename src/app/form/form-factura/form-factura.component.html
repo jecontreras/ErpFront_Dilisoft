@@ -188,7 +188,7 @@
                                         <div class="col-12">
                                             <h3 class="mb-0">Información Factura</h3>
                                         </div>
-                                        
+
                                         <div class="col-3">
                                           <label class="form-control-label" for="input-username">Precio Total</label>
                                           <span *ngIf="disabledPrint">&nbsp; {{ data.monto }}</span>
@@ -204,9 +204,9 @@
                                         <div class="col-3 text-right">
                                             <button type="button" class="btn btn-primary" *ngIf="( data.entrada != 0 || !id ) || !this.data.asentado " (click)="openArticulo()">Abrir articulos</button>
                                         </div>
-                                        <div class="col-3 text-right">
+                                        <!--<div class="col-3 text-right">
                                             <button type="button" class="btn btn-info" *ngIf="( data.entrada != 0 || !id ) || !this.data.asentado " (click)="openGuiaPedidos()">Capturar guia</button>
-                                        </div>
+                                        </div>-->
                                     </div>
                                 </div>
                                 <div class="col-12">

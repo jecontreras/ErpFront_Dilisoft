@@ -24,8 +24,25 @@
             <table mat-table [dataSource]="row.listArticle" class="mat-elevation-z8">
               <ng-container matColumnDef="nameRef">
                 <th mat-header-cell *matHeaderCellDef> Referencia </th>
-                <td mat-cell *matCellDef="let item"> Referencia {{item.articulocodigo }} </td>
+                <td mat-cell *matCellDef="let item"               [ngClass]="
+                { 'danger': item.articuloTalla == false,
+                  'full': item.articuloTalla
+                }
+              "> R:
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Referencia" [(ngModel)]="item.articulocodigo" [disabled]="item.articuloTalla">
+                  </mat-form-field>
+                </td>
                 <td mat-footer-cell *matFooterCellDef> Total </td>
+              </ng-container>
+
+              <ng-container matColumnDef="nameColorSigla">
+                <th mat-header-cell *matHeaderCellDef> Sigla </th>
+                <td mat-cell *matCellDef="let item">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Sigla" [(ngModel)]="item.articulocolorsigla" [disabled]="item.articuloTalla">
+                  </mat-form-field>
+                </td>
               </ng-container>
 
               <ng-container matColumnDef="nameColor">
@@ -35,16 +52,27 @@
 
               <ng-container matColumnDef="pd_tallas">
                 <th mat-header-cell *matHeaderCellDef> Talla </th>
-                <td mat-cell *matCellDef="let item"> {{item.articulotalla}} </td>
+                <td mat-cell *matCellDef="let item">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Talla" [(ngModel)]="item.articulotalla" [disabled]="item.articuloTalla">
+                  </mat-form-field>
+                </td>
               </ng-container>
 
               <ng-container matColumnDef="cantidadT">
                 <th mat-header-cell *matHeaderCellDef> Cantidad </th>
-                <td mat-cell *matCellDef="let item"> {{item.cantidad}} </td>
+                <td mat-cell *matCellDef="let item">
+                  {{item.cantidad}}
+                </td>
               </ng-container>
               <ng-container matColumnDef="price">
                 <th mat-header-cell *matHeaderCellDef> Precio </th>
-                <td mat-cell *matCellDef="let item"> {{ _tools.monedaChange( 3,2,item.precio ) }} </td>
+                <td mat-cell *matCellDef="let item">
+                  <span>{{ _tools.monedaChange( 3,2,item.precio ) }}</span>
+                  <button mat-mini-fab color="primary" (click)="handleChangetGetCode( item )" [disabled]="item.articuloTalla">
+                    <mat-icon>refresh</mat-icon>
+                  </button>
+                </td>
               </ng-container>
 
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -58,8 +86,9 @@
 
   <mat-dialog-actions align="end">
     <button mat-raised-button color="warn" mat-dialog-close><i class="ni ni-fat-remove"></i></button>
-    <button mat-button (click)="printArticulo()" cdkFocusInitial>Imprimir</button>
-    <button mat-button (click)="handleGenerateF()" >Generar Facturas</button>
+    <!--<button mat-flat-button color="warn" (click)="printArticulo()">Imprimir</button>-->
+    <button mat-flat-button color="primary" (click)="handleGenerateF()" cdkFocusInitial *ngIf="btnErrorT === false">Generar Facturas</button>
+    <span *ngIf="btnErrorT === true" class="text-danger">Problemas No se puede generar la factura porque tienes problemas con los códigos del del artículo talla.</span>
   </mat-dialog-actions>
 
 </section>

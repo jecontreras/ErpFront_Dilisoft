@@ -26,6 +26,7 @@ export class OrdersWebComponent implements OnInit {
     page: 0,
     limit: 30,
     where:{
+      estado: 0
     }
   };
   isLoadingResults = true;
@@ -40,9 +41,13 @@ export class OrdersWebComponent implements OnInit {
     public _tools: ToolsService
   ) { }
 
-  async ngOnInit() {
+  ngOnInit() {
     /*let list:any = await this.getOrders();
     this.dataSource.data = list;*/
+    this.handleInitProcess();
+  }
+
+  async handleInitProcess(){
     let list:any = await this.getWebOrders();
     this.dataWebOrdersList.data = list.data;
     this.resultsLength = list.count;
@@ -104,7 +109,7 @@ export class OrdersWebComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe( async ( result ) => {
       console.log(`Dialog result:`, result);
-
+      if( result ) { this.handleInitProcess(); this.selection2.clear(); }
     });
   }
 
