@@ -24,7 +24,7 @@ export class OrdersWebComponent implements OnInit {
   dataFind:any = { txt: "" }
   querys:any = {
     page: 0,
-    limit: 30,
+    limit: 1000000,
     where:{
       estado: 0
     }
