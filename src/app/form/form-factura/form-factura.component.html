@@ -267,7 +267,10 @@
                                                 </th>
                                                 <th scope="row" *ngFor="let keys of tablet.keys">
                                                     <img [src]="item[keys]" *ngIf="keys == 'foto'">
-                                                    <span *ngIf="( keys != 'color' ) && ( keys != 'talla' ) && ( keys != 'cantidad' ) && ( keys != 'precioClienteDrop' ) && ( keys != 'precioTotal' )">{{ item[keys] }} </span>
+                                                    <span *ngIf="( keys != 'codigo' ) && ( keys != 'color' ) && ( keys != 'talla' ) && ( keys != 'cantidad' ) && ( keys != 'precioClienteDrop' ) && ( keys != 'precioTotal' )">{{ item[keys] }} </span>
+                                                    <span *ngIf="keys == 'codigo'">
+                                                      {{ item.articuloTalla.codigo }}
+                                                    </span>
                                                     <div *ngIf="keys == 'precioClienteDrop'">
                                                         <span *ngIf="data.entrada == 0">
                                                           <input *ngIf="!disabledPrint" currencyMask [(ngModel)]="item.precioCompra" [disabled]="data.entrada == 3 && data.asentado" class="form-control form-control-sm" [options]="opcionCurrencys" (change)="suma(); handleModified( item );" />

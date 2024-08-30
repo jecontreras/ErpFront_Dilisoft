@@ -142,7 +142,7 @@ export class FormFacturaComponent implements OnInit {
           eliminado: false,
           ...row
         };
-        let filtro = data.listColor.find( ( keys:any ) => keys.id == row.articuloColor.id );
+        //let filtro = data.listColor.find( ( keys:any ) => keys.id == row.articuloColor.id );
         this.selectColor( data );
         return data;
       } );
