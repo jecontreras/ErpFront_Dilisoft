@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  url: "http://localhost:1334",
-  urlFile: "https://apilokomproaqui1-9219656b6da1.herokuapp.com"
-  //url: "https://inventariorp-02c782117ddf.herokuapp.com"
+  //url: "http://localhost:1334",
+  urlFile: "https://apilokomproaqui1-9219656b6da1.herokuapp.com",
+  url: "https://inventariorp-02c782117ddf.herokuapp.com"
 };
 
 /*
