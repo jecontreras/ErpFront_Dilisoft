@@ -5,8 +5,8 @@
 export const environment = {
   production: false,
   //url: "http://localhost:1334",
-  urlFile: "https://apilokomproaqui1-9219656b6da1.herokuapp.com",
-  url: "https://inventariorp-02c782117ddf.herokuapp.com"
+  urlFile: "https://apilokomproaqui3-8479ed1ed46c.herokuapp.com",
+  url: "https://inventariorp3-87078314e470.herokuapp.com"
 };
 
 /*
